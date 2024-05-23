@@ -1,12 +1,12 @@
-import 'package:couple_wallet/app/components/feature/home/home_app_bar.dart';
-import 'package:couple_wallet/app/components/feature/home/home_nav_bar.dart';
-import 'package:couple_wallet/app/pages/home/screens/love/send_love_controller.dart';
-import 'package:couple_wallet/app/pages/home/screens/record_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../components/feature/home/home_app_bar.dart';
+import '../../components/feature/home/home_nav_bar.dart';
 import 'screens/bills_screen.dart';
-import 'screens/setting_screen.dart';
+import 'screens/love/send_love_controller.dart';
+import 'screens/record_screen.dart';
+import 'screens/setting/setting_controller.dart';
 
 part 'home_binding.dart';
 part 'home_page.dart';
@@ -20,6 +20,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     Get.put<SendLoveController>(SendLoveController());
+    Get.put<SettingController>(SettingController());
     super.onInit();
   }
 
