@@ -12,6 +12,8 @@ class SendLoveScreen extends GetView<SendLoveController> {
       child: Column(
         children: [
           Expanded(child: Container()),
+          _buildShortcuts(context),
+          Gap(AppThemeExt.of.dimen(2)),
           FormBuilder(
             key: controller.formKey,
             child: Obx(
@@ -29,5 +31,33 @@ class SendLoveScreen extends GetView<SendLoveController> {
         ],
       ),
     );
+  }
+
+  Widget _buildShortcuts(BuildContext context) {
+    return Wrap(
+          spacing: AppThemeExt.of.dimen(2),
+          children: List.generate(
+            controller.shortcutContent.length,
+            (int index) {
+              return Obx(
+                () => ChoiceChip(
+                  label: Text(controller.shortcutContent[index]),
+                  showCheckmark: false,
+                  selected: controller.shortcutSelectedIndex.value == index,
+                  onSelected: (bool sel) =>
+                      controller.onShortcutSelected(sel, index),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      color: controller.shortcutSelectedIndex.value == index
+                          ? Theme.of(context).primaryColor
+                          : AppColors.of.borderColor,
+                    ),
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
   }
 }

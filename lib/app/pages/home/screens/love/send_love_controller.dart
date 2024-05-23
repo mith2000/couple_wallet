@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
@@ -26,6 +27,14 @@ class SendLoveController extends GetxController {
 
   // Send button text base on its state
   final RxString sendButtonText = RxString(R.strings.send.tr);
+
+  RxnInt shortcutSelectedIndex = RxnInt();
+  final List<String> shortcutContent = [
+    '🧸  Yêu bé',
+    '❤️  Anh yêu em',
+    '🥰  Anh nhớ em',
+    '🫦  Em yêu ơi'
+  ];
 
   void startCoolDownSendButton() {
     isSendButtonWaiting.value = true;
@@ -52,6 +61,7 @@ class SendLoveController extends GetxController {
 
     // Clear & Un-focus to off the keyboard
     textEditingController.clear();
+    shortcutSelectedIndex.value = null;
     FocusManager.instance.primaryFocus?.unfocus();
 
     // Show snack bar
@@ -86,6 +96,16 @@ class SendLoveController extends GetxController {
       isTextFieldEmpty.value = true;
     } else {
       isTextFieldEmpty.value = false;
+    }
+  }
+
+  void onShortcutSelected(bool selected, int index) {
+    shortcutSelectedIndex.value = selected ? index : null;
+
+    if (shortcutSelectedIndex.value != null) {
+      textEditingController.text = shortcutContent[index];
+    } else {
+      textEditingController.clear();
     }
   }
 }
