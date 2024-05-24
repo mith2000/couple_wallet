@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 
@@ -40,6 +41,7 @@ class SendLoveInput extends StatelessWidget {
       onChanged: onFieldChange,
       minLines: 1,
       maxLines: 3,
+      maxLength: 160,
       decoration: InputDecoration(
         isDense: true,
         contentPadding: EdgeInsets.symmetric(
@@ -50,6 +52,7 @@ class SendLoveInput extends StatelessWidget {
         hintStyle: context.textTheme.bodyMedium!.copyWith(
           color: AppColors.of.subTextColor,
         ),
+        counterText: "",
         border: _inputBorder(context, AppTextFieldState.normal),
         enabledBorder: _inputBorder(context, AppTextFieldState.enabled),
         focusedBorder: _inputBorder(context, AppTextFieldState.focused),
