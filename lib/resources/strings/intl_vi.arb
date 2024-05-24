@@ -5,5 +5,7 @@
   "close": "Close",
   "send": "Gửi",
   "wait": "Đợi",
-  "messageHintText": "Soạn tin..."
+  "messageHintText": "Soạn tin...",
+  "yourDigitalAddress": "Địa chỉ kỹ thuật số của bạn",
+  "yourPartnerAddress": "Địa chỉ người yêu bạn"
 }

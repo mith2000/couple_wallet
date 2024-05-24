@@ -6,7 +6,7 @@ class SettingScreen extends GetView<SettingController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(AppThemeExt.of.dimen(4)),
+      padding: EdgeInsets.all(AppThemeExt.of.dimen(4)).copyWith(top: 0),
       child: ListView(
         children: [
           if (kDebugMode)
@@ -25,13 +25,31 @@ class SettingScreen extends GetView<SettingController> {
             children: [
               Expanded(
                 child: FCMTokenInput(
-                  textEditingController: controller.textEditingController,
+                  textEditingController: controller.yourAddressTextEC,
+                  isYour: true,
                 ),
               ),
               IconButton(
                 onPressed: controller.onCopyFCMToken,
                 icon: const Icon(
-                  Icons.content_copy_rounded,
+                  Icons.share_rounded,
+                ),
+              ),
+            ],
+          ),
+          Gap(AppThemeExt.of.dimen(4)),
+          Row(
+            children: [
+              Expanded(
+                child: FCMTokenInput(
+                  textEditingController: controller.partnerAddressTextEC,
+                  isYour: false,
+                ),
+              ),
+              IconButton(
+                onPressed: controller.onSaveFCMToken,
+                icon: const Icon(
+                  Icons.save_alt_rounded,
                 ),
               ),
             ],

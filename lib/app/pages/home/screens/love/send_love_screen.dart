@@ -8,7 +8,7 @@ class SendLoveScreen extends GetView<SendLoveController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(AppThemeExt.of.dimen(4)),
+      padding: EdgeInsets.all(AppThemeExt.of.dimen(4)).copyWith(top: 0),
       child: Column(
         children: [
           Expanded(child: Container()),
@@ -18,7 +18,7 @@ class SendLoveScreen extends GetView<SendLoveController> {
             key: controller.formKey,
             child: Obx(
               () => SendLoveInput(
-                textEditingController: controller.textEditingController,
+                textEditingController: controller.mainTextEC,
                 fieldName: mainTextFieldName,
                 onSubmit: () => controller.onSubmit(context),
                 onFieldChange: controller.onFieldChange,

@@ -17,7 +17,7 @@ const sendButtonCoolDownSecond = 60;
 
 class SendLoveController extends GetxController {
   final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
-  final TextEditingController textEditingController = TextEditingController();
+  final TextEditingController mainTextEC = TextEditingController();
 
   // If text field is empty => Hide the Send button
   final RxBool isTextFieldEmpty = true.obs;
@@ -60,7 +60,7 @@ class SendLoveController extends GetxController {
             .trim();
 
     // Clear & Un-focus to off the keyboard
-    textEditingController.clear();
+    mainTextEC.clear();
     shortcutSelectedIndex.value = null;
     FocusManager.instance.primaryFocus?.unfocus();
 
@@ -103,9 +103,9 @@ class SendLoveController extends GetxController {
     shortcutSelectedIndex.value = selected ? index : null;
 
     if (shortcutSelectedIndex.value != null) {
-      textEditingController.text = shortcutContent[index];
+      mainTextEC.text = shortcutContent[index];
     } else {
-      textEditingController.clear();
+      mainTextEC.clear();
     }
   }
 }

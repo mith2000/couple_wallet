@@ -8,10 +8,12 @@ enum AppTextFieldState { normal, enabled, disabled, focused, error }
 
 class FCMTokenInput extends StatelessWidget {
   final TextEditingController textEditingController;
+  final bool isYour;
 
   const FCMTokenInput({
     super.key,
     required this.textEditingController,
+    required this.isYour,
   });
 
   @override
@@ -19,11 +21,10 @@ class FCMTokenInput extends StatelessWidget {
     return TextField(
       controller: textEditingController,
       style: context.textTheme.bodyLarge!.copyWith(
-        color: AppColors.of.mainTextColor.withOpacity(0.38),
+        color: AppColors.of.mainTextColor.withOpacity(isYour ? 0.38 : 1),
       ),
-      minLines: 1,
-      maxLines: 3,
-      enabled: false,
+      maxLines: 1,
+      enabled: !isYour,
       enableInteractiveSelection: false,
       decoration: InputDecoration(
         isDense: true,
@@ -31,6 +32,9 @@ class FCMTokenInput extends StatelessWidget {
           horizontal: AppThemeExt.of.dimen(4),
           vertical: AppThemeExt.of.dimen(3),
         ),
+        labelText: isYour
+            ? R.strings.yourDigitalAddress.tr
+            : R.strings.yourPartnerAddress.tr,
         border: _inputBorder(context, AppTextFieldState.normal),
         enabledBorder: _inputBorder(context, AppTextFieldState.enabled),
         focusedBorder: _inputBorder(context, AppTextFieldState.focused),

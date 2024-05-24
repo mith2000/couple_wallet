@@ -11,15 +11,18 @@ import '../../../uikit/uikit_controller.dart';
 part 'setting_screen.dart';
 
 class SettingController extends GetxController {
-  final TextEditingController textEditingController = TextEditingController();
+  final TextEditingController yourAddressTextEC = TextEditingController();
+  final TextEditingController partnerAddressTextEC = TextEditingController();
 
   @override
   void onInit() {
     super.onInit();
-    textEditingController.text = "Hello 123";
+    yourAddressTextEC.text = "Hello 123";
   }
 
   void onCopyFCMToken() async {
-    await Clipboard.setData(ClipboardData(text: textEditingController.text));
+    await Clipboard.setData(ClipboardData(text: yourAddressTextEC.text));
   }
+
+  void onSaveFCMToken() async {}
 }

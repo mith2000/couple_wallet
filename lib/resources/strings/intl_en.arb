@@ -5,5 +5,7 @@
   "close": "Close",
   "send": "Send",
   "wait": "Wait",
-  "messageHintText": "Message..."
+  "messageHintText": "Message...",
+  "yourDigitalAddress": "Your digital address",
+  "yourPartnerAddress": "Your partner address"
 }
