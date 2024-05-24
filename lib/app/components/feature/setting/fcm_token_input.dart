@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../resources/resources.dart';
 import '../../../theme/app_theme.dart';
 
 enum AppTextFieldState { normal, enabled, disabled, focused, error }
@@ -17,7 +18,7 @@ class FCMTokenInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: textEditingController,
-      style: context.textTheme.bodyMedium!.copyWith(
+      style: context.textTheme.bodyLarge!.copyWith(
         color: AppColors.of.mainTextColor.withOpacity(0.38),
       ),
       minLines: 1,
@@ -27,8 +28,8 @@ class FCMTokenInput extends StatelessWidget {
       decoration: InputDecoration(
         isDense: true,
         contentPadding: EdgeInsets.symmetric(
-          horizontal: AppThemeExt.of.dimen(6),
-          vertical: AppThemeExt.of.dimen(4),
+          horizontal: AppThemeExt.of.dimen(4),
+          vertical: AppThemeExt.of.dimen(3),
         ),
         border: _inputBorder(context, AppTextFieldState.normal),
         enabledBorder: _inputBorder(context, AppTextFieldState.enabled),

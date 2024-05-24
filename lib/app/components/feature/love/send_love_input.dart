@@ -34,7 +34,7 @@ class SendLoveInput extends StatelessWidget {
     return FormBuilderTextField(
       controller: textEditingController,
       name: fieldName,
-      style: context.textTheme.bodyMedium!.copyWith(
+      style: context.textTheme.bodyLarge!.copyWith(
         color: AppColors.of.mainTextColor,
       ),
       onSubmitted: (_) => onSubmit(),
@@ -45,11 +45,11 @@ class SendLoveInput extends StatelessWidget {
       decoration: InputDecoration(
         isDense: true,
         contentPadding: EdgeInsets.symmetric(
-          horizontal: AppThemeExt.of.dimen(6),
-          vertical: AppThemeExt.of.dimen(4),
+          horizontal: AppThemeExt.of.dimen(4),
+          vertical: AppThemeExt.of.dimen(3),
         ),
         hintText: R.strings.messageHintText.tr,
-        hintStyle: context.textTheme.bodyMedium!.copyWith(
+        hintStyle: context.textTheme.bodyLarge!.copyWith(
           color: AppColors.of.subTextColor,
         ),
         counterText: "",
