@@ -7,5 +7,6 @@
   "wait": "Wait",
   "messageHintText": "Message...",
   "yourDigitalAddress": "Your digital address",
-  "yourPartnerAddress": "Your partner address"
+  "yourPartnerAddress": "Your partner address",
+  "pleaseInputYourPartnerAddress": "Please input your partner's address"
 }

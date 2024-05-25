@@ -27,6 +27,7 @@ class SettingScreen extends GetView<SettingController> {
                 child: FCMTokenInput(
                   textEditingController: controller.yourAddressTextEC,
                   isYour: true,
+                  isEnabled: false,
                 ),
               ),
               IconButton(
@@ -41,15 +42,22 @@ class SettingScreen extends GetView<SettingController> {
           Row(
             children: [
               Expanded(
-                child: FCMTokenInput(
-                  textEditingController: controller.partnerAddressTextEC,
-                  isYour: false,
+                child: Obx(
+                  () => FCMTokenInput(
+                    textEditingController: controller.partnerAddressTextEC,
+                    isYour: false,
+                    isEnabled: !controller.isPartnerLocked.value,
+                  ),
                 ),
               ),
-              IconButton(
-                onPressed: controller.onSaveFCMToken,
-                icon: const Icon(
-                  Icons.save_alt_rounded,
+              Obx(
+                () => IconButton(
+                  onPressed: () => controller.onLockFCMToken(context),
+                  icon: Icon(
+                    controller.isPartnerLocked.isTrue
+                        ? Icons.lock_outline_rounded
+                        : Icons.lock_open_rounded,
+                  ),
                 ),
               ),
             ],
