@@ -19,7 +19,7 @@ class SettingScreen extends GetView<SettingController> {
                 ),
               ],
             ),
-          Text("Setting", style: Theme.of(context).textTheme.displaySmall),
+          HighlightHeadlineText(text: R.strings.setting),
           Gap(AppThemeExt.of.dimen(4)),
           Row(
             children: [

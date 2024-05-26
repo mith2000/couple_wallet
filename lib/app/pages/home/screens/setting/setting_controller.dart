@@ -1,3 +1,4 @@
+import 'package:couple_wallet/app/components/main/text/highlight_headline_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
