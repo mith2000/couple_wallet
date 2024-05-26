@@ -1,5 +1,8 @@
 class AppPrefKey {
   static const String isDarkMode = 'isDarkMode';
+
+  ///
+  static const String partnerAddress = 'partnerAddress';
 }
 
 class AppNetworkKey {
