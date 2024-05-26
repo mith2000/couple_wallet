@@ -59,6 +59,8 @@ class _SendLoveInputState extends State<SendLoveInput>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: (TapDownDetails details) {
+        // If focusing the text field, don't animate
+        if (_focusNode.hasFocus) return;
         _controller.forward();
       },
       onTapUp: (TapUpDetails details) {
