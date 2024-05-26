@@ -92,6 +92,7 @@ class HomeNavBar extends StatelessWidget {
       text: text,
       textStyle: context.textTheme.labelLarge!.copyWith(
         fontWeight: FontWeight.w700,
+        color: AppColors.of.mainTextColor,
       ),
     );
   }

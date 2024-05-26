@@ -12,5 +12,7 @@
   "messageHintText": "Message...",
   "yourDigitalAddress": "Your digital address",
   "yourPartnerAddress": "Your partner address",
-  "pleaseInputYourPartnerAddress": "Please input your partner's address"
+  "pleaseInputYourPartnerAddress": "Please input your partner's address",
+  "loverAddress": "Lover's address",
+  "loverAddressSubtitle": "Setup the addresses for sending love"
 }

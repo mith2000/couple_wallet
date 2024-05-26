@@ -35,29 +35,34 @@ class SendLoveScreen extends GetView<SendLoveController> {
 
   Widget _buildShortcuts(BuildContext context) {
     return Wrap(
-          spacing: AppThemeExt.of.dimen(2),
-          children: List.generate(
-            controller.shortcutContent.length,
-            (int index) {
-              return Obx(
-                () => ChoiceChip(
-                  label: Text(controller.shortcutContent[index]),
-                  showCheckmark: false,
-                  selected: controller.shortcutSelectedIndex.value == index,
-                  onSelected: (bool sel) =>
-                      controller.onShortcutSelected(sel, index),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: controller.shortcutSelectedIndex.value == index
-                          ? Theme.of(context).primaryColor
-                          : AppColors.of.borderColor,
+      spacing: AppThemeExt.of.dimen(2),
+      children: List.generate(
+        controller.shortcutContent.length,
+        (int index) {
+          return Obx(
+            () => ChoiceChip(
+              label: Text(
+                controller.shortcutContent[index],
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      color: AppColors.of.mainTextColor,
                     ),
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
+              ),
+              showCheckmark: false,
+              selected: controller.shortcutSelectedIndex.value == index,
+              onSelected: (bool sel) =>
+                  controller.onShortcutSelected(sel, index),
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  color: controller.shortcutSelectedIndex.value == index
+                      ? Theme.of(context).primaryColor
+                      : AppColors.of.borderColor,
                 ),
-              );
-            },
-          ),
-        );
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }
