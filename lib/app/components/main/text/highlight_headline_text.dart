@@ -16,7 +16,7 @@ class HighlightHeadlineText extends StatelessWidget {
       children: [
         Text(
           firstCharacter,
-          style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                 color: AppColors.of.primaryColor,
                 fontWeight: FontWeight.w500,
               ),
