@@ -8,6 +8,7 @@ import 'package:lottie/lottie.dart';
 
 import '../../../../../resources/resources.dart';
 import '../../../../components/feature/love/send_love_input.dart';
+import '../../../../components/feature/shortcut/bottomSheet/shortcut_bottom_sheet_controller.dart';
 import '../../../../theme/app_theme.dart';
 
 part 'send_love_screen.dart';
@@ -28,13 +29,17 @@ class SendLoveController extends GetxController {
   // Send button text base on its state
   final RxString sendButtonText = RxString(R.strings.send.tr);
 
-  RxnInt shortcutSelectedIndex = RxnInt();
-  final List<String> shortcutContent = [
-    '🧸  Yêu bé',
-    '❤️  Anh yêu em',
-    '🥰  Anh nhớ em',
-    '🫦  Em yêu ơi'
-  ];
+  final RxnInt shortcutSelectedIndex = RxnInt();
+  List<String> shortcutContent = [];
+
+  @override
+  void onInit() {
+    super.onInit();
+    if (!Get.isRegistered<ShortcutBottomSheetController>()) {
+      Get.put<ShortcutBottomSheetController>(ShortcutBottomSheetController());
+    }
+    shortcutContent = Get.find<ShortcutBottomSheetController>().shortcutContent;
+  }
 
   void startCoolDownSendButton() {
     isSendButtonWaiting.value = true;
@@ -99,7 +104,13 @@ class SendLoveController extends GetxController {
     }
   }
 
-  void onShortcutSelected(bool selected, int index) {
+  void onShortcutSelected(BuildContext context, bool selected, int index) {
+    // Last item will open bottom sheet
+    if (index == shortcutContent.length - 1) {
+      ShortcutBottomSheetView.openBottomSheet(context);
+      return;
+    }
+
     shortcutSelectedIndex.value = selected ? index : null;
 
     if (shortcutSelectedIndex.value != null) {

@@ -1,3 +1,5 @@
+import 'package:couple_wallet/utilities/logs.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AppSharedPref {
@@ -74,7 +76,11 @@ class AppSharedPrefImpl extends AppSharedPref {
 
   @override
   Future<String?> getString(String key) async {
-    return Future.value(_storage.getString(key));
+    String? value = _storage.getString(key);
+    if (kDebugMode) {
+      Logs.i("======= SharedPreferences loaded: {$key:$value}");
+    }
+    return Future.value(value);
   }
 
   @override

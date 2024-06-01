@@ -3,6 +3,7 @@ class AppPrefKey {
 
   ///
   static const String partnerAddress = 'partnerAddress';
+  static const String shortcutSetName = 'shortcutSetName';
 }
 
 class AppNetworkKey {

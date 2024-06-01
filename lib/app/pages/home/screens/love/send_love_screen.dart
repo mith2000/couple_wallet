@@ -50,7 +50,7 @@ class SendLoveScreen extends GetView<SendLoveController> {
               showCheckmark: false,
               selected: controller.shortcutSelectedIndex.value == index,
               onSelected: (bool sel) =>
-                  controller.onShortcutSelected(sel, index),
+                  controller.onShortcutSelected(context, sel, index),
               shape: RoundedRectangleBorder(
                 side: BorderSide(
                   color: controller.shortcutSelectedIndex.value == index
