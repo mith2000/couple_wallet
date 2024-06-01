@@ -25,7 +25,7 @@ class ShortcutBottomSheetView extends GetView<ShortcutBottomSheetController> {
       child: Column(
         children: [
           Text(
-            "Chon loi nhan",
+            R.strings.selectShortcut.tr,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           _shortcutSetCard(

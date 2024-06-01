@@ -14,5 +14,14 @@
   "yourPartnerAddress": "Your partner address",
   "pleaseInputYourPartnerAddress": "Please input your partner's address",
   "loverAddress": "Lover's address",
-  "loverAddressSubtitle": "Setup the addresses for sending love"
+  "loverAddressSubtitle": "Setup the addresses for sending love",
+  "selectShortcut": "Select your love set",
+  "maleShortcut1": "🧸  Love bae",
+  "maleShortcut2": "❤️  I love you",
+  "maleShortcut3": "🥰  Miss you, babe",
+  "maleShortcut4": "🫦  Hi bae",
+  "femaleShortcut1": "🧸  Love bae",
+  "femaleShortcut2": "❤️  I love you, babe",
+  "femaleShortcut3": "🥰  Miss bae so much",
+  "femaleShortcut4": "🫦  Hi darling~"
 }

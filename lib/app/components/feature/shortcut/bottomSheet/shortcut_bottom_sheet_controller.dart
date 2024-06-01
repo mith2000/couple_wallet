@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../../../data/src/keys/app_key.dart';
 import '../../../../../data/src/services/app_shared_pref.dart';
+import '../../../../../resources/resources.dart';
 
 part 'shortcut_bottom_sheet_view.dart';
 
@@ -58,18 +59,18 @@ enum ShortcutSet {
 
 class ShortcutPredefined {
   static final List<String> shortcutContent1st = [
-    '🧸  Yêu bé',
-    '❤️  Anh yêu em',
-    '🥰  Anh nhớ em',
-    '🫦  Em yêu ơi',
+    R.strings.maleShortcut1.tr,
+    R.strings.maleShortcut2.tr,
+    R.strings.maleShortcut3.tr,
+    R.strings.maleShortcut4.tr,
     // Last item for open bottom sheet
     '...',
   ];
   static final List<String> shortcutContent2nd = [
-    '🧸  Yêu bé',
-    '❤️  Em yêu anh',
-    '🥰  Em nhớ anh',
-    '🫦  Anh yêu ơi',
+    R.strings.femaleShortcut1.tr,
+    R.strings.femaleShortcut2.tr,
+    R.strings.femaleShortcut3.tr,
+    R.strings.femaleShortcut4.tr,
     // Last item for open bottom sheet
     '...',
   ];
