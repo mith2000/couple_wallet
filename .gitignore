@@ -52,3 +52,6 @@ docs/.next
 # Ignore fvm binary
 fvm
 .env.local
+
+# Google Cloud Service Account Credentials
+serviceAccountKey.json
