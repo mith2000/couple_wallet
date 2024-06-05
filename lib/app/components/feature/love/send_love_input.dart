@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../../../resources/resources.dart';
 import '../../../theme/app_theme.dart';
 
-const bouncingAnimationDuration = 200;
+const bouncingAnimationDuration = 300;
 
 enum AppTextFieldState { normal, enabled, disabled, focused, error }
 
@@ -57,55 +57,62 @@ class _SendLoveInputState extends State<SendLoveInput>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (TapDownDetails details) {
-        // If focusing the text field, don't animate
-        if (_focusNode.hasFocus) return;
-        _controller.forward();
-      },
-      onTapUp: (TapUpDetails details) {
-        _onReleaseTap(context);
-      },
-      onTapCancel: () {
-        _onReleaseTap(context);
-      },
-      child: ScaleTransition(
-        scale: Tween(begin: 1.0, end: 0.9).animate(
-          CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-        ),
-        child: FormBuilderTextField(
-          controller: widget.textEditingController,
-          focusNode: _focusNode,
-          name: widget.fieldName,
-          style: context.textTheme.bodyLarge!.copyWith(
-            color: AppColors.of.mainTextColor,
-          ),
-          onSubmitted: (_) => widget.onSubmit(),
-          onChanged: widget.onFieldChange,
-          minLines: 1,
-          maxLines: 3,
-          maxLength: 160,
-          enableInteractiveSelection: false,
-          decoration: InputDecoration(
-            isDense: true,
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: AppThemeExt.of.dimen(4),
-              vertical: AppThemeExt.of.dimen(3),
+    return Stack(
+      alignment: Alignment.centerRight,
+      children: [
+        GestureDetector(
+          onTapDown: (TapDownDetails details) {
+            // If focusing the text field, don't animate
+            if (_focusNode.hasFocus) return;
+            _controller.forward();
+          },
+          onTapUp: (TapUpDetails details) {
+            _onReleaseTap(context);
+          },
+          onTapCancel: () {
+            _onReleaseTap(context);
+          },
+          child: ScaleTransition(
+            scale: Tween(begin: 1.0, end: 0.9).animate(
+              CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
             ),
-            hintText: R.strings.messageHintText.tr,
-            hintStyle: context.textTheme.bodyLarge!.copyWith(
-              color: AppColors.of.subTextColor,
+            child: FormBuilderTextField(
+              controller: widget.textEditingController,
+              focusNode: _focusNode,
+              name: widget.fieldName,
+              style: context.textTheme.bodyLarge!.copyWith(
+                color: AppColors.of.mainTextColor,
+              ),
+              onSubmitted: (_) => widget.onSubmit(),
+              onChanged: widget.onFieldChange,
+              minLines: 1,
+              maxLines: 3,
+              maxLength: 160,
+              enableInteractiveSelection: false,
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: EdgeInsets.only(
+                  left: AppThemeExt.of.dimen(4),
+                  right: AppThemeExt.of.dimen(12),
+                  top: AppThemeExt.of.dimen(3),
+                  bottom: AppThemeExt.of.dimen(3),
+                ),
+                hintText: R.strings.messageHintText.tr,
+                hintStyle: context.textTheme.bodyLarge!.copyWith(
+                  color: AppColors.of.subTextColor,
+                ),
+                counterText: "",
+                border: _inputBorder(context, AppTextFieldState.normal),
+                enabledBorder: _inputBorder(context, AppTextFieldState.enabled),
+                focusedBorder: _inputBorder(context, AppTextFieldState.focused),
+                disabledBorder: _inputBorder(context, AppTextFieldState.disabled),
+                errorBorder: _inputBorder(context, AppTextFieldState.error),
+              ),
             ),
-            counterText: "",
-            border: _inputBorder(context, AppTextFieldState.normal),
-            enabledBorder: _inputBorder(context, AppTextFieldState.enabled),
-            focusedBorder: _inputBorder(context, AppTextFieldState.focused),
-            disabledBorder: _inputBorder(context, AppTextFieldState.disabled),
-            errorBorder: _inputBorder(context, AppTextFieldState.error),
-            suffixIcon: widget.isShowSendButton ? _buildSendButton() : null,
           ),
         ),
-      ),
+        widget.isShowSendButton ? _buildSendButton() : Container(),
+      ],
     );
   }
 
