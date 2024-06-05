@@ -22,6 +22,7 @@ class SettingController extends GetxController {
   final TextEditingController yourAddressTextEC = TextEditingController();
   final TextEditingController partnerAddressTextEC = TextEditingController();
   final RxBool isPartnerLocked = false.obs;
+  final RxBool isShowQuickPaste = false.obs;
 
   @override
   void onInit() {
@@ -32,6 +33,15 @@ class SettingController extends GetxController {
 
   void onCopyFCMToken() async {
     await Clipboard.setData(ClipboardData(text: yourAddressTextEC.text));
+  }
+
+  void onPastePartnerAddress() async {
+    ClipboardData? cdata = await Clipboard.getData(Clipboard.kTextPlain);
+    final cText = cdata?.text ?? "";
+    if (cText.isNotEmpty && partnerAddressTextEC.text.isEmpty) {
+      partnerAddressTextEC.text = cText;
+      isPartnerLocked.value = true;
+    }
   }
 
   void onLockFCMToken(BuildContext context) async {
@@ -78,6 +88,14 @@ class SettingController extends GetxController {
       isPartnerLocked.value = false;
     } else {
       isPartnerLocked.value = true;
+    }
+  }
+
+  void onOpenLoveAddressDialog() async {
+    ClipboardData? cdata = await Clipboard.getData(Clipboard.kTextPlain);
+    final cText = cdata?.text ?? "";
+    if (cText.isNotEmpty && partnerAddressTextEC.text.isEmpty) {
+      isShowQuickPaste.value = true;
     }
   }
 

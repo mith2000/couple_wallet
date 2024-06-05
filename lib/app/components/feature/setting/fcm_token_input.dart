@@ -27,7 +27,7 @@ class FCMTokenInput extends StatelessWidget {
       ),
       maxLines: 1,
       enabled: isEnabled,
-      enableInteractiveSelection: false,
+      enableInteractiveSelection: isEnabled,
       decoration: InputDecoration(
         isDense: true,
         contentPadding: EdgeInsets.symmetric(

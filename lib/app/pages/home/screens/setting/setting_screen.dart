@@ -40,9 +40,11 @@ class SettingScreen extends GetView<SettingController> {
       builder: (context) {
         // To reflect the right value when the dialog is opened
         controller.loadPartnerAddress();
+        controller.onOpenLoveAddressDialog();
         return AlertDialog(
           content: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Gap(AppThemeExt.of.dimen(2)),
               Row(
@@ -85,6 +87,14 @@ class SettingScreen extends GetView<SettingController> {
                     ),
                   ),
                 ],
+              ),
+              Obx(
+                () => controller.isShowQuickPaste.isTrue
+                    ? TextButton(
+                        onPressed: controller.onPastePartnerAddress,
+                        child: Text(R.strings.quickPasteHere.tr),
+                      )
+                    : Container(),
               ),
             ],
           ),
