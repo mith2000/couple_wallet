@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -40,25 +41,25 @@ class HomeNavBar extends StatelessWidget {
       buildHomeNavTab(
         context: context,
         activeColor: AppColors.of.primaryColor,
-        icon: Icons.favorite_rounded,
+        icon: FontAwesomeIcons.solidHeart,
         text: R.strings.home,
       ),
       buildHomeNavTab(
         context: context,
-        activeColor: Colors.purple,
-        icon: Icons.sticky_note_2_rounded,
+        activeColor: AppColors.of.disableColor,
+        icon: FontAwesomeIcons.fileInvoice,
         text: R.strings.record,
       ),
       buildHomeNavTab(
         context: context,
-        activeColor: Colors.amber,
-        icon: Icons.history_rounded,
-        text: R.strings.report,
+        activeColor: AppColors.of.disableColor,
+        icon: FontAwesomeIcons.chartPie,
+        text: R.strings.statistic,
       ),
       buildHomeNavTab(
         context: context,
-        activeColor: Colors.teal,
-        icon: Icons.settings_rounded,
+        activeColor: AppColors.of.orangeColor,
+        icon: FontAwesomeIcons.gear,
         text: R.strings.setting,
       )
     ];

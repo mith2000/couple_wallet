@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 
 import '../../components/feature/home/home_app_bar.dart';
 import '../../components/feature/home/home_nav_bar.dart';
-import 'screens/bills_screen.dart';
 import 'screens/love/send_love_controller.dart';
 import 'screens/record_screen.dart';
 import 'screens/setting/setting_controller.dart';
+import 'screens/statistic_screen.dart';
 
 part 'home_binding.dart';
 part 'home_page.dart';

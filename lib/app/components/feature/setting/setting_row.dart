@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
 import '../../../theme/app_theme.dart';
@@ -79,7 +80,7 @@ class SettingRow extends StatelessWidget {
                       ),
                     ),
                     Gap(AppThemeExt.of.dimen(2)),
-                    const Icon(Icons.arrow_forward_ios_rounded),
+                    const FaIcon(FontAwesomeIcons.chevronRight),
                   ],
                 ),
                 Gap(AppThemeExt.of.dimen(2)),

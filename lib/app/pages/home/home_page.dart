@@ -6,7 +6,7 @@ const onBackgroundColor = Color(0xff2B2A28);
 const screens = [
   SendLoveScreen(),
   RecordScreen(),
-  BillsScreen(),
+  StatisticScreen(),
   SettingScreen(),
 ];
 
