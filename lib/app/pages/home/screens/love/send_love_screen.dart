@@ -8,7 +8,8 @@ class SendLoveScreen extends GetView<SendLoveController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(AppThemeExt.of.dimen(4)).copyWith(top: 0),
+      padding: EdgeInsets.all(AppThemeExt.of.dimen(4))
+          .copyWith(top: 0, bottom: AppThemeExt.of.dimen(2)),
       child: Column(
         children: [
           Expanded(child: Container()),

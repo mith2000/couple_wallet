@@ -24,8 +24,10 @@ class HomeNavBar extends StatelessWidget {
       elevation: 5,
       color: backgroundColor,
       child: Padding(
-        padding: EdgeInsets.all(AppThemeExt.of.dimen(4))
-            .copyWith(bottom: AppThemeExt.of.dimen(2)),
+        padding: EdgeInsets.symmetric(
+          vertical: AppThemeExt.of.dimen(2),
+          horizontal: AppThemeExt.of.dimen(4),
+        ),
         child: GNav(
           tabBorderRadius: AppThemeExt.of.dimen(4),
           selectedIndex: selectedIndex,
