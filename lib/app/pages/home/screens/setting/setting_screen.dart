@@ -23,7 +23,7 @@ class SettingScreen extends GetView<SettingController> {
         ),
         Gap(AppThemeExt.of.dimen(3)),
         SettingRow(
-          icon: Icons.link_rounded,
+          icon: FontAwesomeIcons.link,
           title: R.strings.loverAddress.tr,
           body: R.strings.loverAddressSubtitle.tr,
           onTap: () {
@@ -56,8 +56,8 @@ class SettingScreen extends GetView<SettingController> {
                   ),
                   IconButton(
                     onPressed: controller.onCopyFCMToken,
-                    icon: const Icon(
-                      Icons.share_rounded,
+                    icon: const FaIcon(
+                      FontAwesomeIcons.shareNodes,
                     ),
                   ),
                 ],
@@ -77,10 +77,10 @@ class SettingScreen extends GetView<SettingController> {
                   Obx(
                     () => IconButton(
                       onPressed: () => controller.onLockFCMToken(context),
-                      icon: Icon(
+                      icon: FaIcon(
                         controller.isPartnerLocked.isTrue
-                            ? Icons.lock_outline_rounded
-                            : Icons.lock_open_rounded,
+                            ? FontAwesomeIcons.lock
+                            : FontAwesomeIcons.lockOpen,
                       ),
                     ),
                   ),
