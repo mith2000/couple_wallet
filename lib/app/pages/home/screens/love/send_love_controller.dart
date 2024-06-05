@@ -124,7 +124,7 @@ class SendLoveController extends GetxController {
             children: [
               Flexible(
                 child: Text(
-                  stringContent,
+                  R.strings.wordsOfLoveHaveBeenSent.tr,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
