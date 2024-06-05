@@ -7,9 +7,12 @@
   "statistic": "Tính",
   "setting": "Chỉnh",
   "close": "Close",
+  "okay": "Okê",
   "send": "Gửi",
   "wait": "Đợi",
   "messageHintText": "Soạn tin...",
+  "wordsOfLoveHaveBeenSent": "Lời yêu thương đã được gửi đi",
+  "checkPartnerAddress": "Hãy kiểm tra Địa chỉ người yêu bạn trong Cài đặt",
   "yourDigitalAddress": "Địa chỉ kỹ thuật số của bạn",
   "yourPartnerAddress": "Địa chỉ người yêu bạn",
   "pleaseInputYourPartnerAddress": "Vui lòng điền địa chỉ người yêu bạn",
@@ -23,5 +26,6 @@
   "femaleShortcut1": "🧸  Yêu bé",
   "femaleShortcut2": "❤️  Em yêu anh",
   "femaleShortcut3": "🥰  Em nhớ anh",
-  "femaleShortcut4": "🫦  Anh yêu ơi"
+  "femaleShortcut4": "🫦  Anh yêu ơi",
+  "yourLoverSentToYou": "Người yêu vừa gửi đến bạn"
 }

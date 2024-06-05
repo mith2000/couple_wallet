@@ -1,4 +1,5 @@
 import 'package:couple_wallet/app/components/main/text/highlight_headline_text.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,7 +26,7 @@ class SettingController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    yourAddressTextEC.text = "Hello 123";
+    loadUserAddress();
     loadPartnerAddress();
   }
 
@@ -57,6 +58,13 @@ class SettingController extends GetxController {
     await _pref.setString(AppPrefKey.partnerAddress, partnerAddress);
   }
 
+  Future<void> loadUserAddress() async {
+    String? userFCMToken = await FirebaseMessaging.instance.getToken();
+    if (userFCMToken != null && userFCMToken.isNotEmpty) {
+      yourAddressTextEC.text = userFCMToken;
+    }
+  }
+
   Future<void> loadPartnerAddress() async {
     String? partnerAddress = await _pref.getString(AppPrefKey.partnerAddress);
     if (partnerAddress != null && partnerAddress.isNotEmpty) {
@@ -71,5 +79,13 @@ class SettingController extends GetxController {
     } else {
       isPartnerLocked.value = true;
     }
+  }
+
+  void onCloseLoveAddressDialog(BuildContext context) {
+    if (partnerAddressTextEC.text.isNotEmpty) {
+      isPartnerLocked.value = true;
+      savePartnerAddress(partnerAddressTextEC.text);
+    }
+    Navigator.of(context).pop();
   }
 }

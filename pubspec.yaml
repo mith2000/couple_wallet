@@ -14,6 +14,7 @@ dependencies:
 
   # Core
   get: any
+  firebase_core: any
   # Resources
   flutter_gen: ^5.4.0
   flutter_svg: ^2.0.10+1
@@ -25,6 +26,10 @@ dependencies:
   connectivity_plus: ^5.0.0
   permission_handler: ^11.3.1
   device_info_plus: ^10.1.0
+  firebase_messaging: ^14.9.4
+  firebase_crashlytics: ^3.5.7
+  http: ^1.2.1
+  googleapis_auth: ^1.6.0
   # Components
   cupertino_icons: ^1.0.2
   flutter_slidable: ^3.1.0
@@ -79,3 +84,4 @@ flutter:
     - assets/pngs/
     - assets/svgs/
     - assets/json/
+    - serviceAccountKey.json

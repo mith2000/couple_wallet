@@ -37,61 +37,65 @@ class SettingScreen extends GetView<SettingController> {
   void _dialogLoveAddress(BuildContext context) {
     showDialog<void>(
       context: context,
-      builder: (context) => AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Gap(AppThemeExt.of.dimen(2)),
-            Row(
-              children: [
-                Expanded(
-                  child: FCMTokenInput(
-                    textEditingController: controller.yourAddressTextEC,
-                    isYour: true,
-                    isEnabled: false,
-                  ),
-                ),
-                IconButton(
-                  onPressed: controller.onCopyFCMToken,
-                  icon: const Icon(
-                    Icons.share_rounded,
-                  ),
-                ),
-              ],
-            ),
-            Gap(AppThemeExt.of.dimen(4)),
-            Row(
-              children: [
-                Expanded(
-                  child: Obx(
-                    () => FCMTokenInput(
-                      textEditingController: controller.partnerAddressTextEC,
-                      isYour: false,
-                      isEnabled: !controller.isPartnerLocked.value,
+      builder: (context) {
+        // To reflect the right value when the dialog is opened
+        controller.loadPartnerAddress();
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Gap(AppThemeExt.of.dimen(2)),
+              Row(
+                children: [
+                  Expanded(
+                    child: FCMTokenInput(
+                      textEditingController: controller.yourAddressTextEC,
+                      isYour: true,
+                      isEnabled: false,
                     ),
                   ),
-                ),
-                Obx(
-                  () => IconButton(
-                    onPressed: () => controller.onLockFCMToken(context),
-                    icon: Icon(
-                      controller.isPartnerLocked.isTrue
-                          ? Icons.lock_outline_rounded
-                          : Icons.lock_open_rounded,
+                  IconButton(
+                    onPressed: controller.onCopyFCMToken,
+                    icon: const Icon(
+                      Icons.share_rounded,
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
+              Gap(AppThemeExt.of.dimen(4)),
+              Row(
+                children: [
+                  Expanded(
+                    child: Obx(
+                      () => FCMTokenInput(
+                        textEditingController: controller.partnerAddressTextEC,
+                        isYour: false,
+                        isEnabled: !controller.isPartnerLocked.value,
+                      ),
+                    ),
+                  ),
+                  Obx(
+                    () => IconButton(
+                      onPressed: () => controller.onLockFCMToken(context),
+                      icon: Icon(
+                        controller.isPartnerLocked.isTrue
+                            ? Icons.lock_outline_rounded
+                            : Icons.lock_open_rounded,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            FilledButton(
+              child: Text(R.strings.okay.tr),
+              onPressed: () => controller.onCloseLoveAddressDialog(context),
             ),
           ],
-        ),
-        actions: <Widget>[
-          FilledButton(
-            child: const Text('Okay'),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

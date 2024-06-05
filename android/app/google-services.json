@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "954766782308",
+    "project_id": "couple-wallet-15a7a",
+    "storage_bucket": "couple-wallet-15a7a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954766782308:android:43f17559cf8c5e2caed471",
+        "android_client_info": {
+          "package_name": "vn.mith.app.couple_wallet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP-NNGEne4xA6T3zc6P2n9dNIFaGH9veo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

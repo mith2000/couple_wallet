@@ -1,4 +1,4 @@
-package vn.mith.couplewallet.couple_wallet
+package vn.mith.couple_wallet
 
 import io.flutter.embedding.android.FlutterActivity
 

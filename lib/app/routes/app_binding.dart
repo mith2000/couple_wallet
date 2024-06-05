@@ -6,5 +6,8 @@ class AppBinding implements Bindings {
     Get.put<NetworkConnectionService>(NetworkConnectionService(),
         permanent: true);
     Get.put<ThemeController>(ThemeController());
+
+    // Inject dependencies
+    DataProvider.inject();
   }
 }

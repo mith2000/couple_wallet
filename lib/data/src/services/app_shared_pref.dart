@@ -41,6 +41,9 @@ class AppSharedPrefImpl extends AppSharedPref {
 
   @override
   Future<void> setString(String key, String value) {
+    if (kDebugMode) {
+      Logs.i("======= SharedPreferences saved: {$key:$value}");
+    }
     return _storage.setString(key, value);
   }
 

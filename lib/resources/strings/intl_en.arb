@@ -7,9 +7,12 @@
   "statistic": "Statistic",
   "setting": "Setting",
   "close": "Close",
+  "okay": "Okay",
   "send": "Send",
   "wait": "Wait",
   "messageHintText": "Message...",
+  "wordsOfLoveHaveBeenSent": "Words of love have been sent",
+  "checkPartnerAddress": "Please check your partner's address in Settings",
   "yourDigitalAddress": "Your digital address",
   "yourPartnerAddress": "Your partner address",
   "pleaseInputYourPartnerAddress": "Please input your partner's address",
@@ -23,5 +26,6 @@
   "femaleShortcut1": "🧸  Love bae",
   "femaleShortcut2": "❤️  I love you, babe",
   "femaleShortcut3": "🥰  Miss bae so much",
-  "femaleShortcut4": "🫦  Hi darling~"
+  "femaleShortcut4": "🫦  Hi darling~",
+  "yourLoverSentToYou": "Your lover just sent to you"
 }

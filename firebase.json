@@ -1,0 +1,30 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "couple-wallet-15a7a",
+          "appId": "1:954766782308:android:43f17559cf8c5e2caed471",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "couple-wallet-15a7a",
+          "appId": "1:954766782308:ios:737d9c0199fbd5eaaed471",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "couple-wallet-15a7a",
+          "configurations": {
+            "android": "1:954766782308:android:43f17559cf8c5e2caed471",
+            "ios": "1:954766782308:ios:737d9c0199fbd5eaaed471"
+          }
+        }
+      }
+    }
+  }
+}

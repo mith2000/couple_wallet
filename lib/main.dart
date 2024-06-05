@@ -1,3 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -6,30 +9,40 @@ import 'package:get/get.dart';
 
 import 'app/routes/app_pages.dart';
 import 'app/theme/app_theme.dart';
-import 'data/data.dart';
+import 'data/src/services/app_shared_pref.dart';
+import 'firebase_options.dart';
 import 'resources/resources.dart';
+import 'utilities/fcm_api.dart';
 
 const backgroundColor = Color(0xffFCF1DE);
 
 void main() async {
+  // Initialize Flutter Native Splash
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
   FlutterNativeSplash.remove();
-  // Inject dependencies
-  await DataProvider.inject();
 
+  // Configuring system UI
   await configSystemUI();
 
-  runApp(const App());
-}
+  // Initialize shared preference
+  final sharePref = Get.put<AppSharedPref>(AppSharedPrefImpl());
+  await sharePref.onInit();
 
-Future<void> configSystemUI() async {
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: backgroundColor,
-    systemNavigationBarColor: backgroundColor,
-  ));
+  // Initialize Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  if (kDebugMode) {
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+  } else {
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  }
+  await FirebaseMessagingAPI().initNotification();
+  await FirebaseAccessTokenAPI.claimAccessToken();
+
+  runApp(const App());
 }
 
 class App extends StatelessWidget {
@@ -55,4 +68,12 @@ class App extends StatelessWidget {
       smartManagement: SmartManagement.full,
     );
   }
+}
+
+Future<void> configSystemUI() async {
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: backgroundColor,
+    systemNavigationBarColor: backgroundColor,
+  ));
 }

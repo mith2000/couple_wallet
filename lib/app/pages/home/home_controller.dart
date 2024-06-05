@@ -1,4 +1,3 @@
-import 'package:couple_wallet/utilities/permission_exts.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,8 +22,6 @@ class HomeController extends GetxController {
     Get.put<SendLoveController>(SendLoveController());
     Get.put<SettingController>(SettingController());
     super.onInit();
-
-    PermissionExt.onRequestPermissionNotification();
   }
 
   void onPageChange(int page) {
@@ -34,6 +31,10 @@ class HomeController extends GetxController {
   void onTabChange(int index) {
     onPageChange(index);
     pageController.jumpToPage(index);
+  }
+
+  void goSetting() {
+    onTabChange(3);
   }
 
   String countLoveDays() {
