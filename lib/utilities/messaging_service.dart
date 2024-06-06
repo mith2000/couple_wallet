@@ -28,6 +28,14 @@ class MessagingService {
         'notification': {
           'body': body,
         },
+        "android": {
+          "priority": "high",
+        },
+        "apns":{
+          "headers":{
+            "apns-priority":"5"
+          }
+        },
       },
     };
 
