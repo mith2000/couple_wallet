@@ -37,7 +37,6 @@ dependencies:
   shimmer: ^3.0.0
   lottie: ^3.1.0
   google_nav_bar: ^5.0.6
-  flutter_form_builder: ^9.2.1
   gap: any
   font_awesome_flutter: ^10.7.0
   # Data

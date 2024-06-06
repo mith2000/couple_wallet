@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 
 import '../../../../resources/resources.dart';
@@ -11,10 +10,7 @@ enum AppTextFieldState { normal, enabled, disabled, focused, error }
 
 class SendLoveInput extends StatefulWidget {
   final TextEditingController textEditingController;
-  final String fieldName;
   final Function onSubmit;
-  final Function(String?) onFieldChange;
-
   final bool isShowSendButton;
   final bool isSendButtonWaiting;
   final String sendButtonText;
@@ -22,9 +18,7 @@ class SendLoveInput extends StatefulWidget {
   const SendLoveInput({
     super.key,
     required this.textEditingController,
-    required this.fieldName,
     required this.onSubmit,
-    required this.onFieldChange,
     required this.isShowSendButton,
     required this.isSendButtonWaiting,
     required this.sendButtonText,
@@ -76,19 +70,16 @@ class _SendLoveInputState extends State<SendLoveInput>
             scale: Tween(begin: 1.0, end: 0.9).animate(
               CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
             ),
-            child: FormBuilderTextField(
+            child: TextField(
               controller: widget.textEditingController,
               focusNode: _focusNode,
-              name: widget.fieldName,
               style: context.textTheme.bodyLarge!.copyWith(
                 color: AppColors.of.mainTextColor,
               ),
-              onSubmitted: (_) => widget.onSubmit(),
-              onChanged: widget.onFieldChange,
               minLines: 1,
               maxLines: 3,
               maxLength: 160,
-              enableInteractiveSelection: false,
+              textCapitalization: TextCapitalization.sentences,
               decoration: InputDecoration(
                 isDense: true,
                 contentPadding: EdgeInsets.only(

@@ -15,18 +15,13 @@ class SendLoveScreen extends GetView<SendLoveController> {
           Expanded(child: Container()),
           _buildShortcuts(context),
           Gap(AppThemeExt.of.dimen(2)),
-          FormBuilder(
-            key: controller.formKey,
-            child: Obx(
-              () => SendLoveInput(
-                textEditingController: controller.mainTextEC,
-                fieldName: mainTextFieldName,
-                onSubmit: () => controller.onSubmit(context),
-                onFieldChange: controller.onFieldChange,
-                isShowSendButton: controller.isTextFieldEmpty.isFalse,
-                isSendButtonWaiting: controller.isSendButtonWaiting.isTrue,
-                sendButtonText: controller.sendButtonText.value,
-              ),
+          Obx(
+            () => SendLoveInput(
+              textEditingController: controller.mainTextEC,
+              onSubmit: () => controller.onSubmit(context),
+              isShowSendButton: controller.isTextFieldEmpty.isFalse,
+              isSendButtonWaiting: controller.isSendButtonWaiting.isTrue,
+              sendButtonText: controller.sendButtonText.value,
             ),
           ),
         ],

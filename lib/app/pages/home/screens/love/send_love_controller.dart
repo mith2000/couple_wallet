@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -17,12 +16,10 @@ import '../../home_controller.dart';
 
 part 'send_love_screen.dart';
 
-const mainTextFieldName = 'main';
 const sendButtonCoolDownSecond = 60;
 
 class SendLoveController extends GetxController {
   final AppSharedPref _pref = Get.find();
-  final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
   final TextEditingController mainTextEC = TextEditingController();
 
   // If text field is empty => Hide the Send button
@@ -44,6 +41,13 @@ class SendLoveController extends GetxController {
       Get.put<ShortcutBottomSheetController>(ShortcutBottomSheetController());
     }
     shortcutContent = Get.find<ShortcutBottomSheetController>().shortcutContent;
+    mainTextEC.addListener(onFieldChange);
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    mainTextEC.dispose();
   }
 
   void startCoolDownSendButton() {
@@ -57,14 +61,8 @@ class SendLoveController extends GetxController {
   }
 
   void onSubmit(BuildContext context) async {
-    // Save & validate the form
-    if (formKey.currentState?.saveAndValidate() == false) return;
-
     // Get string content
-    final stringContent =
-        (formKey.currentState?.fields[mainTextFieldName]?.value ?? '')
-            .toString()
-            .trim();
+    final stringContent = mainTextEC.text.trim();
 
     // Clear & Un-focus to off the keyboard
     mainTextEC.clear();
@@ -149,12 +147,8 @@ class SendLoveController extends GetxController {
     );
   }
 
-  void onFieldChange(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      isTextFieldEmpty.value = true;
-    } else {
-      isTextFieldEmpty.value = false;
-    }
+  void onFieldChange() {
+    isTextFieldEmpty.value = mainTextEC.text.trim().isEmpty;
   }
 
   void onShortcutSelected(BuildContext context, bool selected, int index) {
