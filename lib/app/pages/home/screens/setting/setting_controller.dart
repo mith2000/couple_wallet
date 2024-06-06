@@ -1,4 +1,3 @@
-import 'package:couple_wallet/app/components/main/text/highlight_headline_text.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,12 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../../../data/src/keys/app_key.dart';
 import '../../../../../data/src/services/app_shared_pref.dart';
 import '../../../../../resources/resources.dart';
 import '../../../../components/feature/setting/fcm_token_input.dart';
 import '../../../../components/feature/setting/setting_row.dart';
+import '../../../../components/main/text/highlight_headline_text.dart';
 import '../../../../theme/app_theme.dart';
 import '../../../uikit/uikit_controller.dart';
 
@@ -31,8 +32,8 @@ class SettingController extends GetxController {
     loadPartnerAddress();
   }
 
-  void onCopyFCMToken() async {
-    await Clipboard.setData(ClipboardData(text: yourAddressTextEC.text));
+  void onShare() async {
+    Share.share(yourAddressTextEC.text);
   }
 
   void onPastePartnerAddress() async {

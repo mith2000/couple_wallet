@@ -57,7 +57,7 @@ class SettingScreen extends GetView<SettingController> {
                     ),
                   ),
                   IconButton(
-                    onPressed: controller.onCopyFCMToken,
+                    onPressed: controller.onShare,
                     icon: const FaIcon(
                       FontAwesomeIcons.shareNodes,
                     ),

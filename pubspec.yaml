@@ -30,6 +30,7 @@ dependencies:
   firebase_crashlytics: ^3.5.7
   http: ^1.2.1
   googleapis_auth: ^1.6.0
+  share_plus: 9.0.0
   # Components
   cupertino_icons: ^1.0.2
   flutter_slidable: ^3.1.0
