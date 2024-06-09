@@ -13,6 +13,7 @@ import '../../../../../resources/resources.dart';
 import '../../../../components/feature/setting/fcm_token_input.dart';
 import '../../../../components/feature/setting/setting_row.dart';
 import '../../../../components/main/text/highlight_headline_text.dart';
+import '../../../../services/app_locale_service.dart';
 import '../../../../theme/app_theme.dart';
 import '../../../uikit/uikit_controller.dart';
 

@@ -30,6 +30,16 @@ class SettingScreen extends GetView<SettingController> {
             _dialogLoveAddress(context);
           },
         ),
+        SettingRow(
+          icon: AppLocaleService().locale == enLocale
+              ? FontAwesomeIcons.earthAmericas
+              : FontAwesomeIcons.earthAsia,
+          title: R.strings.switchLanguage.tr,
+          body: R.strings.chooseLanguagePrefer.tr,
+          onTap: () {
+            _dialogChangeLanguage(context);
+          },
+        ),
       ],
     );
   }
@@ -104,6 +114,39 @@ class SettingScreen extends GetView<SettingController> {
               onPressed: () => controller.onCloseLoveAddressDialog(context),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  void _dialogChangeLanguage(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Gap(AppThemeExt.of.dimen(2)),
+              RadioListTile<Locale>(
+                title: const Text('🇺🇸 English'),
+                value: enLocale,
+                groupValue: AppLocaleService().locale,
+                onChanged: (Locale? value) {
+                  AppLocaleService().changeLocale(value!);
+                },
+              ),
+              RadioListTile<Locale>(
+                title: const Text('🇻🇳 Tiếng Việt'),
+                value: viLocale,
+                groupValue: AppLocaleService().locale,
+                onChanged: (Locale? value) {
+                  AppLocaleService().changeLocale(value!);
+                },
+              ),
+            ],
+          ),
         );
       },
     );

@@ -1,5 +1,7 @@
 class AppPrefKey {
   static const String isDarkMode = 'isDarkMode';
+  static const String countryCode = 'countryCode';
+  static const String languageCode = 'languageCode';
 
   ///
   static const String partnerAddress = 'partnerAddress';
