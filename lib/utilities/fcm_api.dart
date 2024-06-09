@@ -3,22 +3,36 @@ import 'dart:convert';
 import 'package:couple_wallet/utilities/logs.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:googleapis_auth/auth_io.dart';
 
 class FirebaseMessagingAPI {
   final _firebaseMessaging = FirebaseMessaging.instance;
+  final _localNotifications = FlutterLocalNotificationsPlugin();
+
+  final _androidChannel = const AndroidNotificationChannel(
+    'high_importance_channel', // id
+    'High Importance Notifications', // title
+    description: 'This channel is used for important notifications.',
+    // description
+    importance: Importance.defaultImportance,
+  );
 
   // Init notification
   Future<void> initNotification() async {
     // request permission (nothing happen if already granted)
     await _firebaseMessaging.requestPermission();
 
+    String? userFCMToken = await FirebaseMessaging.instance.getToken();
+    Logs.d("FCM token: $userFCMToken");
+
     // init further settings for notification
-    initPushNotification();
+    initPushNotifications();
+    initLocalNotifications();
   }
 
   // Handle received message
-  Future<void> onMessageReceived(RemoteMessage? message) async {
+  Future<void> handleMessage(RemoteMessage? message) async {
     // if message is null, do nothing
     if (message == null) return;
 
@@ -26,15 +40,74 @@ class FirebaseMessagingAPI {
     // navigatorKey.currentState?.pushNamed(Routes.uikit);
   }
 
-  // Init background setting
-  Future<void> initPushNotification() async {
-    // handle terminated state
-    FirebaseMessaging.instance.getInitialMessage().then(onMessageReceived);
+  Future initLocalNotifications() async {
+    const iOS = DarwinInitializationSettings();
+    const android = AndroidInitializationSettings(localIcon);
+    const settings = InitializationSettings(android: android, iOS: iOS);
 
-    // attach event listeners
-    FirebaseMessaging.onMessageOpenedApp.listen(onMessageReceived);
+    await _localNotifications.initialize(
+      settings,
+      onDidReceiveNotificationResponse: (details) async {
+        final payload = details.payload;
+        if (payload != null) {
+          final message = RemoteMessage.fromMap(jsonDecode(payload));
+          handleMessage(message);
+        }
+      },
+    );
+
+    final platform = _localNotifications.resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>();
+    await platform?.createNotificationChannel(_androidChannel);
+  }
+
+  Future<void> initPushNotifications() async {
+    // Essential for iOS foreground notification
+    await _firebaseMessaging.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    // handle terminated state
+    FirebaseMessaging.instance.getInitialMessage().then(handleMessage);
+
+    // attach event listeners when user open the app
+    FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
+
+    // handle background state
+    FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+
+    // handle foreground state
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      final notification = message.notification;
+      if (notification == null) return;
+
+      _localNotifications.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            _androidChannel.id,
+            _androidChannel.name,
+            channelDescription: _androidChannel.description,
+            // importance: Importance.high,
+            icon: localIcon,
+          ),
+        ),
+        payload: jsonEncode(message.toMap()),
+      );
+    });
   }
 }
+
+// Must be a top level function
+Future<void> handleBackgroundMessage(RemoteMessage message) async {
+  // do nothing
+}
+
+const localIcon = '@mipmap/ic_launcher';
 
 const String firebaseMessagingScope =
     "https://www.googleapis.com/auth/firebase.messaging";
