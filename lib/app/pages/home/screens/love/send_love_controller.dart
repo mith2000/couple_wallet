@@ -11,6 +11,7 @@ import '../../../../../resources/resources.dart';
 import '../../../../../utilities/messaging_service.dart';
 import '../../../../components/feature/home/home_app_bar.dart';
 import '../../../../components/feature/home/home_heart_icon.dart';
+import '../../../../components/feature/love/love_message_widget.dart';
 import '../../../../components/feature/love/send_love_input.dart';
 import '../../../../components/feature/shortcut/bottomSheet/shortcut_bottom_sheet_controller.dart';
 import '../../../../theme/app_theme.dart';
@@ -36,6 +37,10 @@ class SendLoveController extends GetxController {
   final RxnInt shortcutSelectedIndex = RxnInt();
   List<String> shortcutContent = [];
 
+  List<String> messages = [
+    "Hello World!",
+  ];
+
   @override
   void onInit() {
     super.onInit();
@@ -43,6 +48,7 @@ class SendLoveController extends GetxController {
       Get.put<ShortcutBottomSheetController>(ShortcutBottomSheetController());
     }
     shortcutContent = Get.find<ShortcutBottomSheetController>().shortcutContent;
+    messages.addAll(shortcutContent);
     mainTextEC.addListener(onFieldChange);
   }
 

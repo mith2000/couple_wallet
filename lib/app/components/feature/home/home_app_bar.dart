@@ -68,8 +68,8 @@ class HomeAppBar extends StatelessWidget {
           decoration: BoxDecoration(
             color: backgroundDimColor,
             borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(AppThemeExt.of.dimen(10)),
-              bottomRight: Radius.circular(AppThemeExt.of.dimen(10)),
+              bottomLeft: Radius.circular(AppThemeExt.of.dimen(6)),
+              bottomRight: Radius.circular(AppThemeExt.of.dimen(6)),
             ),
           ),
         ),

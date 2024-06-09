@@ -18,7 +18,17 @@ class SendLoveScreen extends GetView<SendLoveController> {
             .copyWith(top: 0, bottom: AppThemeExt.of.dimen(2)),
         child: Column(
           children: [
-            Expanded(child: Container()),
+            Expanded(
+              child: ListView.builder(
+                itemCount: controller.messages.length - 1,
+                itemBuilder: (context, index) {
+                  return LoveMessageWidget(
+                    body: controller.messages[index],
+                    isOwner: index == 0,
+                  );
+                },
+              ),
+            ),
             _buildShortcuts(context),
             Gap(AppThemeExt.of.dimen(2)),
             Obx(

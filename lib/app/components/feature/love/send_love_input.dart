@@ -160,7 +160,7 @@ class _SendLoveInputState extends State<SendLoveInput>
     }
 
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppThemeExt.of.dimen(10)),
+      borderRadius: BorderRadius.circular(AppThemeExt.of.dimen(6)),
       borderSide: BorderSide(color: borderColor),
       gapPadding: 0,
     );
