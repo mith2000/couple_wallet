@@ -19,15 +19,15 @@ abstract class AppSharedPref {
 
   Future<bool> containsKey(String key);
 
-  Future<String?> getString(String key);
+  String getString(String key, String defaultValue);
 
-  Future<int?> getInt(String key);
+  int getInt(String key, int defaultValue);
 
-  Future<bool?> getBool(String key);
+  bool getBool(String key, bool defaultValue);
 
-  Future<List<String>?> getStringList(String key);
+  double getDouble(String key, double defaultValue);
 
-  Future<double?> getDouble(String key);
+  List<String> getStringList(String key, List<String> defaultValue);
 }
 
 class AppSharedPrefImpl extends AppSharedPref {
@@ -78,31 +78,31 @@ class AppSharedPrefImpl extends AppSharedPref {
   }
 
   @override
-  Future<String?> getString(String key) async {
+  String getString(String key, String defaultValue) {
     String? value = _storage.getString(key);
     if (kDebugMode) {
       Logs.i("======= SharedPreferences loaded: {$key:$value}");
     }
-    return Future.value(value);
+    return value ?? defaultValue;
   }
 
   @override
-  Future<int?> getInt(String key) {
-    return Future.value(_storage.getInt(key));
+  int getInt(String key, int defaultValue) {
+    return _storage.getInt(key) ?? defaultValue;
   }
 
   @override
-  Future<bool?> getBool(String key) {
-    return Future.value(_storage.getBool(key));
+  bool getBool(String key, bool defaultValue) {
+    return _storage.getBool(key) ?? defaultValue;
   }
 
   @override
-  Future<List<String>?> getStringList(String key) {
-    return Future.value(_storage.getStringList(key));
+  List<String> getStringList(String key, List<String> defaultValue) {
+    return _storage.getStringList(key) ?? defaultValue;
   }
 
   @override
-  Future<double?> getDouble(String key) {
-    return Future.value(_storage.getDouble(key));
+  double getDouble(String key, double defaultValue) {
+    return _storage.getDouble(key) ?? defaultValue;
   }
 }

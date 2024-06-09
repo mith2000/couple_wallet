@@ -36,9 +36,9 @@ class ShortcutBottomSheetController extends GetxController {
     await _pref.setString(AppPrefKey.shortcutSetName, shortcutSetName);
   }
 
-  Future<void> loadShortcutSetName() async {
-    String? shortcutSetName = await _pref.getString(AppPrefKey.shortcutSetName);
-    if (shortcutSetName != null && shortcutSetName.isNotEmpty) {
+  void loadShortcutSetName() {
+    String shortcutSetName = _pref.getString(AppPrefKey.shortcutSetName, '');
+    if (shortcutSetName.isNotEmpty) {
       if (shortcutSetName == ShortcutSet.male.name) {
         setShortcutSet(ShortcutSet.male);
       } else {

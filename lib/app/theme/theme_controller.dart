@@ -25,12 +25,8 @@ class ThemeController extends GetxController {
     await _pref.setBool(AppPrefKey.isDarkMode, isDark);
   }
 
-  Future<void> loadThemeMode() async {
-    bool? isDark = await _pref.getBool(AppPrefKey.isDarkMode);
-    if (isDark != null) {
-      changeTheme(isDark);
-    } else {
-      changeTheme(Get.isPlatformDarkMode);
-    }
+  void loadThemeMode() {
+    bool isDark = _pref.getBool(AppPrefKey.isDarkMode, false);
+    changeTheme(isDark);
   }
 }

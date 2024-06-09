@@ -60,7 +60,7 @@ class SendLoveController extends GetxController {
     });
   }
 
-  void onSubmit(BuildContext context) async {
+  void onSubmit(BuildContext context) {
     // Get string content
     final stringContent = mainTextEC.text.trim();
 
@@ -69,8 +69,8 @@ class SendLoveController extends GetxController {
     shortcutSelectedIndex.value = null;
     FocusManager.instance.primaryFocus?.unfocus();
 
-    String? partnerAddress = await _pref.getString(AppPrefKey.partnerAddress);
-    if (partnerAddress != null && partnerAddress.isNotEmpty) {
+    String partnerAddress = _pref.getString(AppPrefKey.partnerAddress, '');
+    if (partnerAddress.isNotEmpty) {
       onSendNotification(partnerAddress, stringContent, context);
     } else {
       onNoPartnerAddressFound(context);

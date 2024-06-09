@@ -76,9 +76,9 @@ class SettingController extends GetxController {
     }
   }
 
-  Future<void> loadPartnerAddress() async {
-    String? partnerAddress = await _pref.getString(AppPrefKey.partnerAddress);
-    if (partnerAddress != null && partnerAddress.isNotEmpty) {
+  void loadPartnerAddress() {
+    String partnerAddress = _pref.getString(AppPrefKey.partnerAddress, '');
+    if (partnerAddress.isNotEmpty) {
       partnerAddressTextEC.text = partnerAddress;
     }
     checkPartnerAddressToLock();
