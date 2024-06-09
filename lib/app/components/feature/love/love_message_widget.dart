@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 
 import '../../../../resources/resources.dart';
-import '../../../model/LoveMessageModelV.dart';
+import '../../../model/love_message_modelview.dart';
 import '../../../theme/app_theme.dart';
 
 const backgroundColor = Color(0xffFCF1DE);
@@ -12,11 +15,13 @@ const messageAvatarSize = 28.0;
 class LoveMessageWidget extends StatelessWidget {
   final LoveMessageModelV model;
   final bool isShowPartnerAvatar;
+  final Function? onReply;
 
   const LoveMessageWidget({
     super.key,
     required this.model,
     this.isShowPartnerAvatar = false,
+    this.onReply,
   });
 
   @override
@@ -37,7 +42,7 @@ class LoveMessageWidget extends StatelessWidget {
                   : Container(),
             ),
           if (!model.isOwner) Gap(AppThemeExt.of.dimen(2)),
-          MessageBox(model: model),
+          MessageBox(model: model, onReply: onReply),
         ],
       ),
     );
@@ -50,9 +55,11 @@ class MessageBox extends StatefulWidget {
   const MessageBox({
     super.key,
     required this.model,
+    this.onReply,
   });
 
   final LoveMessageModelV model;
+  final Function? onReply;
 
   @override
   State<MessageBox> createState() => _MessageBoxState();
@@ -79,22 +86,29 @@ class _MessageBoxState extends State<MessageBox>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (TapDownDetails details) {
-        _controller.forward();
-        Future.delayed(
-          const Duration(milliseconds: bouncingAnimationDuration),
-          () {
-            _controller.reverse();
+    return MenuAnchor(
+      builder: (context, controller, child) {
+        return GestureDetector(
+          onLongPress: () {
+            _controller.forward();
+            Future.delayed(
+              const Duration(milliseconds: bouncingAnimationDuration),
+              () {
+                _controller.reverse();
+                controller.open();
+              },
+            );
           },
+          child: ScaleTransition(
+            scale: Tween(begin: 1.0, end: 0.9).animate(
+              CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+            ),
+            child: _buildContainer(context),
+          ),
         );
       },
-      child: ScaleTransition(
-        scale: Tween(begin: 1.0, end: 0.9).animate(
-          CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-        ),
-        child: _buildContainer(context),
-      ),
+      alignmentOffset: Offset(0, AppThemeExt.of.dimen(1)),
+      menuChildren: [..._buildMenuChildren()],
     );
   }
 
@@ -131,5 +145,33 @@ class _MessageBoxState extends State<MessageBox>
         ),
       ),
     );
+  }
+
+  List<Widget> _buildMenuChildren() {
+    return [
+      Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppThemeExt.of.dimen(3),
+        ).copyWith(bottom: AppThemeExt.of.dimen(1)),
+        child: Text(
+          widget.model.timeDisplay,
+          style: Theme.of(context).textTheme.labelSmall,
+        ),
+      ),
+      MenuItemButton(
+        trailingIcon: const FaIcon(FontAwesomeIcons.reply, size: 18),
+        child: Text(R.strings.reply.tr),
+        onPressed: () {
+          widget.onReply?.call();
+        },
+      ),
+      MenuItemButton(
+        trailingIcon: const FaIcon(FontAwesomeIcons.copy, size: 18),
+        child: Text(R.strings.copy.tr),
+        onPressed: () async {
+          await Clipboard.setData(ClipboardData(text: widget.model.message));
+        },
+      ),
+    ];
   }
 }

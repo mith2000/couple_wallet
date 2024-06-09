@@ -37,6 +37,10 @@ class AppLocaleService {
     return locale.countryCode ?? '';
   }
 
+  String get localeString {
+    return "${locale.languageCode}_${locale.countryCode}";
+  }
+
   void changeLocale(Locale locale) {
     if (_isSupported(locale)) {
       Get.updateLocale(locale);

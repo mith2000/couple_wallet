@@ -10,6 +10,7 @@ enum AppTextFieldState { normal, enabled, disabled, focused, error }
 
 class SendLoveInput extends StatefulWidget {
   final TextEditingController textEditingController;
+  final FocusNode focusNode;
   final Function onSubmit;
   final bool isShowSendButton;
   final bool isSendButtonWaiting;
@@ -18,6 +19,7 @@ class SendLoveInput extends StatefulWidget {
   const SendLoveInput({
     super.key,
     required this.textEditingController,
+    required this.focusNode,
     required this.onSubmit,
     required this.isShowSendButton,
     required this.isSendButtonWaiting,
@@ -30,7 +32,6 @@ class SendLoveInput extends StatefulWidget {
 
 class _SendLoveInputState extends State<SendLoveInput>
     with SingleTickerProviderStateMixin {
-  final FocusNode _focusNode = FocusNode();
   late AnimationController _controller;
 
   @override
@@ -44,7 +45,6 @@ class _SendLoveInputState extends State<SendLoveInput>
 
   @override
   void dispose() {
-    _focusNode.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -57,7 +57,7 @@ class _SendLoveInputState extends State<SendLoveInput>
         GestureDetector(
           onTapDown: (TapDownDetails details) {
             // If focusing the text field, don't animate
-            if (_focusNode.hasFocus) return;
+            if (widget.focusNode.hasFocus) return;
             _controller.forward();
           },
           onTapUp: (TapUpDetails details) {
@@ -72,7 +72,7 @@ class _SendLoveInputState extends State<SendLoveInput>
             ),
             child: TextField(
               controller: widget.textEditingController,
-              focusNode: _focusNode,
+              focusNode: widget.focusNode,
               style: context.textTheme.bodyLarge!.copyWith(
                 color: AppColors.of.mainTextColor,
               ),
@@ -80,6 +80,7 @@ class _SendLoveInputState extends State<SendLoveInput>
               maxLines: 3,
               maxLength: 160,
               textCapitalization: TextCapitalization.sentences,
+              magnifierConfiguration: TextMagnifierConfiguration.disabled,
               decoration: InputDecoration(
                 isDense: true,
                 contentPadding: EdgeInsets.only(
@@ -113,7 +114,7 @@ class _SendLoveInputState extends State<SendLoveInput>
     Future.delayed(
       const Duration(milliseconds: bouncingAnimationDuration),
       () {
-        FocusScope.of(context).requestFocus(_focusNode);
+        FocusScope.of(context).requestFocus(widget.focusNode);
       },
     );
   }

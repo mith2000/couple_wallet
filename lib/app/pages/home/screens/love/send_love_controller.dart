@@ -14,7 +14,7 @@ import '../../../../components/feature/home/home_heart_icon.dart';
 import '../../../../components/feature/love/love_message_widget.dart';
 import '../../../../components/feature/love/send_love_input.dart';
 import '../../../../components/feature/shortcut/bottomSheet/shortcut_bottom_sheet_controller.dart';
-import '../../../../model/LoveMessageModelV.dart';
+import '../../../../model/love_message_modelview.dart';
 import '../../../../theme/app_theme.dart';
 import '../../home_controller.dart';
 
@@ -25,6 +25,7 @@ const sendButtonCoolDownSecond = 60;
 class SendLoveController extends GetxController {
   final AppSharedPref _pref = Get.find();
   final TextEditingController mainTextEC = TextEditingController();
+  final FocusNode mainTextFocusNode = FocusNode();
 
   // If text field is empty => Hide the Send button
   final RxBool isTextFieldEmpty = true.obs;
@@ -84,6 +85,7 @@ class SendLoveController extends GetxController {
   void onClose() {
     super.onClose();
     mainTextEC.dispose();
+    mainTextFocusNode.dispose();
   }
 
   final DateTime loveStartDate = DateTime(2022, 11, 13);
@@ -218,5 +220,9 @@ class SendLoveController extends GetxController {
     } else {
       mainTextEC.clear();
     }
+  }
+
+  void onReplyMessage(BuildContext context) {
+    FocusScope.of(context).requestFocus(mainTextFocusNode);
   }
 }

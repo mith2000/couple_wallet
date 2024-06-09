@@ -27,6 +27,7 @@ class SendLoveScreen extends GetView<SendLoveController> {
                     return LoveMessageWidget(
                       model: controller.messages[index],
                       isShowPartnerAvatar: true,
+                      onReply: () => controller.onReplyMessage(context),
                     );
                   }
                   // If the next one is not same owner, show the partner's avatar
@@ -35,6 +36,7 @@ class SendLoveScreen extends GetView<SendLoveController> {
                     isShowPartnerAvatar:
                         controller.messages[index + 1].isOwner !=
                             controller.messages[index].isOwner,
+                    onReply: () => controller.onReplyMessage(context),
                   );
                 },
               ),
@@ -44,6 +46,7 @@ class SendLoveScreen extends GetView<SendLoveController> {
             Obx(
               () => SendLoveInput(
                 textEditingController: controller.mainTextEC,
+                focusNode: controller.mainTextFocusNode,
                 onSubmit: () => controller.onSubmit(context),
                 isShowSendButton: controller.isTextFieldEmpty.isFalse,
                 isSendButtonWaiting: controller.isSendButtonWaiting.isTrue,
