@@ -27,8 +27,11 @@ class _HeartAnimationState extends State<HeartAnimation>
       if (status == AnimationStatus.completed) {
         // When the animation completes, reset it and play it again
         await Future.delayed(heartAnimationInterval);
-        _controller.reset();
-        _controller.forward();
+        // Fix the issue that animate after disposed due to timer
+        if (mounted) {
+          _controller.reset();
+          _controller.forward();
+        }
       }
     });
     _controller.forward(); // Start the animation
