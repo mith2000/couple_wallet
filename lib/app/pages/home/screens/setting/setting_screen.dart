@@ -5,42 +5,47 @@ class SettingScreen extends GetView<SettingController> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        if (kDebugMode)
-          Row(
-            children: [
-              Expanded(child: Container()),
-              IconButton(
-                onPressed: () => UIKitPage.open(),
-                icon: const Icon(Icons.palette_sharp),
-              ),
-            ],
-          ),
-        Padding(
-          padding: EdgeInsets.only(left: AppThemeExt.of.dimen(4)),
-          child: HighlightHeadlineText(text: R.strings.setting),
-        ),
-        Gap(AppThemeExt.of.dimen(3)),
-        SettingRow(
-          icon: FontAwesomeIcons.link,
-          title: R.strings.loverAddress.tr,
-          body: R.strings.loverAddressSubtitle.tr,
-          onTap: () {
-            _dialogLoveAddress(context);
-          },
-        ),
-        SettingRow(
-          icon: AppLocaleService().locale == enLocale
-              ? FontAwesomeIcons.earthAmericas
-              : FontAwesomeIcons.earthAsia,
-          title: R.strings.switchLanguage.tr,
-          body: R.strings.chooseLanguagePrefer.tr,
-          onTap: () {
-            _dialogChangeLanguage(context);
-          },
-        ),
+    return NestedScrollView(
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
+        const HomeAppBar(),
       ],
+      body: ListView(
+        children: [
+          if (kDebugMode)
+            Row(
+              children: [
+                Expanded(child: Container()),
+                IconButton(
+                  onPressed: () => UIKitPage.open(),
+                  icon: const Icon(Icons.palette_sharp),
+                ),
+              ],
+            ),
+          Padding(
+            padding: EdgeInsets.only(left: AppThemeExt.of.dimen(4)),
+            child: HighlightHeadlineText(text: R.strings.setting),
+          ),
+          Gap(AppThemeExt.of.dimen(3)),
+          SettingRow(
+            icon: FontAwesomeIcons.link,
+            title: R.strings.loverAddress.tr,
+            body: R.strings.loverAddressSubtitle.tr,
+            onTap: () {
+              _dialogLoveAddress(context);
+            },
+          ),
+          SettingRow(
+            icon: AppLocaleService().locale == enLocale
+                ? FontAwesomeIcons.earthAmericas
+                : FontAwesomeIcons.earthAsia,
+            title: R.strings.switchLanguage.tr,
+            body: R.strings.chooseLanguagePrefer.tr,
+            onTap: () {
+              _dialogChangeLanguage(context);
+            },
+          ),
+        ],
+      ),
     );
   }
 

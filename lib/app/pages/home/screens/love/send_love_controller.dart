@@ -9,6 +9,8 @@ import '../../../../../data/src/keys/app_key.dart';
 import '../../../../../data/src/services/app_shared_pref.dart';
 import '../../../../../resources/resources.dart';
 import '../../../../../utilities/messaging_service.dart';
+import '../../../../components/feature/home/home_app_bar.dart';
+import '../../../../components/feature/home/home_heart_icon.dart';
 import '../../../../components/feature/love/send_love_input.dart';
 import '../../../../components/feature/shortcut/bottomSheet/shortcut_bottom_sheet_controller.dart';
 import '../../../../theme/app_theme.dart';
@@ -48,6 +50,14 @@ class SendLoveController extends GetxController {
   void onClose() {
     super.onClose();
     mainTextEC.dispose();
+  }
+
+  final DateTime loveStartDate = DateTime(2022, 11, 13);
+
+  String countLoveDays() {
+    final now = DateTime.now();
+    final days = now.difference(loveStartDate).inDays;
+    return '$days';
   }
 
   void startCoolDownSendButton() {

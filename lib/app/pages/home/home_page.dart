@@ -19,16 +19,7 @@ class HomePage extends GetView<HomeController> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         backgroundColor: backgroundColor,
-        body: NestedScrollView(
-          headerSliverBuilder:
-              (BuildContext context, bool innerBoxIsScrolled) => [
-            HomeAppBar(
-              actions: const [],
-              loveCount: controller.countLoveDays(),
-            ),
-          ],
-          body: body(context),
-        ),
+        body: body(context),
         bottomNavigationBar: Obx(
           () => HomeNavBar(
             selectedIndex: controller.selectedIndex.value,

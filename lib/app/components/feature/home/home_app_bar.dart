@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../../resources/resources.dart';
 import '../../../theme/app_theme.dart';
-import 'home_heart_icon.dart';
 
 const backgroundColor = Color(0xffFCF1DE);
 const backgroundDimColor = Color(0xffF7EAD4);
@@ -18,12 +16,12 @@ const heartSize = 88.0;
 
 class HomeAppBar extends StatelessWidget {
   final List<Widget>? actions;
-  final String loveCount;
+  final Widget? spaceWidget;
 
   const HomeAppBar({
     super.key,
-    required this.actions,
-    required this.loveCount,
+    this.actions,
+    this.spaceWidget,
   });
 
   @override
@@ -37,7 +35,7 @@ class HomeAppBar extends StatelessWidget {
         background: Container(
           color: backgroundDimColor,
         ),
-        title: _spaceWidget(context),
+        title: spaceWidget,
         centerTitle: true,
         titlePadding: const EdgeInsets.only(bottom: titleBottomSpacing),
       ),
@@ -83,40 +81,6 @@ class HomeAppBar extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _spaceWidget(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _avatar(),
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            const HeartAnimation(size: heartSize),
-            Positioned(
-              top: heartSize * 1 / 3 + 2,
-              child: Text(
-                loveCount,
-                style: context.textTheme.bodyMedium!.copyWith(
-                  color: backgroundColor,
-                ),
-              ),
-            )
-          ],
-        ),
-        _avatar(),
-      ],
-    );
-  }
-
-  Widget _avatar() {
-    return Container(
-      height: avatarSize,
-      width: avatarSize,
-      decoration: const BoxDecoration(shape: BoxShape.circle),
-      child: CircleAvatar(child: R.pngs.appIcon.image()),
     );
   }
 }
