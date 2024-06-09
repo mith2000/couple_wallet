@@ -14,6 +14,7 @@ import '../../../../components/feature/home/home_heart_icon.dart';
 import '../../../../components/feature/love/love_message_widget.dart';
 import '../../../../components/feature/love/send_love_input.dart';
 import '../../../../components/feature/shortcut/bottomSheet/shortcut_bottom_sheet_controller.dart';
+import '../../../../model/LoveMessageModelV.dart';
 import '../../../../theme/app_theme.dart';
 import '../../home_controller.dart';
 
@@ -37,8 +38,12 @@ class SendLoveController extends GetxController {
   final RxnInt shortcutSelectedIndex = RxnInt();
   List<String> shortcutContent = [];
 
-  List<String> messages = [
-    "Hello World!",
+  List<LoveMessageModelV> messages = [
+    LoveMessageModelV(
+      message: "Hello World!",
+      isOwner: true,
+      time: DateTime.now(),
+    ),
   ];
 
   @override
@@ -48,7 +53,30 @@ class SendLoveController extends GetxController {
       Get.put<ShortcutBottomSheetController>(ShortcutBottomSheetController());
     }
     shortcutContent = Get.find<ShortcutBottomSheetController>().shortcutContent;
-    messages.addAll(shortcutContent);
+    // Temp for testing
+    messages.addAll(
+      shortcutContent.where((element) => element != '...').map(
+            (e) => LoveMessageModelV(
+              message: e,
+              isOwner: false,
+              time: DateTime.now(),
+            ),
+          ),
+    );
+    messages.add(
+      LoveMessageModelV(
+        message: "Khà Khà Khà",
+        isOwner: true,
+        time: DateTime.now(),
+      ),
+    );
+    messages.add(
+      LoveMessageModelV(
+        message: "❤️",
+        isOwner: true,
+        time: DateTime.now(),
+      ),
+    );
     mainTextEC.addListener(onFieldChange);
   }
 
@@ -130,6 +158,15 @@ class SendLoveController extends GetxController {
       title: R.strings.yourLoverSentToYou.tr,
       body: stringContent,
       onSuccess: () {
+        // Add message
+        messages.add(
+          LoveMessageModelV(
+            message: stringContent,
+            isOwner: true,
+            time: DateTime.now(),
+          ),
+        );
+
         // Show snack bar
         final snackBar = SnackBar(
           behavior: SnackBarBehavior.floating,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../resources/resources.dart';
+import '../../../model/LoveMessageModelV.dart';
 import '../../../theme/app_theme.dart';
 
 const backgroundColor = Color(0xffFCF1DE);
@@ -9,32 +10,34 @@ const ownerMessageBackgroundColor = Color(0xffFFD9DE);
 const messageAvatarSize = 28.0;
 
 class LoveMessageWidget extends StatelessWidget {
-  final String body;
-  final bool isOwner;
+  final LoveMessageModelV model;
+  final bool isShowPartnerAvatar;
 
   const LoveMessageWidget({
     super.key,
-    required this.body,
-    this.isOwner = true,
+    required this.model,
+    this.isShowPartnerAvatar = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: isOwner ? Alignment.centerRight : Alignment.centerLeft,
+      alignment: model.isOwner ? Alignment.centerRight : Alignment.centerLeft,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          if (!isOwner)
+          if (!model.isOwner)
             Container(
               height: messageAvatarSize,
               width: messageAvatarSize,
               decoration: const BoxDecoration(shape: BoxShape.circle),
-              child: CircleAvatar(child: R.pngs.appIcon.image()),
+              child: isShowPartnerAvatar
+                  ? CircleAvatar(child: R.pngs.appIcon.image())
+                  : Container(),
             ),
-          if (!isOwner) Gap(AppThemeExt.of.dimen(2)),
-          MessageBox(isOwner: isOwner, body: body),
+          if (!model.isOwner) Gap(AppThemeExt.of.dimen(2)),
+          MessageBox(model: model),
         ],
       ),
     );
@@ -46,12 +49,10 @@ const bouncingAnimationDuration = 300;
 class MessageBox extends StatefulWidget {
   const MessageBox({
     super.key,
-    required this.isOwner,
-    required this.body,
+    required this.model,
   });
 
-  final bool isOwner;
-  final String body;
+  final LoveMessageModelV model;
 
   @override
   State<MessageBox> createState() => _MessageBoxState();
@@ -101,9 +102,11 @@ class _MessageBoxState extends State<MessageBox>
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppThemeExt.of.dimen(5)),
-        color: widget.isOwner ? ownerMessageBackgroundColor : backgroundColor,
+        color: widget.model.isOwner
+            ? ownerMessageBackgroundColor
+            : backgroundColor,
         border: Border.all(
-            color: widget.isOwner
+            color: widget.model.isOwner
                 ? ownerMessageBackgroundColor
                 : AppColors.of.borderColor),
       ),
@@ -120,7 +123,7 @@ class _MessageBoxState extends State<MessageBox>
       child: IntrinsicWidth(
         child: Center(
           child: Text(
-            widget.body,
+            widget.model.message,
             style: Theme.of(context).textTheme.labelLarge!.copyWith(
                   color: AppColors.of.mainTextColor,
                 ),
