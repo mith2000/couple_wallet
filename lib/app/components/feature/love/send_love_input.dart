@@ -119,13 +119,24 @@ class _SendLoveInputState extends State<SendLoveInput>
   }
 
   Widget _buildSendButton() {
-    return TextButton(
-      style: TextButton.styleFrom(
-        padding: EdgeInsets.zero,
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    return InkWell(
+      onTap: widget.isSendButtonWaiting ? null : () => widget.onSubmit(),
+      splashFactory: NoSplash.splashFactory,
+      highlightColor: Colors.transparent,
+      child: Container(
+        height: 40,
+        padding: EdgeInsets.symmetric(horizontal: AppThemeExt.of.dimen(6)),
+        child: IntrinsicWidth(
+          child: Center(
+            child: Text(
+              widget.sendButtonText,
+              style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    color: AppColors.of.primaryColor,
+                  ),
+            ),
+          ),
+        ),
       ),
-      onPressed: widget.isSendButtonWaiting ? null : () => widget.onSubmit(),
-      child: Text(widget.sendButtonText),
     );
   }
 
