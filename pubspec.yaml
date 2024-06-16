@@ -15,10 +15,22 @@ dependencies:
   # Core
   get: any
   firebase_core: any
+
+  # Services
+  ## Cloud firestore to store data
+  cloud_firestore: ^5.0.1
+  ## Notification
+  firebase_messaging: ^15.0.1
+  flutter_local_notifications: ^17.1.2
+  googleapis_auth: ^1.6.0
+  ## Crashlytics
+  firebase_crashlytics: ^4.0.1
+
   # Resources
   flutter_gen: ^5.4.0
   flutter_svg: ^2.0.10+1
   flutter_native_splash: ^2.3.0
+
   # Utils
   intl: ^0.18.1
   intl_utils: ^2.8.5
@@ -26,13 +38,9 @@ dependencies:
   connectivity_plus: ^5.0.0
   permission_handler: ^11.3.1
   device_info_plus: ^10.1.0
-  firebase_messaging: ^14.9.4
-  flutter_local_notifications: ^17.1.2
-  firebase_crashlytics: ^3.5.7
-  http: ^1.2.1
-  googleapis_auth: ^1.6.0
   share_plus: 9.0.0
-  # Components
+
+  # UI Components
   cupertino_icons: ^1.0.2
   flutter_slidable: ^3.1.0
   animations: ^2.0.11
@@ -41,8 +49,10 @@ dependencies:
   google_nav_bar: ^5.0.6
   gap: any
   font_awesome_flutter: ^10.7.0
+
   # Data
   shared_preferences: ^2.2.0
+  http: ^1.2.1
 
 dev_dependencies:
   flutter_test:
