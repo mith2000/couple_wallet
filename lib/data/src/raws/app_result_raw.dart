@@ -1,7 +1,7 @@
 part of 'base_raw.dart';
 
-class AppObjResultRaw<BR extends BaseRaw> {
-  AppObjResultRaw({required this.netData});
+class AppResultRaw<BR extends BaseRaw> {
+  AppResultRaw({required this.netData});
 
   final BR? netData;
 
