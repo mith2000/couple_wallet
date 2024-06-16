@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
-import '../../data/src/data_provider.dart';
+import '../../data/data.dart';
+import '../../domain/domain.dart';
 import '../pages/home/home_controller.dart';
 import '../pages/sample/sample_controller.dart';
 import '../pages/uikit/animations/animation_sample_page.dart';

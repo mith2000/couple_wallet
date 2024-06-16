@@ -9,5 +9,6 @@ class AppBinding implements Bindings {
 
     // Inject dependencies
     DataProvider.inject();
+    DomainProvider.inject();
   }
 }
