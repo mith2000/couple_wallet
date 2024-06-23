@@ -1,4 +1,3 @@
-import 'package:couple_wallet/app/pages/home/screens/love/send_love_controller.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +8,7 @@ import '../../../../../../domain/domain.dart';
 import '../../../../../../utilities/logs.dart';
 import '../../../../../components/feature/love/love_message_widget.dart';
 import '../../../../../models/love_message_modelview.dart';
+import '../send_love_controller.dart';
 
 part 'list_message_widget.dart';
 

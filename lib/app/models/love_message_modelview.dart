@@ -30,7 +30,7 @@ class LoveMessageModelV {
         LoveMessageModelV(
           message: message.content,
           isOwner: message.sender == ownerId,
-          time: message.timestamp,
+          time: message.timestamp.toLocal(),
         ),
       );
     }
