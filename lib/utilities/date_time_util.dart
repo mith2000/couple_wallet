@@ -6,14 +6,14 @@ class DateTimeExt {
 
   static const int weekStartDay = DateTime.saturday;
 
-  static const String ddMMyyyy = 'dd/MM/yyyy';
-  static const String HHmm = 'HH:mm';
-  static const String eeeHHmm = 'EEE HH:mm';
-  static const String MMMdHHmm = 'MMM d HH:mm';
+  static const String patternddMMyyyy = 'dd/MM/yyyy';
+  static const String patternHHmm = 'HH:mm';
+  static const String patterneeeHHmm = 'EEE HH:mm';
+  static const String patternMMMdHHmm = 'MMM d HH:mm';
 
   static String dateTimeToDisplay({
     required DateTime? dateTime,
-    String pattern = ddMMyyyy,
+    String pattern = patternddMMyyyy,
     String? locale = 'en_US',
   }) {
     return dateTime != null
@@ -44,19 +44,21 @@ class DateTimeExt {
   }
 
   static String timeToDisplay(
-      {required DateTime? dateTime, String pattern = HHmm}) {
+      {required DateTime? dateTime, String pattern = patternHHmm}) {
     return dateTime != null ? DateFormat(pattern).format(dateTime) : '--:--';
   }
 
   static String dateTimeRangeToDisplay(
-      {required DateTimeRange? dateTimeRange, String pattern = ddMMyyyy}) {
+      {required DateTimeRange? dateTimeRange,
+      String pattern = patternddMMyyyy}) {
     return dateTimeRange != null
         ? '${dateTimeToDisplay(dateTime: dateTimeRange.start, pattern: pattern)} - ${dateTimeToDisplay(dateTime: dateTimeRange.end, pattern: pattern)}'
         : '--/--/---- - --/--/----';
   }
 
   static String customFormatDateTimeRangeToDisplay(
-      {required DateTimeRange? dateTimeRange, String pattern = ddMMyyyy}) {
+      {required DateTimeRange? dateTimeRange,
+      String pattern = patternddMMyyyy}) {
     return dateTimeRange != null
         ? '${dateTimeToDisplay(dateTime: dateTimeRange.start, pattern: pattern)}\u3164→\u3164${dateTimeToDisplay(dateTime: dateTimeRange.end, pattern: pattern)}'
         : '--/--/----\u3164→\u3164--/--/----';

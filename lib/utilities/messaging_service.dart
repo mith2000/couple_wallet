@@ -31,10 +31,8 @@ class MessagingService {
         "android": {
           "priority": "high",
         },
-        "apns":{
-          "headers":{
-            "apns-priority":"5"
-          }
+        "apns": {
+          "headers": {"apns-priority": "5"}
         },
       },
     };

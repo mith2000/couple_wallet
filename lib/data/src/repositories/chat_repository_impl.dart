@@ -1,6 +1,6 @@
 import '../../../domain/domain.dart';
 import '../raws/base_raw.dart';
-import '../remote/base_remote_data_source.dart';
+import '../sources/firestore/base_firestore_data_source.dart';
 
 class ChatRepositoryImpl extends ChatRepository {
   late final ChatRemoteDataSource _remoteDataSource;

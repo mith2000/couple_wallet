@@ -4,7 +4,8 @@ import 'package:logger/logger.dart';
 class Logs {
   const Logs._();
 
-  static final Logger _logger = Logger(printer: PrettyPrinter(methodCount: 0, printTime: true));
+  static final Logger _logger =
+      Logger(printer: PrettyPrinter(methodCount: 0, printTime: true));
 
   static void d(dynamic message, [dynamic error, StackTrace? stackTrace]) {
     if (kDebugMode) _logger.d(message);

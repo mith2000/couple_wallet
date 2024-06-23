@@ -28,9 +28,6 @@ class FirebaseMessagingAPI {
     // request permission (nothing happen if already granted)
     await _firebaseMessaging.requestPermission();
 
-    String? userFCMToken = await _firebaseMessaging.getToken();
-    Logs.d("FCM token: $userFCMToken");
-
     // init further settings for notification
     initPushNotifications();
     initLocalNotifications();

@@ -1,4 +1,4 @@
-import '../../domain/src/models/base_model.dart';
+import '../../domain/domain.dart';
 import '../../utilities/date_time_util.dart';
 import '../services/app_locale_service.dart';
 
@@ -15,7 +15,7 @@ class LoveMessageModelV {
 
   String get timeDisplay => DateTimeExt.dateTimeToDisplay(
         dateTime: time,
-        pattern: DateTimeExt.eeeHHmm,
+        pattern: DateTimeExt.patterneeeHHmm,
         locale: AppLocaleService().localeString,
       );
 

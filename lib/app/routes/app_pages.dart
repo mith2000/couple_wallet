@@ -1,15 +1,10 @@
 import 'package:get/get.dart';
 
-import '../../data/data.dart';
-import '../../domain/domain.dart';
 import '../pages/home/home_controller.dart';
 import '../pages/sample/sample_controller.dart';
 import '../pages/uikit/animations/animation_sample_page.dart';
 import '../pages/uikit/uikit_controller.dart';
-import '../services/app_network_connection.dart';
-import '../theme/theme_controller.dart';
 
-part 'app_binding.dart';
 part 'app_routes.dart';
 
 class AppPages {

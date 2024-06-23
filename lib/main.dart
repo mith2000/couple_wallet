@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
 import 'app/routes/app_pages.dart';
+import 'app/services/app_binding.dart';
 import 'app/services/app_locale_service.dart';
 import 'app/theme/app_theme.dart';
 import 'data/src/services/app_shared_pref.dart';
@@ -29,21 +29,12 @@ void main() async {
   // Initialize shared preference
   final sharePref = Get.put<AppSharedPref>(AppSharedPrefImpl());
   await sharePref.onInit();
+
   // Initialize localization
   final appLocale = Get.put<AppLocaleService>(AppLocaleService());
 
   // Initialize Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-  if (kDebugMode) {
-    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-  } else {
-    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-  }
-  await FirebaseMessagingAPI().initNotification();
-  await FirebaseAccessTokenAPI.claimAccessToken();
+  await initializeFirebase();
 
   runApp(App(appLocale: appLocale));
 }
@@ -82,4 +73,12 @@ Future<void> configSystemUI() async {
     statusBarColor: backgroundColor,
     systemNavigationBarColor: backgroundColor,
   ));
+}
+
+Future<void> initializeFirebase() async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  await FirebaseMessagingAPI().initNotification();
+  await FirebaseAccessTokenAPI.claimAccessToken();
 }

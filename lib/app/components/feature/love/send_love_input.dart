@@ -97,7 +97,8 @@ class _SendLoveInputState extends State<SendLoveInput>
                 border: _inputBorder(context, AppTextFieldState.normal),
                 enabledBorder: _inputBorder(context, AppTextFieldState.enabled),
                 focusedBorder: _inputBorder(context, AppTextFieldState.focused),
-                disabledBorder: _inputBorder(context, AppTextFieldState.disabled),
+                disabledBorder:
+                    _inputBorder(context, AppTextFieldState.disabled),
                 errorBorder: _inputBorder(context, AppTextFieldState.error),
               ),
             ),

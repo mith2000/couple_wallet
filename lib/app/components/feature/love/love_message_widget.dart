@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
 import '../../../../resources/resources.dart';
-import '../../../model/love_message_modelview.dart';
+import '../../../models/love_message_modelview.dart';
 import '../../../theme/app_theme.dart';
 
 const backgroundColor = Color(0xffFCF1DE);

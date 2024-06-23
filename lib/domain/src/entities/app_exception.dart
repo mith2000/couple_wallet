@@ -22,3 +22,9 @@ class LocalException extends AppException {
   LocalException(
       {required super.code, required super.message, super.errorCode});
 }
+
+class ErrorCode {
+  static const code9999 = 9999;
+  static const String unknownNetworkServiceError =
+      'unknown_network_service_error';
+}

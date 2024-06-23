@@ -1,6 +1,6 @@
 import 'package:uuid/uuid.dart';
 
-import '../models/base_model.dart';
+import '../../domain.dart';
 
 part 'app_list_param.dart';
 part 'chat_query_param.dart';

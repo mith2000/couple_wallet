@@ -13,7 +13,7 @@ class MapJson {
   static Map<String, dynamic> removeJsonIfNull(Map<String, dynamic> json) {
     final returnJson = {...json};
     returnJson.removeWhere((key, value) =>
-    value == null ||
+        value == null ||
         value == null.toString() ||
         (value is String && value.isEmpty) ||
         (value is List && value.isEmpty));
