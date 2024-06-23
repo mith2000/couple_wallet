@@ -63,7 +63,6 @@ class SendLoveController extends GetxController {
 
   final DateTime loveStartDate = DateTime(2022, 11, 13);
 
-  // TODO Use DateUtil
   String countLoveDays() {
     final now = DateTime.now();
     final days = now.difference(loveStartDate).inDays;
@@ -137,7 +136,6 @@ class SendLoveController extends GetxController {
         // Add message
         Get.find<ListMessageController>().addMessage(stringContent);
 
-        // TODO Update more attractive animation
         // Show snack bar
         final snackBar = SnackBar(
           behavior: SnackBarBehavior.floating,
