@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -8,16 +7,12 @@ import 'package:lottie/lottie.dart';
 
 import '../../../../../data/src/keys/app_key.dart';
 import '../../../../../data/src/services/app_shared_pref.dart';
-import '../../../../../domain/domain.dart';
 import '../../../../../resources/resources.dart';
-import '../../../../../utilities/logs.dart';
 import '../../../../../utilities/messaging_service.dart';
 import '../../../../components/feature/home/home_app_bar.dart';
 import '../../../../components/feature/home/home_heart_icon.dart';
-import '../../../../components/feature/love/love_message_widget.dart';
 import '../../../../components/feature/love/send_love_input.dart';
 import '../../../../components/feature/shortcut/bottomSheet/shortcut_bottom_sheet_controller.dart';
-import '../../../../models/love_message_modelview.dart';
 import '../../../../theme/app_theme.dart';
 import '../../home_controller.dart';
 import 'messages/list_message_controller.dart';
@@ -59,34 +54,6 @@ class SendLoveController extends GetxController {
     mainTextEC.addListener(onFieldChange);
   }
 
-  Future<void> collectChatParticipants() async {
-    String? userFCMToken = await FirebaseMessaging.instance.getToken();
-    String partnerAddress = _pref.getString(AppPrefKey.partnerAddress, '');
-    if (userFCMToken != null && userFCMToken.isNotEmpty) {
-      chatSessionParticipants.add(userFCMToken);
-      myFCMToken = userFCMToken;
-    } else {
-    }
-    if (partnerAddress.isNotEmpty) {
-      chatSessionParticipants.add(partnerAddress);
-    } else {
-    }
-  }
-
-  Future<void> getChatSession() async {
-    if (chatSessionParticipants.length < 2) return;
-    try {
-      final response = await _getChatSessionUseCase.execute(
-          request: ChatQueryParam(participants: chatSessionParticipants));
-      final chatModel = response.netData;
-      if (chatModel != null) {
-        messages.value = LoveMessageModelV.fromChatModel(chatModel, myFCMToken);
-      }
-    } on AppException catch (e) {
-      Logs.e("_getChatSessionUseCase failed with $e");
-    }
-  }
-
   @override
   void onClose() {
     super.onClose();
@@ -96,6 +63,7 @@ class SendLoveController extends GetxController {
 
   final DateTime loveStartDate = DateTime(2022, 11, 13);
 
+  // TODO Use DateUtil
   String countLoveDays() {
     final now = DateTime.now();
     final days = now.difference(loveStartDate).inDays;
@@ -169,6 +137,7 @@ class SendLoveController extends GetxController {
         // Add message
         Get.find<ListMessageController>().addMessage(stringContent);
 
+        // TODO Update more attractive animation
         // Show snack bar
         final snackBar = SnackBar(
           behavior: SnackBarBehavior.floating,

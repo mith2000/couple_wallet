@@ -35,12 +35,10 @@ class ListMessageController extends GetxController {
       chatSessionParticipants.add(userFCMToken);
       myFCMToken = userFCMToken;
     } else {
-      // TODO Inform need permission
     }
     if (partnerAddress.isNotEmpty) {
       chatSessionParticipants.add(partnerAddress);
     } else {
-      // TODO Inform lack of partner
     }
   }
 
