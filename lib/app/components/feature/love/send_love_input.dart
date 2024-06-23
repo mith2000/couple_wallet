@@ -133,7 +133,9 @@ class _SendLoveInputState extends State<SendLoveInput>
             child: Text(
               widget.sendButtonText,
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                    color: AppColors.of.primaryColor,
+                    color: widget.isSendButtonWaiting
+                        ? AppColors.of.disableColor
+                        : AppColors.of.primaryColor,
                   ),
             ),
           ),
