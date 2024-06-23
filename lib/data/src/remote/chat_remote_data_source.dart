@@ -19,20 +19,25 @@ class ChatRemoteDataSourceImpl extends ChatRemoteDataSource {
     var chatsCollection = FirebaseFirestore.instance.collection(chatCollection);
 
     try {
-      // Query to find the chat document
-      var querySnapshot = await chatsCollection
-          .where('participants', isEqualTo: participants)
-          .limit(1)
+      // Query for the first participant
+      var querySnapshot1 = await chatsCollection
+          .where('participants', arrayContains: participants[0])
           .get();
 
-      if (querySnapshot.docs.isNotEmpty) {
-        var docSnapshot = querySnapshot.docs.first;
-        print("Successfully completed");
-        print('${docSnapshot.id} => ${docSnapshot.data()}');
-        // Assuming you have a constructor in ChatRaw that takes a Map
+      // Query for the second participant
+      var querySnapshot2 = await chatsCollection
+          .where('participants', arrayContains: participants[1])
+          .get();
+
+      // Find documents that exist in both query results
+      var commonDocs = querySnapshot1.docs
+          .where((doc) => querySnapshot2.docs.any((doc2) => doc2.id == doc.id))
+          .toList();
+
+      if (commonDocs.isNotEmpty) {
+        var docSnapshot = commonDocs.first;
         return AppResultRaw(netData: ChatRaw.fromJson(docSnapshot.data()));
       } else {
-        print("No chat session found");
         return AppResultRaw(netData: ChatRaw.empty());
       }
     } catch (e) {
@@ -49,43 +54,58 @@ class ChatRemoteDataSourceImpl extends ChatRemoteDataSource {
   }) async {
     var chatsCollection = FirebaseFirestore.instance.collection(chatCollection);
 
-    // Query to find the chat document
-    var querySnapshot = await chatsCollection
-        .where('participants', isEqualTo: participants)
-        .limit(1)
-        .get();
+    try {
+      // Query for the first participant
+      var querySnapshot1 = await chatsCollection
+          .where('participants', arrayContains: participants[0])
+          .get();
 
-    if (querySnapshot.docs.isNotEmpty) {
-      // If a chat document is found, get its reference
-      var chatRef = querySnapshot.docs.first.reference;
+      // Query for the second participant
+      var querySnapshot2 = await chatsCollection
+          .where('participants', arrayContains: participants[1])
+          .get();
 
-      // Perform the same logic as in addMessage
-      FirebaseFirestore.instance.runTransaction((transaction) async {
-        var chatSnapshot = await transaction.get(chatRef);
-        var messages = List.from(chatSnapshot.data()?['messages'] ?? []);
+      // Find documents that exist in both query results
+      var commonDocs = querySnapshot1.docs
+          .where((doc) => querySnapshot2.docs.any((doc2) => doc2.id == doc.id))
+          .toList();
 
-        // If there are already 30 messages, remove the oldest one
-        if (messages.length >= 30) {
-          messages.removeAt(0); // Remove the first message in the list
-        }
+      if (commonDocs.isNotEmpty) {
+        var docSnapshot = commonDocs.first;
+        // If a chat document is found, get its reference
+        var chatRef = docSnapshot.reference;
 
-        // Add the new message map to the array
-        messages.add(request);
+        FirebaseFirestore.instance.runTransaction((transaction) async {
+          var chatSnapshot = await transaction.get(chatRef);
+          var messages = List.from(chatSnapshot.data()?['messages'] ?? []);
 
-        // Update the document with the new list of messages
-        transaction.update(chatRef, {'messages': messages});
-      }).then(
-        (value) => print("DocumentSnapshot successfully updated!"),
-        onError: (e) =>
-            {Logs.e("FirebaseFirestore Error updating document: $e")},
-      );
-      return AppResultRaw(netData: EmptyRaw());
-    } else {
-      // If no chat document is found, create a new one with the initial message
-      chatsCollection.add({
-        'participants': participants,
-        'messages': [request] // Start with the new message in an array
-      });
+          // If there are already 30 messages, remove the oldest one
+          if (messages.length >= 30) {
+            messages.removeAt(0); // Remove the first message in the list
+          }
+
+          // Add the new message map to the array
+          messages.add(request);
+
+          // Update the document with the new list of messages
+          transaction.update(chatRef, {'messages': messages});
+        }).then(
+          (value) => {},
+          onError: (e) =>
+              Logs.e("FirebaseFirestore Error updating document: $e"),
+        );
+        return AppResultRaw(netData: EmptyRaw());
+      } else {
+        // If no chat document is found, create a new one with the initial message
+        chatsCollection.add({
+          'participants': participants,
+          'messages': [request] // Start with the new message in an array
+        });
+        return AppResultRaw(netData: EmptyRaw());
+      }
+    } catch (e) {
+      Logs.e("FirebaseFirestore Error completing: $e");
+      // TODO return AppException
       return AppResultRaw(netData: EmptyRaw());
     }
   }

@@ -9,11 +9,10 @@ class SendMessageParam extends BaseParam {
 
   SendMessageParam({
     required this.participants,
-    required this.id,
     required this.sender,
     required this.content,
     required this.timestamp,
-  });
+  }) : id = UUIDGenerator.generate();
 
   Map<String, dynamic> toJson() {
     return MapJson.removeJsonIfNull({

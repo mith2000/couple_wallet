@@ -19,26 +19,28 @@ class SendLoveScreen extends GetView<SendLoveController> {
         child: Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                itemCount: controller.messages.length,
-                itemBuilder: (context, index) {
-                  // The last one should show the partner's avatar if owner is false
-                  if (index == controller.messages.length - 1) {
+              child: Obx(
+                () => ListView.builder(
+                  itemCount: controller.messages.length,
+                  itemBuilder: (context, index) {
+                    // The last one should show the partner's avatar if owner is false
+                    if (index == controller.messages.length - 1) {
+                      return LoveMessageWidget(
+                        model: controller.messages[index],
+                        isShowPartnerAvatar: true,
+                        onReply: () => controller.onReplyMessage(context),
+                      );
+                    }
+                    // If the next one is not same owner, show the partner's avatar
                     return LoveMessageWidget(
                       model: controller.messages[index],
-                      isShowPartnerAvatar: true,
+                      isShowPartnerAvatar:
+                          controller.messages[index + 1].isOwner !=
+                              controller.messages[index].isOwner,
                       onReply: () => controller.onReplyMessage(context),
                     );
-                  }
-                  // If the next one is not same owner, show the partner's avatar
-                  return LoveMessageWidget(
-                    model: controller.messages[index],
-                    isShowPartnerAvatar:
-                        controller.messages[index + 1].isOwner !=
-                            controller.messages[index].isOwner,
-                    onReply: () => controller.onReplyMessage(context),
-                  );
-                },
+                  },
+                ),
               ),
             ),
             _buildShortcuts(context),
