@@ -36,8 +36,10 @@ class ChatRemoteDataSourceImpl extends ChatRemoteDataSource {
 
       if (commonDocs.isNotEmpty) {
         var docSnapshot = commonDocs.first;
+        Logs.i(docSnapshot.data());
         return AppResultRaw(netData: ChatRaw.fromJson(docSnapshot.data()));
       } else {
+        Logs.i("No chat document found");
         return AppResultRaw(netData: ChatRaw.empty());
       }
     } catch (e) {
@@ -90,7 +92,7 @@ class ChatRemoteDataSourceImpl extends ChatRemoteDataSource {
           // Update the document with the new list of messages
           transaction.update(chatRef, {'messages': messages});
         }).then(
-          (value) => {},
+          (value) => Logs.i("Document updated successfully"),
           onError: (e) =>
               Logs.e("FirebaseFirestore Error updating document: $e"),
         );

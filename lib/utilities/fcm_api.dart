@@ -1,10 +1,15 @@
 import 'dart:convert';
 
-import 'package:couple_wallet/utilities/logs.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
 import 'package:googleapis_auth/auth_io.dart';
+
+import '../app/pages/home/screens/love/send_love_controller.dart';
+import 'logs.dart';
+
+const delayTimeSenderPrepare = Duration(seconds: 3);
 
 class FirebaseMessagingAPI {
   final _firebaseMessaging = FirebaseMessaging.instance;
@@ -23,7 +28,7 @@ class FirebaseMessagingAPI {
     // request permission (nothing happen if already granted)
     await _firebaseMessaging.requestPermission();
 
-    String? userFCMToken = await FirebaseMessaging.instance.getToken();
+    String? userFCMToken = await _firebaseMessaging.getToken();
     Logs.d("FCM token: $userFCMToken");
 
     // init further settings for notification
@@ -36,8 +41,14 @@ class FirebaseMessagingAPI {
     // if message is null, do nothing
     if (message == null) return;
 
-    // navigate to screen when user tap notification
-    // navigatorKey.currentState?.pushNamed(Routes.uikit);
+    // Wait for some seconds because sender side take time to prepare data
+    // Can only improve if using WebSocket connection instead of HTTP
+    await Future.delayed(delayTimeSenderPrepare);
+    Logs.d("Handle message: ${message.notification?.body}");
+    if (!Get.isRegistered<SendLoveController>()) {
+      Get.put<SendLoveController>(SendLoveController());
+    }
+    Get.find<SendLoveController>().getChatSession();
   }
 
   Future initLocalNotifications() async {
@@ -70,7 +81,7 @@ class FirebaseMessagingAPI {
     );
 
     // handle terminated state
-    FirebaseMessaging.instance.getInitialMessage().then(handleMessage);
+    _firebaseMessaging.getInitialMessage().then(handleMessage);
 
     // attach event listeners when user open the app
     FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
@@ -98,6 +109,8 @@ class FirebaseMessagingAPI {
         ),
         payload: jsonEncode(message.toMap()),
       );
+
+      handleMessage(message);
     });
   }
 }
