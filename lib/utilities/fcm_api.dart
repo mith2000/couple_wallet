@@ -6,7 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:googleapis_auth/auth_io.dart';
 
-import '../app/pages/home/screens/love/send_love_controller.dart';
+import '../app/pages/home/screens/love/messages/list_message_controller.dart';
 import 'logs.dart';
 
 const delayTimeSenderPrepare = Duration(seconds: 3);
@@ -42,10 +42,10 @@ class FirebaseMessagingAPI {
     // Can only improve if using WebSocket connection instead of HTTP
     await Future.delayed(delayTimeSenderPrepare);
     Logs.d("Handle message: ${message.notification?.body}");
-    if (!Get.isRegistered<SendLoveController>()) {
-      Get.put<SendLoveController>(SendLoveController());
+    if (!Get.isRegistered<ListMessageController>()) {
+      Get.put<ListMessageController>(ListMessageController());
     }
-    Get.find<SendLoveController>().getChatSession();
+    Get.find<ListMessageController>().getChatSession();
   }
 
   Future initLocalNotifications() async {

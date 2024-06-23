@@ -20,6 +20,7 @@ import '../../../../components/feature/shortcut/bottomSheet/shortcut_bottom_shee
 import '../../../../models/love_message_modelview.dart';
 import '../../../../theme/app_theme.dart';
 import '../../home_controller.dart';
+import 'messages/list_message_controller.dart';
 
 part 'send_love_screen.dart';
 
@@ -27,8 +28,6 @@ const sendButtonCoolDownSecond = 60;
 
 class SendLoveController extends GetxController {
   final AppSharedPref _pref = Get.find();
-  final GetChatSessionUseCase _getChatSessionUseCase = Get.find();
-  final SendMessageUseCase _sendMessageUseCase = Get.find();
 
   final TextEditingController mainTextEC = TextEditingController();
   final FocusNode mainTextFocusNode = FocusNode();
@@ -45,20 +44,19 @@ class SendLoveController extends GetxController {
   final RxnInt shortcutSelectedIndex = RxnInt();
   List<String> shortcutContent = [];
 
-  final RxList<LoveMessageModelV> messages = RxList();
-  List<String> chatSessionParticipants = [];
-  String myFCMToken = "";
-
   @override
-  void onInit() async {
+  void onInit() {
     super.onInit();
     if (!Get.isRegistered<ShortcutBottomSheetController>()) {
       Get.put<ShortcutBottomSheetController>(ShortcutBottomSheetController());
     }
     shortcutContent = Get.find<ShortcutBottomSheetController>().shortcutContent;
+
+    if (!Get.isRegistered<ListMessageController>()) {
+      Get.put<ListMessageController>(ListMessageController());
+    }
+
     mainTextEC.addListener(onFieldChange);
-    await collectChatParticipants();
-    await getChatSession();
   }
 
   Future<void> collectChatParticipants() async {
@@ -169,13 +167,7 @@ class SendLoveController extends GetxController {
       body: stringContent,
       onSuccess: () {
         // Add message
-        messages.add(
-          LoveMessageModelV(
-            message: stringContent,
-            isOwner: true,
-            time: DateTime.now(),
-          ),
-        );
+        Get.find<ListMessageController>().addMessage(stringContent);
 
         // Show snack bar
         final snackBar = SnackBar(
@@ -206,26 +198,10 @@ class SendLoveController extends GetxController {
         // Start cool down for send button
         startCoolDownSendButton();
 
-        sendMessage(stringContent);
+        Get.find<ListMessageController>().sendMessage(stringContent);
       },
       onFail: () => onNoPartnerAddressFound(context),
     );
-  }
-
-  Future<void> sendMessage(String content) async {
-    if (chatSessionParticipants.length < 2) return;
-    try {
-      await _sendMessageUseCase.execute(
-        request: SendMessageParam(
-          participants: chatSessionParticipants,
-          sender: myFCMToken,
-          content: content,
-          timestamp: DateTime.now(),
-        ),
-      );
-    } on AppException catch (e) {
-      Logs.e("_sendMessageUseCase failed with $e");
-    }
   }
 
   void onFieldChange() {
