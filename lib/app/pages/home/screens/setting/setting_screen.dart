@@ -49,6 +49,8 @@ class SettingScreen extends GetView<SettingController> {
     );
   }
 
+  // TODO Separate widget
+  // TODO Add Clear button
   void _dialogLoveAddress(BuildContext context) {
     showDialog<void>(
       context: context,

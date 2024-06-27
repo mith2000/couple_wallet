@@ -18,6 +18,7 @@ import 'utilities/fcm_api.dart';
 const backgroundColor = Color(0xffFCF1DE);
 
 void main() async {
+  // TODO Apply for skeleton
   // Initialize Flutter Native Splash
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -57,8 +58,9 @@ class App extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      // TODO Config dark theme
       theme: AppThemeData.lightTheme,
-      darkTheme: AppThemeData.darkTheme,
+      // darkTheme: AppThemeData.darkTheme,
       getPages: AppPages.routes,
       initialRoute: Routes.home,
       initialBinding: AppBinding(),

@@ -72,6 +72,8 @@ class SettingController extends GetxController {
   }
 
   Future<void> loadUserAddress() async {
+    // TODO Request permission again
+    // TODO Check if permission is granted
     String? userFCMToken = await FirebaseMessaging.instance.getToken();
     if (userFCMToken != null && userFCMToken.isNotEmpty) {
       yourAddressTextEC.text = userFCMToken;
