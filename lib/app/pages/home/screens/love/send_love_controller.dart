@@ -10,6 +10,7 @@ import '../../../../../data/src/services/app_shared_pref.dart';
 import '../../../../../domain/domain.dart';
 import '../../../../../resources/resources.dart';
 import '../../../../../utilities/messaging_service.dart';
+import '../../../../adapters/love_info_adapter.dart';
 import '../../../../components/feature/home/home_app_bar.dart';
 import '../../../../components/feature/home/home_heart_icon.dart';
 import '../../../../components/feature/love/send_love_input.dart';
@@ -69,9 +70,9 @@ class SendLoveController extends GetxController {
 
   void getLoveInfo() async {
     final response = await _getLoveInfoUseCase.execute();
-    if (response.netData != null) {
-      loveInfoModelView =
-          LoveInfoModelView.fromLoveInfoModel(response.netData!);
+    final model = response.netData;
+    if (model != null) {
+      loveInfoModelView = LoveInfoAdapter.getModelView(model);
     }
   }
 

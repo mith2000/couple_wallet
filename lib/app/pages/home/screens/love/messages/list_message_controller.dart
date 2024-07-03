@@ -6,6 +6,7 @@ import '../../../../../../data/src/keys/app_key.dart';
 import '../../../../../../data/src/services/app_shared_pref.dart';
 import '../../../../../../domain/domain.dart';
 import '../../../../../../utilities/logs.dart';
+import '../../../../../adapters/love_message_adapter.dart';
 import '../../../../../components/feature/love/love_message_widget.dart';
 import '../../../../../models/love_message_modelview.dart';
 import '../send_love_controller.dart';
@@ -47,9 +48,9 @@ class ListMessageController extends GetxController {
     try {
       final response = await _getChatSessionUseCase.execute(
           request: ChatQueryParam(participants: chatSessionParticipants));
-      final chatModel = response.netData;
-      if (chatModel != null) {
-        messages.value = LoveMessageModelV.fromChatModel(chatModel, myFCMToken);
+      final model = response.netData;
+      if (model != null) {
+        messages.value = LoveMessageAdapter.getListModelView(model, myFCMToken);
       }
     } on AppException catch (e) {
       Logs.e("_getChatSessionUseCase failed with $e");
