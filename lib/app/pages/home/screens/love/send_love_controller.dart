@@ -7,12 +7,14 @@ import 'package:lottie/lottie.dart';
 
 import '../../../../../data/src/keys/app_key.dart';
 import '../../../../../data/src/services/app_shared_pref.dart';
+import '../../../../../domain/domain.dart';
 import '../../../../../resources/resources.dart';
 import '../../../../../utilities/messaging_service.dart';
 import '../../../../components/feature/home/home_app_bar.dart';
 import '../../../../components/feature/home/home_heart_icon.dart';
 import '../../../../components/feature/love/send_love_input.dart';
 import '../../../../components/feature/shortcut/bottomSheet/shortcut_bottom_sheet_controller.dart';
+import '../../../../models/love_info_modelview.dart';
 import '../../../../theme/app_theme.dart';
 import '../../home_controller.dart';
 import 'messages/list_message_controller.dart';
@@ -23,6 +25,9 @@ const sendButtonCoolDownSecond = 60;
 
 class SendLoveController extends GetxController {
   final AppSharedPref _pref = Get.find();
+  final GetLoveInfoUseCase _getLoveInfoUseCase = Get.find();
+
+  late final LoveInfoModelView loveInfoModelView;
 
   final TextEditingController mainTextEC = TextEditingController();
   final FocusNode mainTextFocusNode = FocusNode();
@@ -41,6 +46,7 @@ class SendLoveController extends GetxController {
 
   @override
   void onInit() {
+    getLoveInfo();
     super.onInit();
     if (!Get.isRegistered<ShortcutBottomSheetController>()) {
       Get.put<ShortcutBottomSheetController>(ShortcutBottomSheetController());
@@ -61,12 +67,12 @@ class SendLoveController extends GetxController {
     mainTextFocusNode.dispose();
   }
 
-  final DateTime loveStartDate = DateTime(2022, 11, 13);
-
-  String countLoveDays() {
-    final now = DateTime.now();
-    final days = now.difference(loveStartDate).inDays;
-    return '$days';
+  void getLoveInfo() async {
+    final response = await _getLoveInfoUseCase.execute();
+    if (response.netData != null) {
+      loveInfoModelView =
+          LoveInfoModelView.fromLoveInfoModel(response.netData!);
+    }
   }
 
   void startCoolDownSendButton() {

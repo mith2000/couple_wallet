@@ -82,7 +82,7 @@ class SendLoveScreen extends GetView<SendLoveController> {
             Positioned(
               top: heartSize * 1 / 3 + 2,
               child: Text(
-                controller.countLoveDays(),
+                controller.loveInfoModelView.totalLoveDaysDisplay,
                 style: context.textTheme.bodyMedium!.copyWith(
                   color: backgroundColor,
                 ),
