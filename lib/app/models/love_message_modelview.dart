@@ -17,15 +17,16 @@ class LoveMessageModelV {
         pattern: DateTimeExt.patterneeeHHmm,
         locale: AppLocaleService().localeString,
       );
+}
 
-  static List<LoveMessageModelV> sortMessagesByTime(
-      List<LoveMessageModelV> messages) {
+extension ListOfLoveMessageModelV on List<LoveMessageModelV> {
+  List<LoveMessageModelV> sortByTime() {
     final now = DateTime.now();
-    messages.sort((a, b) {
+    sort((a, b) {
       final diffA = a.time.difference(now).abs();
       final diffB = b.time.difference(now).abs();
       return diffA.compareTo(diffB);
     });
-    return messages;
+    return this;
   }
 }

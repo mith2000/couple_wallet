@@ -8,8 +8,7 @@ class ListMessageWidget extends GetView<ListMessageController> {
     return Expanded(
       child: Obx(
         () {
-          final listMessages = LoveMessageModelV.sortMessagesByTime(
-              controller.messages.toList());
+          final listMessages = controller.messages.toList().sortByTime();
           return ListView.builder(
             itemCount: listMessages.length,
             itemBuilder: (context, index) {
