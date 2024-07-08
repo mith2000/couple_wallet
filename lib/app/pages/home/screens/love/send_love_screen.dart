@@ -26,9 +26,9 @@ class SendLoveScreen extends GetView<SendLoveController> {
                 textEditingController: controller.mainTextEC,
                 focusNode: controller.mainTextFocusNode,
                 onSubmit: () => controller.onSubmit(context),
-                isShowSendButton: controller.isTextFieldEmpty.isFalse,
-                isSendButtonWaiting: controller.isSendButtonWaiting.isTrue,
-                sendButtonText: controller.sendButtonText.value,
+                isShowSendButton: controller.state.isTextFieldEmpty.isFalse,
+                isSendButtonWaiting: controller.state.isSendButtonWaiting.isTrue,
+                sendButtonText: controller.state.sendButtonText.value,
               ),
             ),
           ],
@@ -52,12 +52,11 @@ class SendLoveScreen extends GetView<SendLoveController> {
                     ),
               ),
               showCheckmark: false,
-              selected: controller.shortcutSelectedIndex.value == index,
-              onSelected: (bool sel) =>
-                  controller.onShortcutSelected(context, sel, index),
+              selected: controller.state.shortcutSelectedIndex.value == index,
+              onSelected: (bool sel) => controller.onShortcutSelected(context, sel, index),
               shape: RoundedRectangleBorder(
                 side: BorderSide(
-                  color: controller.shortcutSelectedIndex.value == index
+                  color: controller.state.shortcutSelectedIndex.value == index
                       ? Theme.of(context).primaryColor
                       : AppColors.of.borderColor,
                 ),

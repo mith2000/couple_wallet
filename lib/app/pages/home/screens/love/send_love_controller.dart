@@ -21,42 +21,31 @@ import '../../home_controller.dart';
 import 'messages/list_message_controller.dart';
 
 part 'send_love_screen.dart';
+part 'send_love_state.dart';
 
 const sendButtonCoolDownSecond = 60;
 
 class SendLoveController extends GetxController {
+  final SendLoveState state = SendLoveState();
+
   final AppSharedPref _pref = Get.find();
   final GetLoveInfoUseCase _getLoveInfoUseCase = Get.find();
+  late final ShortcutBottomSheetController _shortcutBottomSheetController;
+  late final ListMessageController _listMessageController;
 
   late final LoveInfoModelView loveInfo;
 
   final TextEditingController mainTextEC = TextEditingController();
   final FocusNode mainTextFocusNode = FocusNode();
 
-  // If text field is empty => Hide the Send button
-  final RxBool isTextFieldEmpty = true.obs;
-
-  // If send button is waiting for cool down
-  final RxBool isSendButtonWaiting = false.obs;
-
-  // Send button text base on its state
-  final RxString sendButtonText = RxString(R.strings.send.tr);
-
-  final RxnInt shortcutSelectedIndex = RxnInt();
   List<String> shortcutContent = [];
 
   @override
   void onInit() {
     getLoveInfo();
     super.onInit();
-    if (!Get.isRegistered<ShortcutBottomSheetController>()) {
-      Get.put<ShortcutBottomSheetController>(ShortcutBottomSheetController());
-    }
-    shortcutContent = Get.find<ShortcutBottomSheetController>().shortcutContent;
-
-    if (!Get.isRegistered<ListMessageController>()) {
-      Get.put<ListMessageController>(ListMessageController());
-    }
+    initListMessage();
+    initShortcut();
 
     mainTextEC.addListener(onFieldChange);
   }
@@ -77,13 +66,28 @@ class SendLoveController extends GetxController {
     }
   }
 
+  void initListMessage() {
+    if (!Get.isRegistered<ListMessageController>()) {
+      Get.put<ListMessageController>(ListMessageController());
+    }
+    _listMessageController = Get.find<ListMessageController>();
+  }
+
+  void initShortcut() {
+    if (!Get.isRegistered<ShortcutBottomSheetController>()) {
+      Get.put<ShortcutBottomSheetController>(ShortcutBottomSheetController());
+    }
+    _shortcutBottomSheetController = Get.find<ShortcutBottomSheetController>();
+    shortcutContent = _shortcutBottomSheetController.shortcutContent;
+  }
+
   void startCoolDownSendButton() {
-    isSendButtonWaiting.value = true;
-    sendButtonText.value = R.strings.wait.tr;
+    state.isSendButtonWaiting.value = true;
+    state.sendButtonText.value = R.strings.wait.tr;
     const coolDown = Duration(seconds: sendButtonCoolDownSecond);
     Timer(coolDown, () {
-      isSendButtonWaiting.value = false;
-      sendButtonText.value = R.strings.send.tr;
+      state.isSendButtonWaiting.value = false;
+      state.sendButtonText.value = R.strings.send.tr;
     });
   }
 
@@ -93,7 +97,7 @@ class SendLoveController extends GetxController {
 
     // Clear & Un-focus to off the keyboard
     mainTextEC.clear();
-    shortcutSelectedIndex.value = null;
+    state.shortcutSelectedIndex.value = null;
     FocusManager.instance.primaryFocus?.unfocus();
 
     String partnerAddress = _pref.getString(AppPrefKey.partnerAddress, '');
@@ -142,7 +146,7 @@ class SendLoveController extends GetxController {
       body: stringContent,
       onSuccess: () {
         // Add message
-        Get.find<ListMessageController>().addMessage(stringContent);
+        _listMessageController.addMessage(stringContent);
 
         // Show snack bar
         final snackBar = SnackBar(
@@ -173,14 +177,14 @@ class SendLoveController extends GetxController {
         // Start cool down for send button
         startCoolDownSendButton();
 
-        Get.find<ListMessageController>().sendMessage(stringContent);
+        _listMessageController.sendMessage(stringContent);
       },
       onFail: () => onNoPartnerAddressFound(context),
     );
   }
 
   void onFieldChange() {
-    isTextFieldEmpty.value = mainTextEC.text.trim().isEmpty;
+    state.isTextFieldEmpty.value = mainTextEC.text.trim().isEmpty;
   }
 
   void onShortcutSelected(BuildContext context, bool selected, int index) {
@@ -190,9 +194,9 @@ class SendLoveController extends GetxController {
       return;
     }
 
-    shortcutSelectedIndex.value = selected ? index : null;
+    state.shortcutSelectedIndex.value = selected ? index : null;
 
-    if (shortcutSelectedIndex.value != null) {
+    if (state.shortcutSelectedIndex.value != null) {
       mainTextEC.text = shortcutContent[index];
     } else {
       mainTextEC.clear();
