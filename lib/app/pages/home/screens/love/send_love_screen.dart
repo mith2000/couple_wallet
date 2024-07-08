@@ -41,12 +41,12 @@ class SendLoveScreen extends GetView<SendLoveController> {
     return Wrap(
       spacing: AppThemeExt.of.dimen(2),
       children: List.generate(
-        controller.shortcutContent.length,
+        controller.state.shortcutContents.toList().length,
         (int index) {
           return Obx(
             () => ChoiceChip(
               label: Text(
-                controller.shortcutContent[index],
+                controller.state.shortcutContents.toList()[index],
                 style: Theme.of(context).textTheme.labelLarge!.copyWith(
                       color: AppColors.of.mainTextColor,
                     ),
@@ -80,10 +80,12 @@ class SendLoveScreen extends GetView<SendLoveController> {
             const HeartAnimation(size: heartSize),
             Positioned(
               top: heartSize * 1 / 3 + 2,
-              child: Text(
-                controller.loveInfo.totalLoveDaysDisplay,
-                style: context.textTheme.bodyMedium!.copyWith(
-                  color: backgroundColor,
+              child: Obx(
+                () => Text(
+                  controller.state.loveInfo.value?.totalLoveDaysDisplay ?? '--',
+                  style: context.textTheme.bodyMedium!.copyWith(
+                    color: backgroundColor,
+                  ),
                 ),
               ),
             )

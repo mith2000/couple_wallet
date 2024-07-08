@@ -11,9 +11,9 @@ part 'shortcut_bottom_sheet_view.dart';
 
 class ShortcutBottomSheetController extends GetxController {
   final AppSharedPref _pref = Get.find();
+
   final Rxn<ShortcutSet> shortcutSet = Rxn<ShortcutSet>(ShortcutSet.male);
-  final RxList<String> shortcutContent =
-      RxList<String>(ShortcutPredefined.shortcutContent1st);
+  final RxList<String> shortcutContents = RxList<String>(ShortcutPredefined.shortcutContent1st);
 
   @override
   void onInit() {
@@ -24,10 +24,10 @@ class ShortcutBottomSheetController extends GetxController {
   void setShortcutSet(ShortcutSet? shortcutSet) {
     this.shortcutSet.value = shortcutSet;
     if (this.shortcutSet.value == ShortcutSet.male) {
-      shortcutContent.value = ShortcutPredefined.shortcutContent1st;
+      shortcutContents.value = ShortcutPredefined.shortcutContent1st;
       saveShortcutSetName(ShortcutSet.male.name);
     } else {
-      shortcutContent.value = ShortcutPredefined.shortcutContent2nd;
+      shortcutContents.value = ShortcutPredefined.shortcutContent2nd;
       saveShortcutSetName(ShortcutSet.female.name);
     }
   }

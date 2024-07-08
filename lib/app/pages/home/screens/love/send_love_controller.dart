@@ -33,12 +33,8 @@ class SendLoveController extends GetxController {
   late final ShortcutBottomSheetController _shortcutBottomSheetController;
   late final ListMessageController _listMessageController;
 
-  late final LoveInfoModelView loveInfo;
-
   final TextEditingController mainTextEC = TextEditingController();
   final FocusNode mainTextFocusNode = FocusNode();
-
-  List<String> shortcutContent = [];
 
   @override
   void onInit() {
@@ -62,7 +58,7 @@ class SendLoveController extends GetxController {
     final model = response.netData;
     if (model != null) {
       ILoveInfoAdapter loveInfoAdapter = LoveInfoAdapter();
-      loveInfo = loveInfoAdapter.getModelView(model);
+      state.loveInfo.value = loveInfoAdapter.getModelView(model);
     }
   }
 
@@ -78,17 +74,7 @@ class SendLoveController extends GetxController {
       Get.put<ShortcutBottomSheetController>(ShortcutBottomSheetController());
     }
     _shortcutBottomSheetController = Get.find<ShortcutBottomSheetController>();
-    shortcutContent = _shortcutBottomSheetController.shortcutContent;
-  }
-
-  void startCoolDownSendButton() {
-    state.isSendButtonWaiting.value = true;
-    state.sendButtonText.value = R.strings.wait.tr;
-    const coolDown = Duration(seconds: sendButtonCoolDownSecond);
-    Timer(coolDown, () {
-      state.isSendButtonWaiting.value = false;
-      state.sendButtonText.value = R.strings.send.tr;
-    });
+    state.shortcutContents.value = _shortcutBottomSheetController.shortcutContents;
   }
 
   void onSubmit(BuildContext context) {
@@ -183,13 +169,23 @@ class SendLoveController extends GetxController {
     );
   }
 
+  void startCoolDownSendButton() {
+    state.isSendButtonWaiting.value = true;
+    state.sendButtonText.value = R.strings.wait.tr;
+    const coolDown = Duration(seconds: sendButtonCoolDownSecond);
+    Timer(coolDown, () {
+      state.isSendButtonWaiting.value = false;
+      state.sendButtonText.value = R.strings.send.tr;
+    });
+  }
+
   void onFieldChange() {
     state.isTextFieldEmpty.value = mainTextEC.text.trim().isEmpty;
   }
 
   void onShortcutSelected(BuildContext context, bool selected, int index) {
     // Last item will open bottom sheet
-    if (index == shortcutContent.length - 1) {
+    if (index == state.shortcutContents.toList().length - 1) {
       ShortcutBottomSheetView.openBottomSheet(context);
       return;
     }
@@ -197,7 +193,7 @@ class SendLoveController extends GetxController {
     state.shortcutSelectedIndex.value = selected ? index : null;
 
     if (state.shortcutSelectedIndex.value != null) {
-      mainTextEC.text = shortcutContent[index];
+      mainTextEC.text = state.shortcutContents.toList()[index];
     } else {
       mainTextEC.clear();
     }
