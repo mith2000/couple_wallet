@@ -50,7 +50,8 @@ class ListMessageController extends GetxController {
           request: ChatQueryParam(participants: chatSessionParticipants));
       final model = response.netData;
       if (model != null) {
-        messages.value = LoveMessageAdapter.getListModelView(model, myFCMToken);
+        ILoveMessageAdapter loveMessageAdapter = LoveMessageAdapter();
+        messages.value = loveMessageAdapter.getListModelView(model, myFCMToken);
       }
     } on AppException catch (e) {
       Logs.e("_getChatSessionUseCase failed with $e");

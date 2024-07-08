@@ -28,7 +28,7 @@ class SendLoveController extends GetxController {
   final AppSharedPref _pref = Get.find();
   final GetLoveInfoUseCase _getLoveInfoUseCase = Get.find();
 
-  late final LoveInfoModelView loveInfoModelView;
+  late final LoveInfoModelView loveInfo;
 
   final TextEditingController mainTextEC = TextEditingController();
   final FocusNode mainTextFocusNode = FocusNode();
@@ -72,7 +72,8 @@ class SendLoveController extends GetxController {
     final response = await _getLoveInfoUseCase.execute();
     final model = response.netData;
     if (model != null) {
-      loveInfoModelView = LoveInfoAdapter.getModelView(model);
+      ILoveInfoAdapter loveInfoAdapter = LoveInfoAdapter();
+      loveInfo = loveInfoAdapter.getModelView(model);
     }
   }
 

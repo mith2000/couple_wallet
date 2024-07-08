@@ -1,8 +1,16 @@
 import '../../domain/domain.dart';
 import '../models/love_message_modelview.dart';
 
-class LoveMessageAdapter {
-  static List<LoveMessageModelV> getListModelView(
+abstract class ILoveMessageAdapter {
+  List<LoveMessageModelV> getListModelView(
+    ChatModel model,
+    String ownerId,
+  );
+}
+
+class LoveMessageAdapter implements ILoveMessageAdapter {
+  @override
+  List<LoveMessageModelV> getListModelView(
     ChatModel model,
     String ownerId,
   ) {
