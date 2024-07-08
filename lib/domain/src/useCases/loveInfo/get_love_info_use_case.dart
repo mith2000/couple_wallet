@@ -7,8 +7,6 @@ class GetLoveInfoUseCaseImpl extends GetLoveInfoUseCase {
   // Remove this hardcode and get from user input
   final DateTime loveStartDate = DateTime(2022, 11, 13);
 
-  GetLoveInfoUseCaseImpl();
-
   @override
   Future<AppResultModel<LoveInfoModel>> execute({BaseParam? request}) async {
     final now = DateTime.now().startOfDay();
