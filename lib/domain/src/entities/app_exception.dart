@@ -34,4 +34,5 @@ class ErrorCode {
   static const code9999 = 9999;
   static const String unknownNetworkServiceError = 'unknown_network_service_error';
   static const String unknownLocalServiceError = 'unknown_local_service_error';
+  static const String lackOfParticipantsError = 'lack_of_participants';
 }

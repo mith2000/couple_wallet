@@ -15,7 +15,6 @@ class ListMessageController extends GetxController {
   final GetUserFcmTokenUseCase _getUserFcmTokenUseCase = Get.find();
   final GetPartnerFcmTokenUseCase _getPartnerFcmTokenUseCase = Get.find();
   final GetChatSessionUseCase _getChatSessionUseCase = Get.find();
-  final SendMessageUseCase _sendMessageUseCase = Get.find();
 
   final RxList<LoveMessageModelV> messages = RxList();
   List<String> chatSessionParticipants = [];
@@ -76,23 +75,7 @@ class ListMessageController extends GetxController {
     }
   }
 
-  Future<void> sendMessage(String content) async {
-    if (chatSessionParticipants.length < 2) return;
-    try {
-      await _sendMessageUseCase.execute(
-        request: SendMessageParam(
-          participants: chatSessionParticipants,
-          sender: myFCMToken,
-          content: content,
-          timestamp: DateTime.now(),
-        ),
-      );
-    } on AppException catch (e) {
-      Logs.e("_sendMessageUseCase failed with $e");
-    }
-  }
-
-  void addMessage(String stringContent) {
+  void addMessageToListAsOwner(String stringContent) {
     messages.add(
       LoveMessageModelV(
         message: stringContent,
