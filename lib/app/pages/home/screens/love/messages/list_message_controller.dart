@@ -29,13 +29,6 @@ class ListMessageController extends GetxController {
     await getChatSession();
   }
 
-  Future<void> collectChatParticipants() async {
-    String? userFCMToken = await FirebaseMessaging.instance.getToken();
-    String partnerAddress = _pref.getString(AppPrefKey.partnerAddress, '');
-    if (userFCMToken != null && userFCMToken.isNotEmpty) {
-      chatSessionParticipants.add(userFCMToken);
-      myFCMToken = userFCMToken;
-    } else {
   Future<void> getUserFCMToken() async {
     final response = await _getUserFcmTokenUseCase.execute();
     try {
@@ -50,9 +43,6 @@ class ListMessageController extends GetxController {
       Logs.e("getUserFCMToken failed with ${e.toString()}");
       Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
-    if (partnerAddress.isNotEmpty) {
-      chatSessionParticipants.add(partnerAddress);
-    } else {
   }
 
   Future<void> getPartnerFCMToken() async {
