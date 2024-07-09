@@ -10,6 +10,12 @@ abstract class BaseModel {}
 
 class EmptyModel extends BaseModel {}
 
+class SimpleModel<T> extends BaseModel {
+  final T? value;
+
+  SimpleModel(this.value);
+}
+
 class MapJson {
   static Map<String, dynamic> removeJsonIfNull(Map<String, dynamic> json) {
     final returnJson = {...json};
@@ -27,21 +33,17 @@ class StringJson {
 }
 
 class DoubleJson {
-  static double fromJson(dynamic value) =>
-      double.tryParse(StringJson.fromJson(value)) ?? 0.0;
+  static double fromJson(dynamic value) => double.tryParse(StringJson.fromJson(value)) ?? 0.0;
 }
 
 class IntJson {
-  static int fromJson(dynamic value) =>
-      int.tryParse(StringJson.fromJson(value)) ?? 0;
+  static int fromJson(dynamic value) => int.tryParse(StringJson.fromJson(value)) ?? 0;
 }
 
 class DateTimeModelFormatter {
-  static DateTime? fromJson(dynamic dateTime) =>
-      DateTime.tryParse(dateTime?.toString() ?? '');
+  static DateTime? fromJson(dynamic dateTime) => DateTime.tryParse(dateTime?.toString() ?? '');
 
-  static String? toJson(DateTime? dateTime) =>
-      dateTime?.toUtc().toIso8601String();
+  static String? toJson(DateTime? dateTime) => dateTime?.toUtc().toIso8601String();
 
   static DateTime? fromJsonWithFormat(dynamic dateTime, String format) {
     try {

@@ -10,7 +10,6 @@ const String chatCollection = "chats";
 
 final FirebaseFirestore _instance = FirebaseFirestore.instance;
 
-final class FirestoreException {
-  static void onError(Object e) =>
-      Logs.e("FirebaseFirestore Error completing: ${e.toString()}");
+final class FirestoreExceptionLogs {
+  static void onError(Object e) => Logs.e("FirebaseFirestore Error completing: ${e.toString()}");
 }

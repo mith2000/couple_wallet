@@ -17,7 +17,6 @@ class NetworkConnectionService extends GetxService {
     if (result == ConnectivityResult.none) {
       final snackBar = SnackBar(
         behavior: SnackBarBehavior.floating,
-        width: 400.0,
         content: Text(R.strings.noInternetConnection.tr),
         action: SnackBarAction(
           label: R.strings.close.tr,

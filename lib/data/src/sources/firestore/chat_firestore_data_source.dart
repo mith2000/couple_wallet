@@ -35,7 +35,7 @@ class ChatRemoteDataSourceImpl extends ChatRemoteDataSource {
         return AppResultRaw(netData: ChatRaw.empty());
       }
     } catch (e) {
-      FirestoreException.onError(e);
+      FirestoreExceptionLogs.onError(e);
       throw NetworkException(
         code: ErrorCode.code9999,
         message: 'Something went wrong: ${e.toString()}',
@@ -87,7 +87,7 @@ class ChatRemoteDataSourceImpl extends ChatRemoteDataSource {
       }
       return AppResultRaw(netData: EmptyRaw());
     } catch (e) {
-      FirestoreException.onError(e);
+      FirestoreExceptionLogs.onError(e);
       throw NetworkException(
         code: ErrorCode.code9999,
         message: 'Something went wrong: ${e.toString()}',

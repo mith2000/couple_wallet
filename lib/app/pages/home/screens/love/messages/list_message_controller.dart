@@ -1,20 +1,19 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../../data/src/keys/app_key.dart';
-import '../../../../../../data/src/services/app_shared_pref.dart';
 import '../../../../../../domain/domain.dart';
 import '../../../../../../utilities/logs.dart';
 import '../../../../../adapters/love_message_adapter.dart';
 import '../../../../../components/feature/love/love_message_widget.dart';
 import '../../../../../models/love_message_modelview.dart';
+import '../../../../../services/app_error_handling_service.dart';
 import '../send_love_controller.dart';
 
 part 'list_message_widget.dart';
 
 class ListMessageController extends GetxController {
-  final AppSharedPref _pref = Get.find();
+  final GetUserFcmTokenUseCase _getUserFcmTokenUseCase = Get.find();
+  final GetPartnerFcmTokenUseCase _getPartnerFcmTokenUseCase = Get.find();
   final GetChatSessionUseCase _getChatSessionUseCase = Get.find();
   final SendMessageUseCase _sendMessageUseCase = Get.find();
 
@@ -25,7 +24,8 @@ class ListMessageController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await collectChatParticipants();
+    await getUserFCMToken();
+    await getPartnerFCMToken();
     await getChatSession();
   }
 
@@ -36,10 +36,37 @@ class ListMessageController extends GetxController {
       chatSessionParticipants.add(userFCMToken);
       myFCMToken = userFCMToken;
     } else {
+  Future<void> getUserFCMToken() async {
+    final response = await _getUserFcmTokenUseCase.execute();
+    try {
+      final value = (response.netData as SimpleModel<String?>).value;
+      if (value != null && value.isNotEmpty) {
+        Logs.i("Test getUserFCMToken token: $value");
+        chatSessionParticipants.add(value);
+        myFCMToken = value;
+      } else {
+      }
+    } on AppException catch (e) {
+      Logs.e("getUserFCMToken failed with ${e.toString()}");
+      Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
     if (partnerAddress.isNotEmpty) {
       chatSessionParticipants.add(partnerAddress);
     } else {
+  }
+
+  Future<void> getPartnerFCMToken() async {
+    final response = await _getPartnerFcmTokenUseCase.execute();
+    try {
+      final value = (response.netData as SimpleModel<String>).value;
+      if (value != null && value.isNotEmpty) {
+        Logs.i("Test getPartnerFCMToken token: $value");
+        chatSessionParticipants.add(value);
+      } else {
+      }
+    } on AppException catch (e) {
+      Logs.e("getUserFCMToken failed with ${e.toString()}");
+      Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
   }
 
@@ -55,6 +82,7 @@ class ListMessageController extends GetxController {
       }
     } on AppException catch (e) {
       Logs.e("_getChatSessionUseCase failed with $e");
+      Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
   }
 

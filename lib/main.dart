@@ -9,7 +9,9 @@ import 'app/services/app_firebase_service.dart';
 import 'app/services/app_locale_service.dart';
 import 'app/services/app_system_ui.dart';
 import 'app/theme/app_theme.dart';
+import 'data/data.dart';
 import 'data/src/services/app_shared_pref.dart';
+import 'domain/domain.dart';
 import 'resources/resources.dart';
 
 void main() async {
@@ -30,6 +32,11 @@ void main() async {
 
   // Initialize Firebase
   await AppFirebaseService.initializeFirebase();
+
+  // TODO make splash screen to enable it in AppBinding
+  // Inject dependencies
+  await DataProvider.inject();
+  await DomainProvider.inject();
 
   runApp(App(appLocale: appLocale));
 }
