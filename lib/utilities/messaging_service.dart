@@ -1,14 +1,17 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../app/services/app_error_handling_service.dart';
 import '../firebase_options.dart';
 import 'fcm_api.dart';
 import 'logs.dart';
 
 class MessagingService {
-  static String messageSend(String projectId) =>
-      'https://fcm.googleapis.com/v1/projects/$projectId/messages:send';
+  static String get urlFcmApiV1 => 'https://fcm.googleapis.com/v1';
+
+  static String messageSend(String projectId) => '$urlFcmApiV1/projects/$projectId/messages:send';
 
   static Future<void> sendNotification({
     required String targetToken,
@@ -17,9 +20,7 @@ class MessagingService {
     Function? onSuccess,
     Function? onFail,
   }) async {
-    final accessToken = FirebaseAccessTokenAPI.accessToken;
-
-    final serverKey = accessToken;
+    final serverKey = FirebaseAccessTokenAPI.accessToken;
     final projectId = DefaultFirebaseOptions.currentPlatform.projectId;
 
     final Map<String, dynamic> notification = {
@@ -51,6 +52,7 @@ class MessagingService {
     } else {
       onFail?.call();
       Logs.e('Error sending notification: ${response.body}');
+      Get.find<AppErrorHandlingService>().showErrorSnackBar(response.body);
     }
   }
 }

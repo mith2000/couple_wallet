@@ -5,8 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../../../data/src/keys/app_key.dart';
-import '../../../../../data/src/services/app_shared_pref.dart';
 import '../../../../../domain/domain.dart';
 import '../../../../../resources/resources.dart';
 import '../../../../../utilities/logs.dart';
@@ -30,7 +28,6 @@ const sendButtonCoolDownSecond = 60;
 class SendLoveController extends GetxController {
   final SendLoveState state = SendLoveState();
 
-  final AppSharedPref _pref = Get.find();
   final GetLoveInfoUseCase _getLoveInfoUseCase = Get.find();
   final SendMessageUseCase _sendMessageUseCase = Get.find();
   late final ShortcutBottomSheetController _shortcutBottomSheetController;
@@ -40,8 +37,8 @@ class SendLoveController extends GetxController {
   final FocusNode mainTextFocusNode = FocusNode();
 
   @override
-  void onInit() {
-    getLoveInfo();
+  void onInit() async {
+    await getLoveInfo();
     super.onInit();
     initListMessage();
     initShortcut();
@@ -56,7 +53,7 @@ class SendLoveController extends GetxController {
     mainTextFocusNode.dispose();
   }
 
-  void getLoveInfo() async {
+  Future<void> getLoveInfo() async {
     final response = await _getLoveInfoUseCase.execute();
     final model = response.netData;
     if (model != null) {
@@ -80,21 +77,20 @@ class SendLoveController extends GetxController {
     state.shortcutContents.value = _shortcutBottomSheetController.shortcutContents;
   }
 
-  void onSubmit(BuildContext context) {
-    // Get string content
-    final stringContent = mainTextEC.text.trim();
+  void onSendButtonClicked(BuildContext context) {
+    clearInput();
 
-    resetInput();
-
-    String partnerAddress = _pref.getString(AppPrefKey.partnerAddress, '');
+    String partnerAddress = _listMessageController.partnerFCMToken;
     if (partnerAddress.isNotEmpty) {
+      // Get string content
+      final stringContent = mainTextEC.text.trim();
       onSendNotification(partnerAddress, stringContent, context);
     } else {
       onNoPartnerAddressFound(context);
     }
   }
 
-  void resetInput() {
+  void clearInput() {
     // Clear & Un-focus to off the keyboard
     mainTextEC.clear();
     state.shortcutSelectedIndex.value = null;
@@ -117,8 +113,7 @@ class SendLoveController extends GetxController {
           FilledButton(
             child: Text(R.strings.okay.tr),
             onPressed: () {
-              final homeController = Get.find<HomeController>();
-              homeController.goSetting();
+              Get.find<HomeController>().goSetting();
               Navigator.of(context).pop();
             },
           ),
@@ -143,31 +138,9 @@ class SendLoveController extends GetxController {
   }
 
   void onSendMessageSuccess(String stringContent, BuildContext context) {
-    // Add message
+    // Add message to UI list
     _listMessageController.addMessageToListAsOwner(stringContent);
 
-        // Show snack bar
-        final snackBar = SnackBar(
-          behavior: SnackBarBehavior.floating,
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text(
-                  R.strings.wordsOfLoveHaveBeenSent.tr,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              Lottie.asset(
-                R.json.animCheck.path,
-                width: 24,
-                height: 24,
-                repeat: false,
-              ),
-            ],
-          ),
-        );
     // Show snack bar
     showSnackBarSuccess(context);
 
@@ -175,7 +148,7 @@ class SendLoveController extends GetxController {
     startCoolDownSendButton();
 
     // Send message to Firestore
-    sendMessage(stringContent);
+    sendMessageToFirestore(stringContent);
   }
 
   void showSnackBarSuccess(BuildContext context) {
@@ -205,7 +178,7 @@ class SendLoveController extends GetxController {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  Future<void> sendMessage(String content) async {
+  Future<void> sendMessageToFirestore(String content) async {
     try {
       await _sendMessageUseCase.execute(
         request: SendMessageParam(

@@ -19,6 +19,7 @@ class ListMessageController extends GetxController {
   final RxList<LoveMessageModelV> messages = RxList();
   List<String> chatSessionParticipants = [];
   String myFCMToken = "";
+  String partnerFCMToken = "";
 
   @override
   void onInit() async {
@@ -33,7 +34,6 @@ class ListMessageController extends GetxController {
     try {
       final value = (response.netData as SimpleModel<String?>).value;
       if (value != null && value.isNotEmpty) {
-        Logs.i("Test getUserFCMToken token: $value");
         chatSessionParticipants.add(value);
         myFCMToken = value;
       } else {
@@ -49,8 +49,8 @@ class ListMessageController extends GetxController {
     try {
       final value = (response.netData as SimpleModel<String>).value;
       if (value != null && value.isNotEmpty) {
-        Logs.i("Test getPartnerFCMToken token: $value");
         chatSessionParticipants.add(value);
+        partnerFCMToken = value;
       } else {
       }
     } on AppException catch (e) {

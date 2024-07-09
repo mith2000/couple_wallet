@@ -25,7 +25,7 @@ class SendLoveScreen extends GetView<SendLoveController> {
               () => SendLoveInput(
                 textEditingController: controller.mainTextEC,
                 focusNode: controller.mainTextFocusNode,
-                onSubmit: () => controller.onSubmit(context),
+                onSubmit: () => controller.onSendButtonClicked(context),
                 isShowSendButton: controller.state.isTextFieldEmpty.isFalse,
                 isSendButtonWaiting: controller.state.isSendButtonWaiting.isTrue,
                 sendButtonText: controller.state.sendButtonText.value,
