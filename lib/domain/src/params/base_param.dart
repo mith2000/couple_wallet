@@ -8,6 +8,12 @@ part 'send_message_param.dart';
 
 abstract class BaseParam {}
 
+class SimpleParam<T> extends BaseParam {
+  final T value;
+
+  SimpleParam(this.value);
+}
+
 class UUIDGenerator {
   static String generate() => const Uuid().v4();
 }

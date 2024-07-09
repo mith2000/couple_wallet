@@ -72,7 +72,7 @@ class SettingScreen extends GetView<SettingController> {
                     ),
                   ),
                   IconButton(
-                    onPressed: controller.onShare,
+                    onPressed: controller.onShareUserAddress,
                     icon: const FaIcon(
                       FontAwesomeIcons.shareNodes,
                     ),
@@ -93,7 +93,7 @@ class SettingScreen extends GetView<SettingController> {
                   ),
                   Obx(
                     () => IconButton(
-                      onPressed: () => controller.onLockFCMToken(context),
+                      onPressed: () => controller.onLockPartnerInput(context),
                       icon: FaIcon(
                         controller.isPartnerLocked.isTrue
                             ? FontAwesomeIcons.lock
@@ -106,7 +106,7 @@ class SettingScreen extends GetView<SettingController> {
               Obx(
                 () => controller.isShowQuickPaste.isTrue
                     ? TextButton(
-                        onPressed: controller.onPastePartnerAddress,
+                        onPressed: controller.onPasteToPartnerAddress,
                         child: Text(R.strings.quickPasteHere.tr),
                       )
                     : Container(),

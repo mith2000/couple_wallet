@@ -9,5 +9,6 @@ class DomainProvider {
     Get.put<GetLoveInfoUseCase>(GetLoveInfoUseCaseImpl());
     Get.put<GetUserFcmTokenUseCase>(GetUserFcmTokenUseCaseImpl(Get.find()));
     Get.put<GetPartnerFcmTokenUseCase>(GetPartnerFcmTokenUseCaseImpl(Get.find()));
+    Get.put<SavePartnerFcmTokenUseCase>(SavePartnerFcmTokenUseCaseImpl(Get.find()));
   }
 }

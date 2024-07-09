@@ -30,8 +30,8 @@ class ListMessageController extends GetxController {
   }
 
   Future<void> getUserFCMToken() async {
-    final response = await _getUserFcmTokenUseCase.execute();
     try {
+      final response = await _getUserFcmTokenUseCase.execute();
       final value = (response.netData as SimpleModel<String?>).value;
       if (value != null && value.isNotEmpty) {
         chatSessionParticipants.add(value);
@@ -45,8 +45,8 @@ class ListMessageController extends GetxController {
   }
 
   Future<void> getPartnerFCMToken() async {
-    final response = await _getPartnerFcmTokenUseCase.execute();
     try {
+      final response = await _getPartnerFcmTokenUseCase.execute();
       final value = (response.netData as SimpleModel<String>).value;
       if (value != null && value.isNotEmpty) {
         chatSessionParticipants.add(value);
@@ -54,7 +54,7 @@ class ListMessageController extends GetxController {
       } else {
       }
     } on AppException catch (e) {
-      Logs.e("getUserFCMToken failed with ${e.toString()}");
+      Logs.e("getPartnerFCMToken failed with ${e.toString()}");
       Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
   }

@@ -4,6 +4,7 @@ class AppPrefKey {
   static const String languageCode = 'languageCode';
 
   ///
+  static const String userAddress = 'userAddress';
   static const String partnerAddress = 'partnerAddress';
   static const String shortcutSetName = 'shortcutSetName';
 }

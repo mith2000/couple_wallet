@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,13 +6,14 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../../../data/src/keys/app_key.dart';
-import '../../../../../data/src/services/app_shared_pref.dart';
+import '../../../../../domain/domain.dart';
 import '../../../../../resources/resources.dart';
+import '../../../../../utilities/logs.dart';
 import '../../../../components/feature/home/home_app_bar.dart';
 import '../../../../components/feature/setting/fcm_token_input.dart';
 import '../../../../components/feature/setting/setting_row.dart';
 import '../../../../components/main/text/highlight_headline_text.dart';
+import '../../../../services/app_error_handling_service.dart';
 import '../../../../services/app_locale_service.dart';
 import '../../../../theme/app_theme.dart';
 import '../../../uikit/uikit_controller.dart';
@@ -21,24 +21,28 @@ import '../../../uikit/uikit_controller.dart';
 part 'setting_screen.dart';
 
 class SettingController extends GetxController {
-  final AppSharedPref _pref = Get.find();
+  final GetUserFcmTokenUseCase _getUserFcmTokenUseCase = Get.find();
+  final GetPartnerFcmTokenUseCase _getPartnerFcmTokenUseCase = Get.find();
+  final SavePartnerFcmTokenUseCase _savePartnerFcmTokenUseCase = Get.find();
+
   final TextEditingController yourAddressTextEC = TextEditingController();
   final TextEditingController partnerAddressTextEC = TextEditingController();
+
   final RxBool isPartnerLocked = false.obs;
   final RxBool isShowQuickPaste = false.obs;
 
   @override
   void onInit() {
     super.onInit();
-    loadUserAddress();
+    getUserFCMToken();
     loadPartnerAddress();
   }
 
-  void onShare() async {
+  void onShareUserAddress() async {
     Share.share(yourAddressTextEC.text);
   }
 
-  void onPastePartnerAddress() async {
+  void onPasteToPartnerAddress() async {
     ClipboardData? cdata = await Clipboard.getData(Clipboard.kTextPlain);
     final cText = cdata?.text ?? "";
     if (cText.isNotEmpty && partnerAddressTextEC.text.isEmpty) {
@@ -47,14 +51,13 @@ class SettingController extends GetxController {
     }
   }
 
-  void onLockFCMToken(BuildContext context) async {
+  void onLockPartnerInput(BuildContext context) async {
     if (isPartnerLocked.value) {
       isPartnerLocked.value = false;
     } else {
       if (partnerAddressTextEC.text.isEmpty) {
         final snackBar = SnackBar(
           behavior: SnackBarBehavior.floating,
-          width: 400.0,
           content: Text(R.strings.pleaseInputYourPartnerAddress.tr),
         );
 
@@ -68,21 +71,45 @@ class SettingController extends GetxController {
   }
 
   Future<void> savePartnerAddress(String partnerAddress) async {
-    await _pref.setString(AppPrefKey.partnerAddress, partnerAddress);
+    try {
+      await _savePartnerFcmTokenUseCase.execute(request: SimpleParam(partnerAddress));
+    } on AppException catch (e) {
+      Logs.e("savePartnerAddress failed with ${e.toString()}");
+      Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
+    }
   }
 
-  Future<void> loadUserAddress() async {
-    String? userFCMToken = await FirebaseMessaging.instance.getToken();
-    if (userFCMToken != null && userFCMToken.isNotEmpty) {
-      yourAddressTextEC.text = userFCMToken;
+  Future<void> getUserFCMToken() async {
+    try {
+      final response = await _getUserFcmTokenUseCase.execute();
+      final value = (response.netData as SimpleModel<String?>).value;
+      if (value != null && value.isNotEmpty) {
+        yourAddressTextEC.text = value;
+      } else {
+        // TODO Request permission again
+        // TODO Check if permission is granted
+      }
+    } on AppException catch (e) {
+      Logs.e("getUserFCMToken failed with ${e.toString()}");
+      Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
+    }
+  }
+
+  Future<void> getPartnerFCMToken() async {
+    try {
+      final response = await _getPartnerFcmTokenUseCase.execute();
+      final value = (response.netData as SimpleModel<String>).value;
+      if (value != null && value.isNotEmpty) {
+        partnerAddressTextEC.text = value;
+      }
+    } on AppException catch (e) {
+      Logs.e("getPartnerFCMToken failed with ${e.toString()}");
+      Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
   }
 
   void loadPartnerAddress() {
-    String partnerAddress = _pref.getString(AppPrefKey.partnerAddress, '');
-    if (partnerAddress.isNotEmpty) {
-      partnerAddressTextEC.text = partnerAddress;
-    }
+    getPartnerFCMToken();
     checkPartnerAddressToLock();
   }
 

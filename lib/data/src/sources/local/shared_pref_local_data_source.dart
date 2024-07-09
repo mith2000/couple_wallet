@@ -31,9 +31,17 @@ class SharedPrefLocalDataSourceImpl extends SharedPrefLocalDataSource {
   }
 
   @override
-  Future<void> saveUserFCMToken(String token) {
-    // TODO: implement saveUserFCMToken
-    throw UnimplementedError();
+  Future<void> saveUserFCMToken(String token) async {
+    try {
+      await _sharedPref.setString(AppPrefKey.userAddress, token);
+    } catch (e) {
+      LocalExceptionLogs.onError(e);
+      throw LocalException(
+        code: ErrorCode.code9999,
+        message: 'Something went wrong: ${e.toString()}',
+        errorCode: ErrorCode.unknownLocalServiceError,
+      );
+    }
   }
 
   @override
@@ -43,8 +51,16 @@ class SharedPrefLocalDataSourceImpl extends SharedPrefLocalDataSource {
   }
 
   @override
-  Future<void> savePartnerFCMToken(String token) {
-    // TODO: implement savePartnerFCMToken
-    throw UnimplementedError();
+  Future<void> savePartnerFCMToken(String token) async {
+    try {
+      await _sharedPref.setString(AppPrefKey.partnerAddress, token);
+    } catch (e) {
+      LocalExceptionLogs.onError(e);
+      throw LocalException(
+        code: ErrorCode.code9999,
+        message: 'Something went wrong: ${e.toString()}',
+        errorCode: ErrorCode.unknownLocalServiceError,
+      );
+    }
   }
 }
