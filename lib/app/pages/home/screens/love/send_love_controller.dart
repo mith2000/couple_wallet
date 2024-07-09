@@ -78,12 +78,13 @@ class SendLoveController extends GetxController {
   }
 
   void onSendButtonClicked(BuildContext context) {
+    // Get string content (before clear text field)
+    final stringContent = mainTextEC.text.trim();
+
     clearInput();
 
     String partnerAddress = _listMessageController.partnerFCMToken;
     if (partnerAddress.isNotEmpty) {
-      // Get string content
-      final stringContent = mainTextEC.text.trim();
       onSendNotification(partnerAddress, stringContent, context);
     } else {
       onNoPartnerAddressFound(context);
