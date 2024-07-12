@@ -40,9 +40,7 @@ class SettingScreen extends GetView<SettingController> {
                 : FontAwesomeIcons.earthAsia,
             title: R.strings.switchLanguage.tr,
             body: R.strings.chooseLanguagePrefer.tr,
-            onTap: () {
-              _dialogChangeLanguage(context);
-            },
+            onTap: () => SettingChangeLanguage().execute(context),
           ),
         ],
       ),
@@ -110,32 +108,6 @@ class SettingScreen extends GetView<SettingController> {
           ),
         ],
         onPrimaryPressed: () => controller.onCloseLoveAddressDialog(context),
-      ).build(context),
-    );
-  }
-
-  void _dialogChangeLanguage(BuildContext context) {
-    showDialog<void>(
-      context: context,
-      builder: (context) => AppDefaultDialog(
-        contentWidgets: [
-          RadioListTile<Locale>(
-            title: const Text('🇺🇸 English'),
-            value: enLocale,
-            groupValue: AppLocaleService().locale,
-            onChanged: (Locale? value) {
-              AppLocaleService().changeLocale(value!);
-            },
-          ),
-          RadioListTile<Locale>(
-            title: const Text('🇻🇳 Tiếng Việt'),
-            value: viLocale,
-            groupValue: AppLocaleService().locale,
-            onChanged: (Locale? value) {
-              AppLocaleService().changeLocale(value!);
-            },
-          ),
-        ],
       ).build(context),
     );
   }

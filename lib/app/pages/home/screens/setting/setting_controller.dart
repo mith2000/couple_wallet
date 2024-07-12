@@ -11,6 +11,7 @@ import '../../../../../resources/resources.dart';
 import '../../../../../utilities/logs.dart';
 import '../../../../components/feature/home/home_app_bar.dart';
 import '../../../../components/feature/setting/fcm_token_input.dart';
+import '../../../../components/feature/setting/setting_change_language.dart';
 import '../../../../components/feature/setting/setting_row.dart';
 import '../../../../components/main/dialogs/app_base_dialog.dart';
 import '../../../../components/main/text/highlight_headline_text.dart';
