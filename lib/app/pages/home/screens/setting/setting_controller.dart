@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../../domain/domain.dart';
@@ -33,11 +34,15 @@ class SettingController extends GetxController {
   final RxBool isPartnerLocked = false.obs;
   final RxBool isShowQuickPaste = false.obs;
 
+  RxString appVersion = "--".obs;
+  RxString appBuildNumber = "--".obs;
+
   @override
   void onInit() {
     super.onInit();
     getUserFCMToken();
     loadPartnerAddress();
+    getPackageInfo();
   }
 
   void onShareUserAddress() async {
@@ -136,5 +141,12 @@ class SettingController extends GetxController {
       isPartnerLocked.value = true;
       savePartnerAddress(partnerAddressTextEC.text);
     }
+  }
+
+  Future<void> getPackageInfo() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    appVersion.value = packageInfo.version;
+    appBuildNumber.value = packageInfo.buildNumber;
   }
 }

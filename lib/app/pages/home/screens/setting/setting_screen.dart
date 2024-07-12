@@ -21,30 +21,56 @@ class SettingScreen extends GetView<SettingController> {
                 ),
               ],
             ),
-          Padding(
-            padding: EdgeInsets.only(left: AppThemeExt.of.dimen(4)),
-            child: HighlightHeadlineText(text: R.strings.setting),
-          ),
+          ...setting(context),
           Gap(AppThemeExt.of.dimen(3)),
-          SettingRow(
-            icon: FontAwesomeIcons.link,
-            title: R.strings.loverAddress.tr,
-            body: R.strings.loverAddressSubtitle.tr,
-            onTap: () {
-              _dialogLoveAddress(context);
-            },
-          ),
-          SettingRow(
-            icon: AppLocaleService().locale == enLocale
-                ? FontAwesomeIcons.earthAmericas
-                : FontAwesomeIcons.earthAsia,
-            title: R.strings.switchLanguage.tr,
-            body: R.strings.chooseLanguagePrefer.tr,
-            onTap: () => SettingChangeLanguage().execute(context),
-          ),
+          ...aboutUs(context),
         ],
       ),
     );
+  }
+
+  List<Widget> setting(BuildContext context) {
+    return [
+      Padding(
+        padding: EdgeInsets.only(left: AppThemeExt.of.dimen(4)),
+        child: HighlightHeadlineText(text: R.strings.setting.tr),
+      ),
+      Gap(AppThemeExt.of.dimen(3)),
+      SettingRow(
+        icon: FontAwesomeIcons.link,
+        title: R.strings.loverAddress.tr,
+        body: R.strings.loverAddressSubtitle.tr,
+        onTap: () {
+          _dialogLoveAddress(context);
+        },
+      ),
+      SettingRow(
+        icon: AppLocaleService().locale == enLocale
+            ? FontAwesomeIcons.earthAmericas
+            : FontAwesomeIcons.earthAsia,
+        title: R.strings.switchLanguage.tr,
+        body: R.strings.chooseLanguagePrefer.tr,
+        onTap: () => SettingChangeLanguage().execute(context),
+      ),
+    ];
+  }
+
+  List<Widget> aboutUs(BuildContext context) {
+    return [
+      Padding(
+        padding: EdgeInsets.only(left: AppThemeExt.of.dimen(4)),
+        child: HighlightHeadlineText(text: R.strings.aboutUs.tr),
+      ),
+      Gap(AppThemeExt.of.dimen(3)),
+      Obx(
+        () => SettingRow(
+          icon: FontAwesomeIcons.dev,
+          title: R.strings.appInfo.tr,
+          body:
+              "${R.strings.version.tr}: ${controller.appVersion.value} build ${controller.appBuildNumber.value}",
+        ),
+      ),
+    ];
   }
 
   void _dialogLoveAddress(BuildContext context) {

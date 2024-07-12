@@ -33,5 +33,8 @@
   "switchLanguage": "Switch language",
   "chooseLanguagePrefer": "Choose your preferred language",
   "reply": "Reply",
-  "copy": "Copy"
+  "copy": "Copy",
+  "aboutUs": "About us",
+  "appInfo": "App info",
+  "version": "Version"
 }

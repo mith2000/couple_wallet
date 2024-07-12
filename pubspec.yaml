@@ -40,6 +40,7 @@ dependencies:
   device_info_plus: ^10.1.0
   share_plus: 9.0.0
   uuid: ^4.4.0
+  package_info_plus: ^8.0.0
 
   # UI Components
   cupertino_icons: ^1.0.2
