@@ -1,37 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+part of 'app_base_dialog.dart';
 
-import '../../../../resources/resources.dart';
-import '../../../theme/app_theme.dart';
-
-abstract class IAppDialog {
-  Widget? title;
-  List<Widget>? contentWidgets;
-  Function? onPreBuild;
-  String? primaryText;
-  Function? onPrimaryPressed;
-  String? secondaryText;
-  Function? onSecondaryPressed;
-
-  IAppDialog({
-    this.title,
-    this.contentWidgets,
-    this.onPreBuild,
-    this.primaryText,
-    this.onPrimaryPressed,
-    this.secondaryText,
-    this.onSecondaryPressed,
-  });
-
-  // Wished to use method showDialog from Flutter framework
-  // But there is an issue that the dialog cannot rebuild when it is shown
-  Widget build(BuildContext context);
-
-  void show(BuildContext context);
-}
-
-class AppDefaultDialog extends IAppDialog {
+class AppDefaultDialog extends AppBaseDialog {
   AppDefaultDialog({
     super.title,
     super.contentWidgets,
