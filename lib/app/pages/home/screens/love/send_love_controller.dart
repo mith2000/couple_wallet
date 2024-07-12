@@ -101,11 +101,10 @@ class SendLoveController extends GetxController {
 
   void onNoPartnerAddressFound(BuildContext context) {
     FocusManager.instance.primaryFocus?.unfocus();
-    AppDefaultDialog().show(
-      context,
+    AppDefaultDialog(
       contentWidgets: [Text(R.strings.checkPartnerAddress.tr)],
       onPrimaryPressed: () => Get.find<HomeController>().goSetting(),
-    );
+    ).show(context);
   }
 
   void onSendNotification(
