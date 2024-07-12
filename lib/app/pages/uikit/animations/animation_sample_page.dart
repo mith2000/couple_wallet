@@ -4,11 +4,11 @@
 
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:couple_wallet/app/components/main/containter_transform_anim.dart';
-import 'package:couple_wallet/app/components/main/shimmer_loader.dart';
 import 'package:get/get.dart';
 
-import '../../../components/main/placeholders.dart';
+import '../../../components/main/animations/containter_transform_anim.dart';
+import '../../../components/main/animations/placeholders.dart';
+import '../../../components/main/animations/shimmer_loader.dart';
 import '../../../routes/app_pages.dart';
 
 const String _loremIpsumParagraph =

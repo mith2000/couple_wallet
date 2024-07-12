@@ -50,110 +50,89 @@ class SettingScreen extends GetView<SettingController> {
   }
 
   void _dialogLoveAddress(BuildContext context) {
-    showDialog<void>(
-      context: context,
-      builder: (context) {
+    AppDefaultDialog().show(
+      context,
+      onPreBuild: () {
         // To reflect the right value when the dialog is opened
         controller.loadPartnerAddress();
         controller.onOpenLoveAddressDialog();
-        return AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Gap(AppThemeExt.of.dimen(2)),
-              Row(
-                children: [
-                  Expanded(
-                    child: FCMTokenInput(
-                      textEditingController: controller.yourAddressTextEC,
-                      isYour: true,
-                      isEnabled: false,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: controller.onShareUserAddress,
-                    icon: const FaIcon(
-                      FontAwesomeIcons.shareNodes,
-                    ),
-                  ),
-                ],
+      },
+      contentWidgets: [
+        Row(
+          children: [
+            Expanded(
+              child: FCMTokenInput(
+                textEditingController: controller.yourAddressTextEC,
+                isYour: true,
+                isEnabled: false,
               ),
-              Gap(AppThemeExt.of.dimen(4)),
-              Row(
-                children: [
-                  Expanded(
-                    child: Obx(
-                      () => FCMTokenInput(
-                        textEditingController: controller.partnerAddressTextEC,
-                        isYour: false,
-                        isEnabled: !controller.isPartnerLocked.value,
-                      ),
-                    ),
-                  ),
-                  Obx(
-                    () => IconButton(
-                      onPressed: () => controller.onLockPartnerInput(context),
-                      icon: FaIcon(
-                        controller.isPartnerLocked.isTrue
-                            ? FontAwesomeIcons.lock
-                            : FontAwesomeIcons.lockOpen,
-                      ),
-                    ),
-                  ),
-                ],
+            ),
+            IconButton(
+              onPressed: controller.onShareUserAddress,
+              icon: const FaIcon(
+                FontAwesomeIcons.shareNodes,
               ),
-              Obx(
-                () => controller.isShowQuickPaste.isTrue
-                    ? TextButton(
-                        onPressed: controller.onPasteToPartnerAddress,
-                        child: Text(R.strings.quickPasteHere.tr),
-                      )
-                    : Container(),
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            FilledButton(
-              child: Text(R.strings.okay.tr),
-              onPressed: () => controller.onCloseLoveAddressDialog(context),
             ),
           ],
-        );
-      },
+        ),
+        Gap(AppThemeExt.of.dimen(4)),
+        Row(
+          children: [
+            Expanded(
+              child: Obx(
+                () => FCMTokenInput(
+                  textEditingController: controller.partnerAddressTextEC,
+                  isYour: false,
+                  isEnabled: !controller.isPartnerLocked.value,
+                ),
+              ),
+            ),
+            Obx(
+              () => IconButton(
+                onPressed: () => controller.onLockPartnerInput(context),
+                icon: FaIcon(
+                  controller.isPartnerLocked.isTrue
+                      ? FontAwesomeIcons.lock
+                      : FontAwesomeIcons.lockOpen,
+                ),
+              ),
+            ),
+          ],
+        ),
+        Obx(
+          () => controller.isShowQuickPaste.isTrue
+              ? TextButton(
+                  onPressed: controller.onPasteToPartnerAddress,
+                  child: Text(R.strings.quickPasteHere.tr),
+                )
+              : Container(),
+        ),
+      ],
+      onPrimaryPressed: () => controller.onCloseLoveAddressDialog(context),
     );
   }
 
   void _dialogChangeLanguage(BuildContext context) {
-    showDialog<void>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Gap(AppThemeExt.of.dimen(2)),
-              RadioListTile<Locale>(
-                title: const Text('🇺🇸 English'),
-                value: enLocale,
-                groupValue: AppLocaleService().locale,
-                onChanged: (Locale? value) {
-                  AppLocaleService().changeLocale(value!);
-                },
-              ),
-              RadioListTile<Locale>(
-                title: const Text('🇻🇳 Tiếng Việt'),
-                value: viLocale,
-                groupValue: AppLocaleService().locale,
-                onChanged: (Locale? value) {
-                  AppLocaleService().changeLocale(value!);
-                },
-              ),
-            ],
-          ),
-        );
-      },
+    AppDefaultDialog().show(
+      context,
+      contentWidgets: [
+        RadioListTile<Locale>(
+          title: const Text('🇺🇸 English'),
+          value: enLocale,
+          groupValue: AppLocaleService().locale,
+          onChanged: (Locale? value) {
+            AppLocaleService().changeLocale(value!);
+          },
+        ),
+        RadioListTile<Locale>(
+          title: const Text('🇻🇳 Tiếng Việt'),
+          value: viLocale,
+          groupValue: AppLocaleService().locale,
+          onChanged: (Locale? value) {
+            AppLocaleService().changeLocale(value!);
+          },
+        ),
+      ],
     );
   }
 }

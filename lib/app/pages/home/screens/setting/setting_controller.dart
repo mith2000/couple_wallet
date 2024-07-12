@@ -12,6 +12,7 @@ import '../../../../../utilities/logs.dart';
 import '../../../../components/feature/home/home_app_bar.dart';
 import '../../../../components/feature/setting/fcm_token_input.dart';
 import '../../../../components/feature/setting/setting_row.dart';
+import '../../../../components/main/dialogs/app_dialog_widget.dart';
 import '../../../../components/main/text/highlight_headline_text.dart';
 import '../../../../services/app_error_handling_service.dart';
 import '../../../../services/app_locale_service.dart';
@@ -134,6 +135,5 @@ class SettingController extends GetxController {
       isPartnerLocked.value = true;
       savePartnerAddress(partnerAddressTextEC.text);
     }
-    Navigator.of(context).pop();
   }
 }
