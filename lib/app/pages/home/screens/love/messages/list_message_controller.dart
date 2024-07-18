@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
 import '../../../../../../domain/domain.dart';
+import '../../../../../../resources/resources.dart';
 import '../../../../../../utilities/logs.dart';
 import '../../../../../adapters/love_message_adapter.dart';
 import '../../../../../components/feature/love/love_message_widget.dart';
+import '../../../../../components/main/animations/placeholders.dart';
+import '../../../../../components/main/animations/shimmer_loader.dart';
 import '../../../../../models/love_message_modelview.dart';
 import '../../../../../services/app_error_handling_service.dart';
+import '../../../../../theme/app_theme.dart';
 import '../send_love_controller.dart';
 
 part 'list_message_widget.dart';
@@ -21,12 +26,10 @@ class ListMessageController extends GetxController {
   String myFCMToken = "";
   String partnerFCMToken = "";
 
-  @override
-  void onInit() async {
-    super.onInit();
+  Future<List<LoveMessageModelV>> onInitFetchMessages() async {
     await getUserFCMToken();
     await getPartnerFCMToken();
-    await getChatSession();
+    return await getChatSession();
   }
 
   Future<void> getUserFCMToken() async {
@@ -68,11 +71,13 @@ class ListMessageController extends GetxController {
       if (model != null) {
         ILoveMessageAdapter loveMessageAdapter = LoveMessageAdapter();
         messages.value = loveMessageAdapter.getListModelView(model, myFCMToken);
+        return messages.toList();
       }
     } on AppException catch (e) {
       Logs.e("_getChatSessionUseCase failed with $e");
       Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
+    return [];
   }
 
   void addMessageToListAsOwner(String stringContent) {

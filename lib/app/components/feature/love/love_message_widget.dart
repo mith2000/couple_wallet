@@ -11,6 +11,7 @@ import '../../../theme/app_theme.dart';
 const backgroundColor = Color(0xffFCF1DE);
 const ownerMessageBackgroundColor = Color(0xffFFD9DE);
 const messageAvatarSize = 28.0;
+const messageBoxWidthRatio = 0.75;
 
 class LoveMessageWidget extends StatelessWidget {
   final LoveMessageModelV model;
@@ -130,7 +131,7 @@ class _MessageBoxState extends State<MessageBox>
       ),
       margin: EdgeInsets.only(top: AppThemeExt.of.dimen(0.5)),
       constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * 0.75 -
+        maxWidth: MediaQuery.of(context).size.width * messageBoxWidthRatio -
             // Horizontal padding
             AppThemeExt.of.dimen(4),
       ),

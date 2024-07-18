@@ -203,3 +203,63 @@ class CardPlaceholder extends StatelessWidget {
     );
   }
 }
+
+class ChatMessagePlaceholder extends StatelessWidget {
+  const ChatMessagePlaceholder({
+    super.key,
+    this.width,
+    this.perLineHeight = 12.0,
+    this.horizontalPadding = 16.0,
+    this.spacing = 8.0,
+    this.isOwner,
+  });
+
+  final double? width;
+  final double perLineHeight;
+  final double horizontalPadding;
+  final double spacing;
+  final bool? isOwner;
+
+  @override
+  Widget build(BuildContext context) {
+    final listItems = isOwner ?? false ? items(context).reversed : items(context);
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [...listItems],
+      ),
+    );
+  }
+
+  List<Widget> items(BuildContext context) {
+    return [
+      Container(
+        width: perLineHeight,
+        height: perLineHeight,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.white,
+        ),
+      ),
+      SizedBox(width: spacing),
+      Expanded(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: isOwner ?? false ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: width ?? double.infinity,
+              height: perLineHeight,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(borderRadius),
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ];
+  }
+}
