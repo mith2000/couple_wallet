@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../../../domain/domain.dart';
 import '../../../../../../resources/resources.dart';
@@ -8,7 +9,6 @@ import '../../../../../../utilities/logs.dart';
 import '../../../../../adapters/love_message_adapter.dart';
 import '../../../../../components/feature/love/love_message_widget.dart';
 import '../../../../../components/main/animations/placeholders.dart';
-import '../../../../../components/main/animations/shimmer_loader.dart';
 import '../../../../../models/love_message_modelview.dart';
 import '../../../../../services/app_error_handling_service.dart';
 import '../../../../../theme/app_theme.dart';
@@ -22,14 +22,17 @@ class ListMessageController extends GetxController {
   final GetChatSessionUseCase _getChatSessionUseCase = Get.find();
 
   final RxList<LoveMessageModelV> messages = RxList();
+  final RxBool isLoadingMessages = false.obs;
   List<String> chatSessionParticipants = [];
   String myFCMToken = "";
   String partnerFCMToken = "";
 
-  Future<List<LoveMessageModelV>> onInitFetchMessages() async {
+  @override
+  void onInit() async {
+    super.onInit();
     await getUserFCMToken();
     await getPartnerFCMToken();
-    return await getChatSession();
+    await getChatSession();
   }
 
   Future<void> getUserFCMToken() async {
@@ -64,6 +67,7 @@ class ListMessageController extends GetxController {
 
   Future<void> getChatSession() async {
     if (chatSessionParticipants.length < 2) return;
+    isLoadingMessages.value = true;
     try {
       final response = await _getChatSessionUseCase.execute(
           request: ChatQueryParam(participants: chatSessionParticipants));
@@ -71,13 +75,12 @@ class ListMessageController extends GetxController {
       if (model != null) {
         ILoveMessageAdapter loveMessageAdapter = LoveMessageAdapter();
         messages.value = loveMessageAdapter.getListModelView(model, myFCMToken);
-        return messages.toList();
       }
     } on AppException catch (e) {
       Logs.e("_getChatSessionUseCase failed with $e");
       Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
-    return [];
+    isLoadingMessages.value = false;
   }
 
   void addMessageToListAsOwner(String stringContent) {

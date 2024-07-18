@@ -211,6 +211,8 @@ class ChatMessagePlaceholder extends StatelessWidget {
     this.perLineHeight = 12.0,
     this.horizontalPadding = 16.0,
     this.spacing = 8.0,
+    this.boxBorderRadius = borderRadius,
+    this.isShowAvatar = true,
     this.isOwner,
   });
 
@@ -218,6 +220,8 @@ class ChatMessagePlaceholder extends StatelessWidget {
   final double perLineHeight;
   final double horizontalPadding;
   final double spacing;
+  final double boxBorderRadius;
+  final bool isShowAvatar;
   final bool? isOwner;
 
   @override
@@ -235,15 +239,16 @@ class ChatMessagePlaceholder extends StatelessWidget {
 
   List<Widget> items(BuildContext context) {
     return [
-      Container(
-        width: perLineHeight,
-        height: perLineHeight,
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white,
+      if (isShowAvatar)
+        Container(
+          width: perLineHeight,
+          height: perLineHeight,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.white,
+          ),
         ),
-      ),
-      SizedBox(width: spacing),
+      if (isShowAvatar) SizedBox(width: spacing),
       Expanded(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -253,7 +258,7 @@ class ChatMessagePlaceholder extends StatelessWidget {
               width: width ?? double.infinity,
               height: perLineHeight,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(borderRadius),
+                borderRadius: BorderRadius.circular(boxBorderRadius),
                 color: Colors.white,
               ),
             ),

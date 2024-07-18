@@ -3,7 +3,8 @@ part of 'list_message_controller.dart';
 const emptyImageSize = 300.0;
 const emptyWidgetWidthRatio = 0.66;
 const emptyTextPositionX = emptyImageSize * 4 / 5;
-const placeHolderCount = 8;
+const placeHolderCount = 6;
+const placeHolderHeight = 36.0; // 36 is height of labelLarge height (20) + vertical padding 16
 
 class ListMessageWidget extends GetView<ListMessageController> {
   const ListMessageWidget({super.key});
@@ -11,38 +12,44 @@ class ListMessageWidget extends GetView<ListMessageController> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ShimmerLoader(
-        loadData: controller.onInitFetchMessages,
-        buildPlaceholder: () => buildPlaceholders(context),
-        baseColor: AppColors.of.disableColor,
-        buildContent: (data) => Obx(
-          () {
-            final listMessages = controller.messages.toList().sortByTime();
-            if (listMessages.isEmpty) {
-              return emptyWidget(context);
-            }
-            return ListView.builder(
-              itemCount: listMessages.length,
-              itemBuilder: (context, index) {
-                // The last one should show the partner's avatar if owner is false
-                if (index == listMessages.length - 1) {
-                  return LoveMessageWidget(
-                    model: listMessages[index],
-                    isShowPartnerAvatar: true,
-                    onReply: () => controller.onReplyMessage(context),
-                  );
-                }
-                // If the next one is not same owner, show the partner's avatar
-                final isShow = listMessages[index + 1].isOwner != listMessages[index].isOwner;
+      child: Obx(
+        () {
+          // State loading
+          if (controller.isLoadingMessages.isTrue) {
+            return Shimmer.fromColors(
+              baseColor: AppColors.of.disableColor,
+              highlightColor: AppColors.of.whiteColor,
+              child: buildPlaceholders(context),
+            );
+          }
+
+          // State empty
+          final listMessages = controller.messages.toList().sortByTime();
+          if (listMessages.isEmpty) {
+            return emptyWidget(context);
+          }
+
+          return ListView.builder(
+            itemCount: listMessages.length,
+            itemBuilder: (context, index) {
+              // The last one should show the partner's avatar if owner is false
+              if (index == listMessages.length - 1) {
                 return LoveMessageWidget(
                   model: listMessages[index],
-                  isShowPartnerAvatar: isShow,
+                  isShowPartnerAvatar: true,
                   onReply: () => controller.onReplyMessage(context),
                 );
-              },
-            );
-          },
-        ),
+              }
+              // If the next one is not same owner, show the partner's avatar
+              final isShow = listMessages[index + 1].isOwner != listMessages[index].isOwner;
+              return LoveMessageWidget(
+                model: listMessages[index],
+                isShowPartnerAvatar: isShow,
+                onReply: () => controller.onReplyMessage(context),
+              );
+            },
+          );
+        },
       ),
     );
   }
@@ -83,21 +90,24 @@ class ListMessageWidget extends GetView<ListMessageController> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: placeHolderCount,
-      separatorBuilder: (context, index) => Gap(AppThemeExt.of.dimen(4)),
+      separatorBuilder: (context, index) => Gap(AppThemeExt.of.dimen(1)),
       itemBuilder: (context, index) {
         final placeHolderWidth = screenWidth * messageBoxWidthRatio - AppThemeExt.of.dimen(4);
-        if (index == 0 || index == 1 || index == 5 || index == 6) {
+        if (index == 0 || index == 1 || index == 5) {
           return ChatMessagePlaceholder(
-            perLineHeight: messageAvatarSize,
+            perLineHeight: placeHolderHeight,
             horizontalPadding: 0,
             width: placeHolderWidth,
             isOwner: true,
+            isShowAvatar: false,
+            boxBorderRadius: AppThemeExt.of.dimen(5),
           );
         }
         return ChatMessagePlaceholder(
-          perLineHeight: messageAvatarSize,
+          perLineHeight: placeHolderHeight,
           horizontalPadding: 0,
           width: placeHolderWidth,
+          boxBorderRadius: AppThemeExt.of.dimen(5),
         );
       },
     );
