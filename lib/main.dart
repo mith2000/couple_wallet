@@ -33,8 +33,7 @@ void main() async {
   // Initialize Firebase
   await AppFirebaseService.initializeFirebase();
 
-  // TODO make splash screen to enable it in AppBinding
-  // Inject dependencies
+  // Inject services and dependencies
   await DataProvider.inject();
   await DomainProvider.inject();
 

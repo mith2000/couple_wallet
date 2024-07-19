@@ -9,6 +9,6 @@ class GetChatSessionUseCaseImpl extends GetChatSessionUseCase {
   GetChatSessionUseCaseImpl(this._repo);
 
   @override
-  Future<AppResultModel<ChatModel>> execute({ChatQueryParam? request}) =>
+  Future<AppResultModel<ChatModel>> call({ChatQueryParam? request}) =>
       _repo.getChatSession(participants: request?.participants ?? []);
 }

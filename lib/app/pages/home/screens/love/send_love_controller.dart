@@ -55,7 +55,7 @@ class SendLoveController extends GetxController {
   }
 
   Future<void> getLoveInfo() async {
-    final response = await _getLoveInfoUseCase.execute();
+    final response = await _getLoveInfoUseCase();
     final model = response.netData;
     if (model != null) {
       ILoveInfoAdapter loveInfoAdapter = LoveInfoAdapter();
@@ -165,7 +165,7 @@ class SendLoveController extends GetxController {
 
   Future<void> sendMessageToFirestore(String content) async {
     try {
-      await _sendMessageUseCase.execute(
+      await _sendMessageUseCase(
         request: SendMessageParam(
           participants: _listMessageController.chatSessionParticipants,
           sender: _listMessageController.myFCMToken,

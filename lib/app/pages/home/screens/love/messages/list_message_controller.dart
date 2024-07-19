@@ -37,7 +37,7 @@ class ListMessageController extends GetxController {
 
   Future<void> getUserFCMToken() async {
     try {
-      final response = await _getUserFcmTokenUseCase.execute();
+      final response = await _getUserFcmTokenUseCase();
       final value = (response.netData as SimpleModel<String?>).value;
       if (value != null && value.isNotEmpty) {
         chatSessionParticipants.add(value);
@@ -52,7 +52,7 @@ class ListMessageController extends GetxController {
 
   Future<void> getPartnerFCMToken() async {
     try {
-      final response = await _getPartnerFcmTokenUseCase.execute();
+      final response = await _getPartnerFcmTokenUseCase();
       final value = (response.netData as SimpleModel<String>).value;
       if (value != null && value.isNotEmpty) {
         chatSessionParticipants.add(value);
@@ -69,8 +69,8 @@ class ListMessageController extends GetxController {
     if (chatSessionParticipants.length < 2) return;
     isLoadingMessages.value = true;
     try {
-      final response = await _getChatSessionUseCase.execute(
-          request: ChatQueryParam(participants: chatSessionParticipants));
+      final requestParam = ChatQueryParam(participants: chatSessionParticipants);
+      final response = await _getChatSessionUseCase(request: requestParam);
       final model = response.netData;
       if (model != null) {
         ILoveMessageAdapter loveMessageAdapter = LoveMessageAdapter();

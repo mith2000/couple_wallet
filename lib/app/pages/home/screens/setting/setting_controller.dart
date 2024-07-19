@@ -79,7 +79,7 @@ class SettingController extends GetxController {
 
   Future<void> savePartnerAddress(String partnerAddress) async {
     try {
-      await _savePartnerFcmTokenUseCase.execute(request: SimpleParam(partnerAddress));
+      await _savePartnerFcmTokenUseCase(request: SimpleParam(partnerAddress));
     } on AppException catch (e) {
       Logs.e("savePartnerAddress failed with ${e.toString()}");
       Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
@@ -88,7 +88,7 @@ class SettingController extends GetxController {
 
   Future<void> getUserFCMToken() async {
     try {
-      final response = await _getUserFcmTokenUseCase.execute();
+      final response = await _getUserFcmTokenUseCase();
       final value = (response.netData as SimpleModel<String?>).value;
       if (value != null && value.isNotEmpty) {
         yourAddressTextEC.text = value;
@@ -104,7 +104,7 @@ class SettingController extends GetxController {
 
   Future<void> getPartnerFCMToken() async {
     try {
-      final response = await _getPartnerFcmTokenUseCase.execute();
+      final response = await _getPartnerFcmTokenUseCase();
       final value = (response.netData as SimpleModel<String>).value;
       if (value != null && value.isNotEmpty) {
         partnerAddressTextEC.text = value;

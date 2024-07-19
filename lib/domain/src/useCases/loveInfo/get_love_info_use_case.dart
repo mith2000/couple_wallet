@@ -8,7 +8,7 @@ class GetLoveInfoUseCaseImpl extends GetLoveInfoUseCase {
   final DateTime loveStartDate = DateTime(2022, 11, 13);
 
   @override
-  Future<AppResultModel<LoveInfoModel>> execute({BaseParam? request}) async {
+  Future<AppResultModel<LoveInfoModel>> call({BaseParam? request}) async {
     final now = DateTime.now().startOfDay();
     final daysInDifference = now.difference(loveStartDate).inDays;
     final model = LoveInfoModel(totalLoveDays: daysInDifference);

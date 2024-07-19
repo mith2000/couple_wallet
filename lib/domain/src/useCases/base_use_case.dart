@@ -9,11 +9,11 @@ part 'chat/send_message_use_case.dart';
 part 'loveInfo/get_love_info_use_case.dart';
 
 abstract class BaseUseCase<In extends BaseParam, Out extends BaseModel> {
-  Future<AppResultModel<Out>> execute({In? request}) {
+  Future<AppResultModel<Out>> call({In? request}) {
     return Future.value(AppResultModel<Out>(netData: null));
   }
 
-  Future<AppListResultModel<Out>> executeList({In? request}) {
+  Future<AppListResultModel<Out>> toList({In? request}) {
     return Future.value(AppListResultModel<Out>(netData: null, total: 0, hasMore: false));
   }
 }

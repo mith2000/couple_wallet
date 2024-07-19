@@ -16,16 +16,16 @@ class DataProvider {
 class _DataSourceProvider {
   static Future<void> inject() async {
     // Firestore
-    Get.put<ChatRemoteDataSource>(ChatRemoteDataSourceImpl());
+    Get.lazyPut<ChatRemoteDataSource>(() => ChatRemoteDataSourceImpl());
 
     // Local
-    Get.put<SharedPrefLocalDataSource>(SharedPrefLocalDataSourceImpl(Get.find()));
+    Get.lazyPut<SharedPrefLocalDataSource>(() => SharedPrefLocalDataSourceImpl(Get.find()));
   }
 }
 
 class _RepoProvider {
   static Future<void> inject() async {
-    Get.put<ChatRepository>(ChatRepositoryImpl(Get.find()));
-    Get.put<SharedPrefRepository>(SharedPrefRepositoryImpl(Get.find()));
+    Get.lazyPut<ChatRepository>(() => ChatRepositoryImpl(Get.find()));
+    Get.lazyPut<SharedPrefRepository>(() => SharedPrefRepositoryImpl(Get.find()));
   }
 }

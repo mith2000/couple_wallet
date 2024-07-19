@@ -8,7 +8,7 @@ class GetPartnerFcmTokenUseCaseImpl extends GetPartnerFcmTokenUseCase {
   GetPartnerFcmTokenUseCaseImpl(this._repository);
 
   @override
-  Future<AppResultModel<SimpleModel<String>>> execute({BaseParam? request}) async {
+  Future<AppResultModel<SimpleModel<String>>> call({BaseParam? request}) async {
     final response = await _repository.getPartnerFCMToken();
     return AppResultModel<SimpleModel<String>>(netData: SimpleModel(response));
   }

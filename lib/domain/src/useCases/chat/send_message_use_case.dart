@@ -8,7 +8,7 @@ class SendMessageUseCaseImpl extends SendMessageUseCase {
   SendMessageUseCaseImpl(this._repo);
 
   @override
-  Future<AppResultModel<EmptyModel>> execute({SendMessageParam? request}) {
+  Future<AppResultModel<EmptyModel>> call({SendMessageParam? request}) {
     if ((request?.participants.length ?? 0) < 2) {
       throw LocalException(
         code: ErrorCode.code400,

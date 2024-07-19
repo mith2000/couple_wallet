@@ -8,7 +8,7 @@ class SavePartnerFcmTokenUseCaseImpl extends SavePartnerFcmTokenUseCase {
   SavePartnerFcmTokenUseCaseImpl(this._repository);
 
   @override
-  Future<AppResultModel<EmptyModel>> execute({SimpleParam<String>? request}) async {
+  Future<AppResultModel<EmptyModel>> call({SimpleParam<String>? request}) async {
     final requestParam = request;
     if (requestParam == null) {
       throw LocalException(
