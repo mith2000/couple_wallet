@@ -9,6 +9,7 @@ class AppDefaultSnackBar extends AppBaseSnackBar {
     required super.content,
     required super.context,
     super.action,
+    super.duration,
   }) : variant = AppSnackBarVariant.centered {
     final size = MediaQuery.of(context).size;
     margin = EdgeInsets.only(
@@ -17,12 +18,15 @@ class AppDefaultSnackBar extends AppBaseSnackBar {
       left: size.width * 0.25,
       right: size.width * 0.25,
     );
+
+    opacity = snackBarCenteredOpacity;
   }
 
-  AppDefaultSnackBar.danger({
+  // Display on top and User no need to do action
+  AppDefaultSnackBar.inform({
     required super.content,
     required super.context,
-    super.action,
+    super.duration,
   }) : variant = AppSnackBarVariant.danger {
     final size = MediaQuery.of(context).size;
     margin = EdgeInsets.only(
@@ -31,6 +35,8 @@ class AppDefaultSnackBar extends AppBaseSnackBar {
       left: size.width * 0.1,
       right: size.width * 0.1,
     );
+
+    opacity = snackBarDangerOpacity;
   }
 
   @override
@@ -38,11 +44,14 @@ class AppDefaultSnackBar extends AppBaseSnackBar {
     final snackBar = SnackBar(
       behavior: SnackBarBehavior.floating,
       margin: margin,
-      backgroundColor: AppColors.of.mainTextColor.withOpacity(0.75),
+      backgroundColor: AppColors.of.mainTextColor.withOpacity(
+        opacity ?? snackBarCenteredOpacity,
+      ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppThemeExt.of.dimen(4)),
       ),
       elevation: 0,
+      duration: duration ?? snackBarDisplayDuration,
       content: content,
       action: action,
     );

@@ -1,5 +1,6 @@
 {
-  "noInternetConnection": "No Internet Connection",
+  "noInternetConnection": "No internet connection",
+  "internetConnectionAvailable": "Internet connection available",
   "homePage": "Home Page",
   "uiKitMaterial3": "UI Kit - Material 3",
   "home": "Home",

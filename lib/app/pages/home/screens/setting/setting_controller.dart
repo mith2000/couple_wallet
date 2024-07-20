@@ -70,7 +70,7 @@ class SettingController extends GetxController {
       isPartnerLocked.value = false;
     } else {
       if (partnerAddressTextEC.text.isEmpty) {
-        AppDefaultSnackBar.danger(
+        AppDefaultSnackBar.inform(
           context: context,
           content: Text(R.strings.pleaseInputYourPartnerAddress.tr),
         ).show();
