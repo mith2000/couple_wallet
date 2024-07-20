@@ -123,9 +123,6 @@ class SendLoveController extends GetxController {
   }
 
   void onSendMessageSuccess(String stringContent, BuildContext context) {
-    // Add message to UI list
-    _listMessageController.addMessageToListAsOwner(stringContent);
-
     // Show snack bar
     showSnackBarSuccess(context);
 
@@ -173,6 +170,8 @@ class SendLoveController extends GetxController {
           timestamp: DateTime.now(),
         ),
       );
+      // Add message to UI list
+      listMessageController.addMessageToListAsOwner(content);
     } on AppException catch (e) {
       Logs.e("_sendMessageUseCase failed with $e");
       Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
