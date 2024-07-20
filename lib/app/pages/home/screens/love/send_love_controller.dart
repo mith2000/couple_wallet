@@ -15,6 +15,7 @@ import '../../../../components/feature/home/home_heart_icon.dart';
 import '../../../../components/feature/love/send_love_input.dart';
 import '../../../../components/feature/shortcut/bottomSheet/shortcut_bottom_sheet_controller.dart';
 import '../../../../components/main/dialogs/app_base_dialog.dart';
+import '../../../../components/main/snackBars/app_base_snack_bar.dart';
 import '../../../../models/love_info_modelview.dart';
 import '../../../../services/app_error_handling_service.dart';
 import '../../../../theme/app_theme.dart';
@@ -129,38 +130,21 @@ class SendLoveController extends GetxController {
   }
 
   void showSnackBarSuccess(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    const snackBarHeight = 68.0;
-    const navBarHeight = 64.0;
-    final snackBar = SnackBar(
-      behavior: SnackBarBehavior.floating,
-      // Want the message to be centered
-      margin: EdgeInsets.only(
-        bottom: size.height * 0.5 - snackBarHeight / 2 - navBarHeight / 2,
-        left: size.width * 0.25,
-        right: size.width * 0.25,
-      ),
-      backgroundColor: AppColors.of.mainTextColor.withOpacity(0.75),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppThemeExt.of.dimen(4)),
-      ),
-      elevation: 0,
+    AppDefaultSnackBar(
+      context: context,
       content: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(child: Text(R.strings.wordsOfLoveHaveBeenSent.tr)),
           Lottie.asset(
             R.json.animCheck.path,
-            width: 24,
-            height: 24,
+            width: snackBarIconSize,
+            height: snackBarIconSize,
             repeat: false,
           ),
         ],
       ),
-    );
-
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    ).show();
   }
 
   Future<void> sendMessageToFirestore(String content) async {

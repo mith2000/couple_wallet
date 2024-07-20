@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../resources/resources.dart';
+import '../components/main/snackBars/app_base_snack_bar.dart';
 
 class NetworkConnectionService extends GetxService {
   final Connectivity _connectivity = Connectivity();
@@ -15,17 +16,14 @@ class NetworkConnectionService extends GetxService {
 
   void _updateConnectionStatus(ConnectivityResult result) {
     if (result == ConnectivityResult.none) {
-      final snackBar = SnackBar(
-        behavior: SnackBarBehavior.floating,
+      AppDefaultSnackBar.danger(
+        context: Get.context!,
         content: Text(R.strings.noInternetConnection.tr),
         action: SnackBarAction(
           label: R.strings.close.tr,
           onPressed: () {},
         ),
-      );
-
-      ScaffoldMessenger.of(Get.context!).hideCurrentSnackBar();
-      ScaffoldMessenger.of(Get.context!).showSnackBar(snackBar);
+      ).show();
     }
   }
 }

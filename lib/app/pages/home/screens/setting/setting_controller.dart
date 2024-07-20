@@ -15,6 +15,7 @@ import '../../../../components/feature/setting/fcm_token_input.dart';
 import '../../../../components/feature/setting/setting_change_language.dart';
 import '../../../../components/feature/setting/setting_row.dart';
 import '../../../../components/main/dialogs/app_base_dialog.dart';
+import '../../../../components/main/snackBars/app_base_snack_bar.dart';
 import '../../../../components/main/text/highlight_headline_text.dart';
 import '../../../../services/app_error_handling_service.dart';
 import '../../../../services/app_locale_service.dart';
@@ -69,13 +70,10 @@ class SettingController extends GetxController {
       isPartnerLocked.value = false;
     } else {
       if (partnerAddressTextEC.text.isEmpty) {
-        final snackBar = SnackBar(
-          behavior: SnackBarBehavior.floating,
+        AppDefaultSnackBar.danger(
+          context: context,
           content: Text(R.strings.pleaseInputYourPartnerAddress.tr),
-        );
-
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        ).show();
         return;
       }
       isPartnerLocked.value = true;
