@@ -42,9 +42,13 @@ class FirebaseMessagingAPI {
     // Can only improve if using WebSocket connection instead of HTTP
     await Future.delayed(delayTimeSenderPrepare);
     Logs.d("Handle message: ${message.notification?.body}");
-    if (!Get.isRegistered<ListMessageController>()) {
-      Get.put<ListMessageController>(ListMessageController());
-    }
+    Get.put<ListMessageController>(
+      ListMessageController(
+        getUserFcmTokenUseCase: Get.find(),
+        getPartnerFcmTokenUseCase: Get.find(),
+        getChatSessionUseCase: Get.find(),
+      ),
+    );
     Get.find<ListMessageController>().getChatSession();
   }
 

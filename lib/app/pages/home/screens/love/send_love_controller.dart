@@ -29,19 +29,25 @@ const sendButtonCoolDownSecond = 60;
 class SendLoveController extends GetxController {
   final SendLoveState state = SendLoveState();
 
-  final GetLoveInfoUseCase _getLoveInfoUseCase = Get.find();
-  final SendMessageUseCase _sendMessageUseCase = Get.find();
-  late final ShortcutBottomSheetController _shortcutBottomSheetController;
-  late final ListMessageController _listMessageController;
+  final GetLoveInfoUseCase getLoveInfoUseCase;
+  final SendMessageUseCase sendMessageUseCase;
+  final ShortcutBottomSheetController shortcutBottomSheetController;
+  final ListMessageController listMessageController;
 
   final TextEditingController mainTextEC = TextEditingController();
   final FocusNode mainTextFocusNode = FocusNode();
+
+  SendLoveController({
+    required this.getLoveInfoUseCase,
+    required this.sendMessageUseCase,
+    required this.shortcutBottomSheetController,
+    required this.listMessageController,
+  });
 
   @override
   void onInit() async {
     await getLoveInfo();
     super.onInit();
-    initListMessage();
     initShortcut();
 
     mainTextEC.addListener(onFieldChange);
@@ -55,7 +61,7 @@ class SendLoveController extends GetxController {
   }
 
   Future<void> getLoveInfo() async {
-    final response = await _getLoveInfoUseCase();
+    final response = await getLoveInfoUseCase();
     final model = response.netData;
     if (model != null) {
       ILoveInfoAdapter loveInfoAdapter = LoveInfoAdapter();
@@ -63,19 +69,8 @@ class SendLoveController extends GetxController {
     }
   }
 
-  void initListMessage() {
-    if (!Get.isRegistered<ListMessageController>()) {
-      Get.put<ListMessageController>(ListMessageController());
-    }
-    _listMessageController = Get.find<ListMessageController>();
-  }
-
   void initShortcut() {
-    if (!Get.isRegistered<ShortcutBottomSheetController>()) {
-      Get.put<ShortcutBottomSheetController>(ShortcutBottomSheetController());
-    }
-    _shortcutBottomSheetController = Get.find<ShortcutBottomSheetController>();
-    state.shortcutContents.value = _shortcutBottomSheetController.shortcutContents;
+    state.shortcutContents.value = shortcutBottomSheetController.shortcutContents;
   }
 
   void onSendButtonClicked(BuildContext context) {
@@ -84,7 +79,7 @@ class SendLoveController extends GetxController {
 
     clearInput();
 
-    String partnerAddress = _listMessageController.partnerFCMToken;
+    String partnerAddress = listMessageController.partnerFCMToken;
     if (partnerAddress.isNotEmpty) {
       onSendNotification(partnerAddress, stringContent, context);
     } else {
@@ -162,10 +157,10 @@ class SendLoveController extends GetxController {
 
   Future<void> sendMessageToFirestore(String content) async {
     try {
-      await _sendMessageUseCase(
+      await sendMessageUseCase(
         request: SendMessageParam(
-          participants: _listMessageController.chatSessionParticipants,
-          sender: _listMessageController.myFCMToken,
+          participants: listMessageController.chatSessionParticipants,
+          sender: listMessageController.myFCMToken,
           content: content,
           timestamp: DateTime.now(),
         ),

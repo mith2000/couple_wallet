@@ -7,9 +7,7 @@ class ShortcutBottomSheetView extends GetView<ShortcutBottomSheetController> {
   const ShortcutBottomSheetView({super.key});
 
   static openBottomSheet(BuildContext context) {
-    if (!Get.isRegistered<ShortcutBottomSheetController>()) {
-      Get.put<ShortcutBottomSheetController>(ShortcutBottomSheetController());
-    }
+    Get.put<ShortcutBottomSheetController>(ShortcutBottomSheetController(pref: Get.find()));
     showModalBottomSheet<void>(
       showDragHandle: true,
       context: context,

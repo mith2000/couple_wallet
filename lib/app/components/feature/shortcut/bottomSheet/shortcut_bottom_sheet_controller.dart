@@ -10,34 +10,21 @@ import '../../../../../resources/resources.dart';
 part 'shortcut_bottom_sheet_view.dart';
 
 class ShortcutBottomSheetController extends GetxController {
-  final AppSharedPref _pref = Get.find();
+  final AppSharedPref pref;
 
   final Rxn<ShortcutSet> shortcutSet = Rxn<ShortcutSet>(ShortcutSet.male);
   final RxList<String> shortcutContents = RxList<String>(ShortcutPredefined.shortcutContent1st);
 
+  ShortcutBottomSheetController({required this.pref});
+
   @override
-  void onInit() {
+  void onInit() async {
+    await loadShortcutSetName();
     super.onInit();
-    loadShortcutSetName();
   }
 
-  void setShortcutSet(ShortcutSet? shortcutSet) {
-    this.shortcutSet.value = shortcutSet;
-    if (this.shortcutSet.value == ShortcutSet.male) {
-      shortcutContents.value = ShortcutPredefined.shortcutContent1st;
-      saveShortcutSetName(ShortcutSet.male.name);
-    } else {
-      shortcutContents.value = ShortcutPredefined.shortcutContent2nd;
-      saveShortcutSetName(ShortcutSet.female.name);
-    }
-  }
-
-  Future<void> saveShortcutSetName(String shortcutSetName) async {
-    await _pref.setString(AppPrefKey.shortcutSetName, shortcutSetName);
-  }
-
-  void loadShortcutSetName() {
-    String shortcutSetName = _pref.getString(AppPrefKey.shortcutSetName, '');
+  Future<void> loadShortcutSetName() async {
+    String shortcutSetName = pref.getString(AppPrefKey.shortcutSetName, '');
     if (shortcutSetName.isNotEmpty) {
       if (shortcutSetName == ShortcutSet.male.name) {
         setShortcutSet(ShortcutSet.male);
@@ -45,6 +32,21 @@ class ShortcutBottomSheetController extends GetxController {
         setShortcutSet(ShortcutSet.female);
       }
     }
+  }
+
+  Future<void> setShortcutSet(ShortcutSet? shortcutSet) async {
+    this.shortcutSet.value = shortcutSet;
+    if (this.shortcutSet.value == ShortcutSet.male) {
+      shortcutContents.value = ShortcutPredefined.shortcutContent1st;
+      await saveShortcutSetName(ShortcutSet.male.name);
+    } else {
+      shortcutContents.value = ShortcutPredefined.shortcutContent2nd;
+      await saveShortcutSetName(ShortcutSet.female.name);
+    }
+  }
+
+  Future<void> saveShortcutSetName(String shortcutSetName) async {
+    await pref.setString(AppPrefKey.shortcutSetName, shortcutSetName);
   }
 }
 

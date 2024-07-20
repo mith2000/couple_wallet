@@ -24,9 +24,9 @@ import '../../../uikit/uikit_controller.dart';
 part 'setting_screen.dart';
 
 class SettingController extends GetxController {
-  final GetUserFcmTokenUseCase _getUserFcmTokenUseCase = Get.find();
-  final GetPartnerFcmTokenUseCase _getPartnerFcmTokenUseCase = Get.find();
-  final SavePartnerFcmTokenUseCase _savePartnerFcmTokenUseCase = Get.find();
+  final GetUserFcmTokenUseCase getUserFcmTokenUseCase;
+  final GetPartnerFcmTokenUseCase getPartnerFcmTokenUseCase;
+  final SavePartnerFcmTokenUseCase savePartnerFcmTokenUseCase;
 
   final TextEditingController yourAddressTextEC = TextEditingController();
   final TextEditingController partnerAddressTextEC = TextEditingController();
@@ -36,6 +36,12 @@ class SettingController extends GetxController {
 
   RxString appVersion = "--".obs;
   RxString appBuildNumber = "--".obs;
+
+  SettingController({
+    required this.getUserFcmTokenUseCase,
+    required this.getPartnerFcmTokenUseCase,
+    required this.savePartnerFcmTokenUseCase,
+  });
 
   @override
   void onInit() {
@@ -79,7 +85,7 @@ class SettingController extends GetxController {
 
   Future<void> savePartnerAddress(String partnerAddress) async {
     try {
-      await _savePartnerFcmTokenUseCase(request: SimpleParam(partnerAddress));
+      await savePartnerFcmTokenUseCase(request: SimpleParam(partnerAddress));
     } on AppException catch (e) {
       Logs.e("savePartnerAddress failed with ${e.toString()}");
       Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
@@ -88,14 +94,11 @@ class SettingController extends GetxController {
 
   Future<void> getUserFCMToken() async {
     try {
-      final response = await _getUserFcmTokenUseCase();
+      final response = await getUserFcmTokenUseCase();
       final value = (response.netData as SimpleModel<String?>).value;
       if (value != null && value.isNotEmpty) {
         yourAddressTextEC.text = value;
-      } else {
-        // TODO Request permission again
-        // TODO Check if permission is granted
-      }
+      } else {}
     } on AppException catch (e) {
       Logs.e("getUserFCMToken failed with ${e.toString()}");
       Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
@@ -104,7 +107,7 @@ class SettingController extends GetxController {
 
   Future<void> getPartnerFCMToken() async {
     try {
-      final response = await _getPartnerFcmTokenUseCase();
+      final response = await getPartnerFcmTokenUseCase();
       final value = (response.netData as SimpleModel<String>).value;
       if (value != null && value.isNotEmpty) {
         partnerAddressTextEC.text = value;

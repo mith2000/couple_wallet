@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../components/feature/home/home_nav_bar.dart';
+import '../../components/feature/shortcut/bottomSheet/shortcut_bottom_sheet_controller.dart';
+import 'screens/love/messages/list_message_controller.dart';
 import 'screens/love/send_love_controller.dart';
 import 'screens/record_screen.dart';
 import 'screens/setting/setting_controller.dart';
@@ -13,13 +15,6 @@ part 'home_page.dart';
 class HomeController extends GetxController {
   PageController pageController = PageController();
   RxInt selectedIndex = 0.obs;
-
-  @override
-  void onInit() {
-    Get.put<SendLoveController>(SendLoveController());
-    Get.put<SettingController>(SettingController());
-    super.onInit();
-  }
 
   void onPageChange(int page) {
     selectedIndex.value = page;

@@ -17,15 +17,22 @@ import '../send_love_controller.dart';
 part 'list_message_widget.dart';
 
 class ListMessageController extends GetxController {
-  final GetUserFcmTokenUseCase _getUserFcmTokenUseCase = Get.find();
-  final GetPartnerFcmTokenUseCase _getPartnerFcmTokenUseCase = Get.find();
-  final GetChatSessionUseCase _getChatSessionUseCase = Get.find();
+  final GetUserFcmTokenUseCase getUserFcmTokenUseCase;
+  final GetPartnerFcmTokenUseCase getPartnerFcmTokenUseCase;
+  final GetChatSessionUseCase getChatSessionUseCase;
 
   final RxList<LoveMessageModelV> messages = RxList();
   final RxBool isLoadingMessages = false.obs;
+
   List<String> chatSessionParticipants = [];
   String myFCMToken = "";
   String partnerFCMToken = "";
+
+  ListMessageController({
+    required this.getUserFcmTokenUseCase,
+    required this.getPartnerFcmTokenUseCase,
+    required this.getChatSessionUseCase,
+  });
 
   @override
   void onInit() async {
@@ -37,7 +44,7 @@ class ListMessageController extends GetxController {
 
   Future<void> getUserFCMToken() async {
     try {
-      final response = await _getUserFcmTokenUseCase();
+      final response = await getUserFcmTokenUseCase();
       final value = (response.netData as SimpleModel<String?>).value;
       if (value != null && value.isNotEmpty) {
         chatSessionParticipants.add(value);
@@ -52,7 +59,7 @@ class ListMessageController extends GetxController {
 
   Future<void> getPartnerFCMToken() async {
     try {
-      final response = await _getPartnerFcmTokenUseCase();
+      final response = await getPartnerFcmTokenUseCase();
       final value = (response.netData as SimpleModel<String>).value;
       if (value != null && value.isNotEmpty) {
         chatSessionParticipants.add(value);
@@ -70,7 +77,7 @@ class ListMessageController extends GetxController {
     isLoadingMessages.value = true;
     try {
       final requestParam = ChatQueryParam(participants: chatSessionParticipants);
-      final response = await _getChatSessionUseCase(request: requestParam);
+      final response = await getChatSessionUseCase(request: requestParam);
       final model = response.netData;
       if (model != null) {
         ILoveMessageAdapter loveMessageAdapter = LoveMessageAdapter();
