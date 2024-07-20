@@ -49,8 +49,7 @@ class ListMessageController extends GetxController {
       if (value != null && value.isNotEmpty) {
         chatSessionParticipants.add(value);
         myFCMToken = value;
-      } else {
-      }
+      } else {}
     } on AppException catch (e) {
       Logs.e("getUserFCMToken failed with ${e.toString()}");
       Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
@@ -72,9 +71,12 @@ class ListMessageController extends GetxController {
     }
   }
 
-  Future<void> getChatSession() async {
-    if (chatSessionParticipants.length < 2) return;
-    isLoadingMessages.value = true;
+  Future<void> getChatSession({bool isRefresh = true}) async {
+    if (chatSessionParticipants.length < 2) {
+      // TODO Inform lack of partner
+      return;
+    }
+    if (isRefresh) isLoadingMessages.value = true;
     try {
       final requestParam = ChatQueryParam(participants: chatSessionParticipants);
       final response = await getChatSessionUseCase(request: requestParam);
@@ -87,7 +89,7 @@ class ListMessageController extends GetxController {
       Logs.e("_getChatSessionUseCase failed with $e");
       Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
-    isLoadingMessages.value = false;
+    if (isRefresh) isLoadingMessages.value = false;
   }
 
   void addMessageToListAsOwner(String stringContent) {

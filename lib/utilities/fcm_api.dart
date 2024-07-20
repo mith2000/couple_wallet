@@ -34,14 +34,14 @@ class FirebaseMessagingAPI {
   }
 
   // Handle received message
-  Future<void> handleMessage(RemoteMessage? message) async {
+  Future<void> handleMessage(RemoteMessage? message, {bool isForeground = false}) async {
     // if message is null, do nothing
     if (message == null) return;
 
     // Wait for some seconds because sender side take time to prepare data
     // Can only improve if using WebSocket connection instead of HTTP
     await Future.delayed(delayTimeSenderPrepare);
-    Logs.d("Handle message: ${message.notification?.body}");
+    Logs.i("Handle message: ${message.notification?.body}");
     Get.put<ListMessageController>(
       ListMessageController(
         getUserFcmTokenUseCase: Get.find(),
@@ -49,7 +49,8 @@ class FirebaseMessagingAPI {
         getChatSessionUseCase: Get.find(),
       ),
     );
-    Get.find<ListMessageController>().getChatSession();
+    // Only foreground notification will disable show loading
+    Get.find<ListMessageController>().getChatSession(isRefresh: !isForeground);
   }
 
   Future initLocalNotifications() async {
@@ -63,7 +64,7 @@ class FirebaseMessagingAPI {
         final payload = details.payload;
         if (payload != null) {
           final message = RemoteMessage.fromMap(jsonDecode(payload));
-          handleMessage(message);
+          handleMessage(message, isForeground: true);
         }
       },
     );
@@ -111,7 +112,7 @@ class FirebaseMessagingAPI {
         payload: jsonEncode(message.toMap()),
       );
 
-      handleMessage(message);
+      handleMessage(message, isForeground: true);
     });
   }
 }
@@ -141,6 +142,6 @@ class FirebaseAccessTokenAPI {
 
     // Extract the access token from the credentials
     accessToken = client.credentials.accessToken.data;
-    Logs.d("Firebase Access Token has been claimed");
+    Logs.i("Firebase Access Token has been claimed");
   }
 }
