@@ -129,18 +129,26 @@ class SendLoveController extends GetxController {
   }
 
   void showSnackBarSuccess(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    const snackBarHeight = 68.0;
+    const navBarHeight = 64.0;
     final snackBar = SnackBar(
       behavior: SnackBarBehavior.floating,
+      // Want the message to be centered
+      margin: EdgeInsets.only(
+        bottom: size.height * 0.5 - snackBarHeight / 2 - navBarHeight / 2,
+        left: size.width * 0.25,
+        right: size.width * 0.25,
+      ),
+      backgroundColor: AppColors.of.mainTextColor.withOpacity(0.75),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppThemeExt.of.dimen(4)),
+      ),
+      elevation: 0,
       content: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(
-            child: Text(
-              R.strings.wordsOfLoveHaveBeenSent.tr,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
+          Flexible(child: Text(R.strings.wordsOfLoveHaveBeenSent.tr)),
           Lottie.asset(
             R.json.animCheck.path,
             width: 24,
