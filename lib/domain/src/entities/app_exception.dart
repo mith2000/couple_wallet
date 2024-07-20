@@ -22,12 +22,25 @@ class LocalException extends AppException {
 }
 
 class ErrorCode {
+  // Bad request
   static const code400 = 400;
+
+  // Unauthorized
   static const code401 = 401;
+
+  // Forbidden
   static const code403 = 403;
+
+  // Not found
   static const code404 = 404;
+
+  // Internal server error
   static const code500 = 500;
+
+  // Bad gateway
   static const code502 = 502;
+
+  // Service unavailable
   static const code503 = 503;
 
   // Self defined

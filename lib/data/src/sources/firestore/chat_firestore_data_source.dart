@@ -34,13 +34,11 @@ class ChatRemoteDataSourceImpl extends ChatRemoteDataSource {
         Logs.i("No chat document found");
         return AppResultRaw(netData: ChatRaw.empty());
       }
+    } on FirebaseException catch (e) {
+      throw FirestoreHandleError.handleFirestoreException(e);
     } catch (e) {
       FirestoreExceptionLogs.onError(e);
-      throw NetworkException(
-        code: ErrorCode.code9999,
-        message: 'Something went wrong: ${e.toString()}',
-        errorCode: ErrorCode.unknownNetworkServiceError,
-      );
+      throw FirestoreHandleError.unknown(e);
     }
   }
 
@@ -58,7 +56,7 @@ class ChatRemoteDataSourceImpl extends ChatRemoteDataSource {
         // If a chat document is found, get its reference
         var chatRef = docSnapshot.reference;
 
-        _instance.runTransaction((transaction) async {
+        await _instance.runTransaction((transaction) async {
           var chatSnapshot = await transaction.get(chatRef);
           var messages = List.from(chatSnapshot.data()?[messagesField] ?? []);
 
@@ -73,10 +71,11 @@ class ChatRemoteDataSourceImpl extends ChatRemoteDataSource {
           // Update the document with the new list of messages
           transaction.update(chatRef, {messagesField: messages});
         }).then(
-          (value) =>
-              Logs.i("Document updated successfully with new message $request"),
-          onError: (e) =>
-              Logs.e("FirebaseFirestore Error updating document: $e"),
+          (value) => Logs.i("Document updated successfully with new message $request"),
+          onError: (e) => {
+            FirestoreExceptionLogs.onError(e),
+            throw e,
+          },
         );
       } else {
         // If no chat document is found, create a new one with the initial message
@@ -86,13 +85,11 @@ class ChatRemoteDataSourceImpl extends ChatRemoteDataSource {
         });
       }
       return AppResultRaw(netData: EmptyRaw());
+    } on FirebaseException catch (e) {
+      throw FirestoreHandleError.handleFirestoreException(e);
     } catch (e) {
       FirestoreExceptionLogs.onError(e);
-      throw NetworkException(
-        code: ErrorCode.code9999,
-        message: 'Something went wrong: ${e.toString()}',
-        errorCode: ErrorCode.unknownNetworkServiceError,
-      );
+      throw FirestoreHandleError.unknown(e);
     }
   }
 
