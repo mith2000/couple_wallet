@@ -12,9 +12,9 @@ class LoveMessageModelV {
     required this.time,
   });
 
-  String get timeDisplay => DateTimeExt.dateTimeToDisplay(
+  String get timeDisplay => DateTimeUtil.toDateDisplay(
         dateTime: time,
-        pattern: DateTimeExt.patterneeeHHmm,
+        pattern: DateTimeUtil.patterneeeHHmm,
         locale: AppLocaleService().localeString,
       );
 }

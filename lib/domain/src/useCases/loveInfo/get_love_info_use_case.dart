@@ -1,7 +1,6 @@
 part of '../base_use_case.dart';
 
-abstract class GetLoveInfoUseCase
-    extends BaseUseCase<BaseParam, LoveInfoModel> {}
+abstract class GetLoveInfoUseCase extends BaseUseCase<BaseParam, LoveInfoModel> {}
 
 class GetLoveInfoUseCaseImpl extends GetLoveInfoUseCase {
   // Remove this hardcode and get from user input
@@ -9,9 +8,7 @@ class GetLoveInfoUseCaseImpl extends GetLoveInfoUseCase {
 
   @override
   Future<AppResultModel<LoveInfoModel>> call({BaseParam? request}) async {
-    final now = DateTime.now().startOfDay();
-    final daysInDifference = now.difference(loveStartDate).inDays;
-    final model = LoveInfoModel(totalLoveDays: daysInDifference);
+    final model = LoveInfoModel(totalLoveDays: loveStartDate.totalDaysFromNow);
     return AppResultModel<LoveInfoModel>(netData: model);
   }
 }
