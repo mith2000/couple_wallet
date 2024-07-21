@@ -9,6 +9,7 @@ import 'package:googleapis_auth/auth_io.dart';
 import '../app/pages/home/screens/love/messages/list_message_controller.dart';
 import 'logs.dart';
 
+const androidHighImportanceChannelId = 'high_importance_channel';
 const delayTimeSenderPrepare = Duration(seconds: 3);
 
 class FirebaseMessagingAPI {
@@ -16,11 +17,10 @@ class FirebaseMessagingAPI {
   final _localNotifications = FlutterLocalNotificationsPlugin();
 
   final _androidChannel = const AndroidNotificationChannel(
-    'high_importance_channel', // id
-    'High Importance Notifications', // title
+    androidHighImportanceChannelId,
+    'High Importance Notifications',
     description: 'This channel is used for important notifications.',
-    // description
-    importance: Importance.defaultImportance,
+    importance: Importance.high,
   );
 
   // Init notification

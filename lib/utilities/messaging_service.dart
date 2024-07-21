@@ -30,6 +30,13 @@ class MessagingService {
           'body': body,
         },
         "android": {
+          "notification": {
+            "channel_id": androidHighImportanceChannelId,
+            "notification_priority": "priority_high",
+            "visibility": "public",
+            "image":
+                "https://firebasestorage.googleapis.com/v0/b/couple-wallet-15a7a.appspot.com/o/app_icon.png?alt=media&token=aa0db0ba-ced2-4d3e-94b9-ec14347cb633"
+          },
           "priority": "high",
         },
         "apns": {
