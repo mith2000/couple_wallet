@@ -38,5 +38,7 @@
   "aboutUs": "Về chúng tôi",
   "appInfo": "Thông tin ứng dụng",
   "version": "Phiên bản",
-  "createMemoryWithPartner": "Cùng nhau tạo những kỷ niệm với người yêu của bạn nào"
+  "createMemoryWithPartner": "Cùng nhau tạo những kỷ niệm\n với người yêu của bạn nào",
+  "missingSendingAddress": "Thiếu địa chỉ gửi",
+  "saveFailed": "Lưu không thành công"
 }

@@ -64,6 +64,7 @@ class ListMessageController extends GetxController {
         chatSessionParticipants.add(value);
         partnerFCMToken = value;
       } else {
+        Logs.e("getPartnerFCMToken failed because value was null or empty");
       }
     } on AppException catch (e) {
       Logs.e("getPartnerFCMToken failed with ${e.toString()}");
@@ -72,10 +73,7 @@ class ListMessageController extends GetxController {
   }
 
   Future<void> getChatSession({bool isRefresh = true}) async {
-    if (chatSessionParticipants.length < 2) {
-      // TODO Inform lack of partner
-      return;
-    }
+    if (chatSessionParticipants.length < 2) return;
     if (isRefresh) isLoadingMessages.value = true;
     try {
       final requestParam = ChatQueryParam(participants: chatSessionParticipants);

@@ -38,5 +38,7 @@
   "aboutUs": "About us",
   "appInfo": "App info",
   "version": "Version",
-  "createMemoryWithPartner": "Let's create memories with your lover"
+  "createMemoryWithPartner": "Let's create memories\n with your lover",
+  "missingSendingAddress": "Missing sending address",
+  "saveFailed": "Save failed"
 }

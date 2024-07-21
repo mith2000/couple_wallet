@@ -161,6 +161,10 @@ class SendLoveController extends GetxController {
       listMessageController.addMessageToListAsOwner(content);
     } on AppException catch (e) {
       Logs.e("_sendMessageUseCase failed with $e");
+      if (e.errorCode == ErrorCode.lackOfParticipantsError) {
+        Get.find<AppErrorHandlingService>().showErrorSnackBar(R.strings.missingSendingAddress.tr);
+        return;
+      }
       Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
   }

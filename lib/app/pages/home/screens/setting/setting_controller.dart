@@ -86,6 +86,10 @@ class SettingController extends GetxController {
       await savePartnerFcmTokenUseCase(request: SimpleParam(partnerAddress));
     } on AppException catch (e) {
       Logs.e("savePartnerAddress failed with ${e.toString()}");
+      if (e.errorCode == ErrorCode.lackOfInputError) {
+        Get.find<AppErrorHandlingService>().showErrorSnackBar(R.strings.saveFailed.tr);
+        return;
+      }
       Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
   }
