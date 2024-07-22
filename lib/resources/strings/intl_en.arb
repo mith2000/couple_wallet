@@ -41,5 +41,7 @@
   "createMemoryWithPartner": "Let's create memories\n with your lover",
   "missingSendingAddress": "Missing sending address",
   "saveFailed": "Save failed",
-  "mostRecentLoveMessage": "Most recent love message"
+  "mostRecentLoveMessage": "Most recent love message",
+  "today": "Today",
+  "yesterday": "Yesterday"
 }

@@ -11,6 +11,7 @@ class DateTimeUtil {
   static const String patternddMMyyyy = 'dd/MM/yyyy';
   static const String patternHHmm = 'HH:mm';
   static const String patterneeeHHmm = 'EEE HH:mm';
+  static const String patternMMMddHHmm = 'MMM dd, HH:mm';
 
   static String toDateDisplay({
     required DateTime? dateTime,
@@ -80,7 +81,14 @@ extension DateTimeExt on DateTime {
     return year == other.year;
   }
 
+  bool isTheSameWeek(DateTime other) {
+    if (!isTheSameMonth(other)) return false;
+    return other.startOfDay.difference(startOfDay).inDays <= 6;
+  }
+
   bool get isToday => isTheSameDate(DateTime.now());
+
+  bool get isYesterday => startOfDay.isTheSameDate(DateTime.now().startOfDay.subtractDays(1));
 
   bool isMoreThanInMinute(DateTime other, int minutes) {
     return difference(other).inMinutes > minutes;

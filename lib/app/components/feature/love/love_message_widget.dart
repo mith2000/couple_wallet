@@ -89,7 +89,7 @@ class LoveMessageWidget extends StatelessWidget {
     return [
       Gap(AppThemeExt.of.dimen(2)),
       Text(
-        model.timeDisplay,
+        model.getTimeDisplay(),
         style: Theme.of(context).textTheme.bodySmall,
       ),
       Gap(AppThemeExt.of.dimen(2)),
@@ -203,7 +203,7 @@ class _MessageBoxState extends State<MessageBox>
           horizontal: AppThemeExt.of.dimen(3),
         ).copyWith(bottom: AppThemeExt.of.dimen(1)),
         child: Text(
-          widget.model.timeDisplay,
+          widget.model.getTimeDisplay(),
           style: Theme.of(context).textTheme.labelSmall,
         ),
       ),

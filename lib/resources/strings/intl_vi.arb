@@ -41,5 +41,7 @@
   "createMemoryWithPartner": "Cùng nhau tạo những kỷ niệm\n với người yêu của bạn nào",
   "missingSendingAddress": "Thiếu địa chỉ gửi",
   "saveFailed": "Lưu không thành công",
-  "mostRecentLoveMessage": "Lời yêu gần đây nhất"
+  "mostRecentLoveMessage": "Lời yêu gần đây nhất",
+  "today": "Hôm nay",
+  "yesterday": "Hôm qua"
 }
