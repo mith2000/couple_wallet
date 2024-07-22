@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../../../../resources/resources.dart';
 import '../../../models/love_message_modelview.dart';
+import '../../../services/app_system_feedback.dart';
 import '../../../theme/app_theme.dart';
 
 const backgroundColor = Color(0xffFCF1DE);
@@ -90,7 +91,8 @@ class _MessageBoxState extends State<MessageBox>
     return MenuAnchor(
       builder: (context, controller, child) {
         return GestureDetector(
-          onLongPress: () {
+          onLongPress: () async {
+            await AppSystemFeedback.lightFeedback();
             _controller.forward();
             Future.delayed(
               const Duration(milliseconds: bouncingAnimationDuration),
@@ -101,7 +103,7 @@ class _MessageBoxState extends State<MessageBox>
             );
           },
           child: ScaleTransition(
-            scale: Tween(begin: 1.0, end: 0.9).animate(
+            scale: Tween(begin: 1.0, end: 0.8).animate(
               CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
             ),
             child: _buildContainer(context),
