@@ -10,6 +10,9 @@ import '../components/main/snackBars/app_base_snack_bar.dart';
 class NetworkConnectionService extends GetxService {
   final Connectivity _connectivity = Connectivity();
 
+  /// Mark the app when the connection returned
+  bool isLostConnection = false;
+
   @override
   void onInit() {
     super.onInit();
@@ -18,6 +21,7 @@ class NetworkConnectionService extends GetxService {
 
   void _updateConnectionStatus(ConnectivityResult result) {
     if (result == ConnectivityResult.none) {
+      isLostConnection = true;
       AppDefaultSnackBar.inform(
         context: Get.context!,
         content: Row(
@@ -35,7 +39,8 @@ class NetworkConnectionService extends GetxService {
         // Animation duration
         duration: const Duration(milliseconds: 3000),
       ).show();
-    } else if (result == ConnectivityResult.wifi) {
+    } else if (result == ConnectivityResult.wifi && isLostConnection == true) {
+      isLostConnection = false;
       AppDefaultSnackBar.inform(
         context: Get.context!,
         content: Row(

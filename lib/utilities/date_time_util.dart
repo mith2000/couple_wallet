@@ -92,5 +92,5 @@ extension DateTimeExt on DateTime {
 
   bool get isInThePast => DateTime.now().isAfter(this);
 
-  int get totalDaysFromNow => startOfDay.difference(DateTime.now().startOfDay).inDays;
+  int get totalDaysFromNow => startOfDay.difference(DateTime.now().startOfDay).abs().inDays;
 }
