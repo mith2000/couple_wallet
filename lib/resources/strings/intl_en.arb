@@ -40,5 +40,6 @@
   "version": "Version",
   "createMemoryWithPartner": "Let's create memories\n with your lover",
   "missingSendingAddress": "Missing sending address",
-  "saveFailed": "Save failed"
+  "saveFailed": "Save failed",
+  "mostRecentLoveMessage": "Most recent love message"
 }

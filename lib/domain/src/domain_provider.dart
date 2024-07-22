@@ -4,6 +4,10 @@ import '../domain.dart';
 
 class DomainProvider {
   static Future<void> inject() async {
+    // Business services
+    Get.lazyPut<DateDisplayService>(() => DateDisplayServiceImpl());
+
+    // Use cases
     Get.lazyPut<GetChatSessionUseCase>(() => GetChatSessionUseCaseImpl(Get.find()));
     Get.lazyPut<SendMessageUseCase>(() => SendMessageUseCaseImpl(Get.find()));
     Get.lazyPut<GetLoveInfoUseCase>(() => GetLoveInfoUseCaseImpl());

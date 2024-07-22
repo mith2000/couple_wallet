@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
+import '../../../../domain/domain.dart';
 import '../../../../resources/resources.dart';
 import '../../../models/love_message_modelview.dart';
 import '../../../services/app_system_feedback.dart';
@@ -19,35 +20,80 @@ class LoveMessageWidget extends StatelessWidget {
   final bool isShowPartnerAvatar;
   final Function? onReply;
 
+  /// For render most recent notice
+  final bool isFirstOfList;
+
+  /// For render date notice
+  final LoveMessageModelV? previousModel;
+
   const LoveMessageWidget({
     super.key,
     required this.model,
     this.isShowPartnerAvatar = false,
     this.onReply,
+    this.isFirstOfList = false,
+    this.previousModel,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: model.isOwner ? Alignment.centerRight : Alignment.centerLeft,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          if (!model.isOwner)
-            Container(
-              height: messageAvatarSize,
-              width: messageAvatarSize,
-              decoration: const BoxDecoration(shape: BoxShape.circle),
-              child: isShowPartnerAvatar
-                  ? CircleAvatar(child: R.pngs.appIcon.image())
-                  : Container(),
-            ),
-          if (!model.isOwner) Gap(AppThemeExt.of.dimen(2)),
-          MessageBox(model: model, onReply: onReply),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        ...buildMostRecentNotice(context),
+        ...buildDateNotice(context),
+        Align(
+          alignment: model.isOwner ? Alignment.centerRight : Alignment.centerLeft,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              if (!model.isOwner)
+                Container(
+                  height: messageAvatarSize,
+                  width: messageAvatarSize,
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  child: isShowPartnerAvatar
+                      ? CircleAvatar(child: R.pngs.appIcon.image())
+                      : Container(),
+                ),
+              if (!model.isOwner) Gap(AppThemeExt.of.dimen(2)),
+              MessageBox(model: model, onReply: onReply),
+            ],
+          ),
+        ),
+      ],
     );
+  }
+
+  List<Widget> buildMostRecentNotice(BuildContext context) {
+    if (isFirstOfList) {
+      return [
+        Gap(AppThemeExt.of.dimen(2)),
+        Text(
+          R.strings.mostRecentLoveMessage.tr,
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+      ];
+    }
+    return [];
+  }
+
+  List<Widget> buildDateNotice(BuildContext context) {
+    if (previousModel != null) {
+      final dateDisplayService = Get.find<DateDisplayService>();
+      if (!dateDisplayService.isDisplayDate(previousModel!.time, model.time)) {
+        return [];
+      }
+    }
+    return [
+      Gap(AppThemeExt.of.dimen(2)),
+      Text(
+        model.timeDisplay,
+        style: Theme.of(context).textTheme.bodySmall,
+      ),
+      Gap(AppThemeExt.of.dimen(2)),
+    ];
   }
 }
 

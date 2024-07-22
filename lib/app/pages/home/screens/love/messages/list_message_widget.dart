@@ -31,6 +31,7 @@ class ListMessageWidget extends GetView<ListMessageController> {
 
           return ListView.builder(
             itemCount: listMessages.length,
+            padding: EdgeInsets.zero,
             itemBuilder: (context, index) {
               // The last one should show the partner's avatar if owner is false
               if (index == listMessages.length - 1) {
@@ -38,15 +39,24 @@ class ListMessageWidget extends GetView<ListMessageController> {
                   model: listMessages[index],
                   isShowPartnerAvatar: true,
                   onReply: () => controller.onReplyMessage(context),
+                  previousModel: index == 0 ? null : listMessages[index - 1],
                 );
               }
               // If the next one is not same owner, show the partner's avatar
               final isShow = listMessages[index + 1].isOwner != listMessages[index].isOwner;
-              return LoveMessageWidget(
-                model: listMessages[index],
-                isShowPartnerAvatar: isShow,
-                onReply: () => controller.onReplyMessage(context),
-              );
+              return (index == 0)
+                  ? LoveMessageWidget(
+                      model: listMessages[index],
+                      isShowPartnerAvatar: isShow,
+                      onReply: () => controller.onReplyMessage(context),
+                      isFirstOfList: true,
+                    )
+                  : LoveMessageWidget(
+                      model: listMessages[index],
+                      isShowPartnerAvatar: isShow,
+                      onReply: () => controller.onReplyMessage(context),
+                      previousModel: listMessages[index - 1],
+                    );
             },
           );
         },
