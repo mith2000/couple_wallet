@@ -7,6 +7,12 @@ class SharedPrefRepositoryImpl extends SharedPrefRepository {
   SharedPrefRepositoryImpl(this._sharedPrefDS);
 
   @override
+  Future<String> getUserID() => _sharedPrefDS.getUserID();
+
+  @override
+  Future<void> saveUserID(String id) => _sharedPrefDS.saveUserID(id);
+
+  @override
   Future<String?> getUserFCMToken() => _sharedPrefDS.getUserFCMToken();
 
   @override

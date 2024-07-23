@@ -43,5 +43,6 @@
   "saveFailed": "Save failed",
   "mostRecentLoveMessage": "Most recent love message",
   "today": "Today",
-  "yesterday": "Yesterday"
+  "yesterday": "Yesterday",
+  "userIDNotFound": "User ID not found"
 }

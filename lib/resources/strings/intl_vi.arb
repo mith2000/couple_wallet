@@ -43,5 +43,6 @@
   "saveFailed": "Lưu không thành công",
   "mostRecentLoveMessage": "Lời yêu gần đây nhất",
   "today": "Hôm nay",
-  "yesterday": "Hôm qua"
+  "yesterday": "Hôm qua",
+  "userIDNotFound": "Không tìm thấy ID người dùng"
 }

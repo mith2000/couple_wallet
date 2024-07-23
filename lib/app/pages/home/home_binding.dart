@@ -28,6 +28,6 @@ class HomeBinding extends Bindings {
         savePartnerFcmTokenUseCase: Get.find(),
       ),
     );
-    Get.put<HomeController>(HomeController());
+    Get.put<HomeController>(HomeController(getUserIDUseCase: Get.find()));
   }
 }

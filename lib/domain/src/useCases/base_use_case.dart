@@ -1,6 +1,9 @@
 import '../../../utilities/date_time_util.dart';
+import '../../../utilities/logs.dart';
 import '../../domain.dart';
 
+part 'auth/get_user_id_use_case.dart';
+part 'auth/save_user_id_use_case.dart';
 part 'chat/get_chat_session_use_case.dart';
 part 'chat/get_partner_fcm_token_use_case.dart';
 part 'chat/get_user_fcm_token_use_case.dart';

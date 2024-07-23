@@ -10,3 +10,13 @@ part 'shared_pref_local_data_source.dart';
 final class LocalExceptionLogs {
   static void onError(Object e) => Logs.e("Local Data Source Error: ${e.toString()}");
 }
+
+final class LocalHandleError {
+  static Exception unknown(Object e) {
+    throw LocalException(
+      code: ErrorCode.code9999,
+      message: 'Something went wrong: ${e.toString()}',
+      errorCode: ErrorCode.unknownLocalServiceError,
+    );
+  }
+}
