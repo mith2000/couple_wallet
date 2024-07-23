@@ -7,6 +7,7 @@ class AppPrefKey {
   static const String userAddress = 'userAddress';
   static const String partnerAddress = 'partnerAddress';
   static const String shortcutSetName = 'shortcutSetName';
+  static const String appUUID = 'appUniversalUserID';
 }
 
 class AppNetworkKey {
@@ -14,4 +15,6 @@ class AppNetworkKey {
   static const String authorization = 'Authorization';
   static const String mobile = 'mobile';
   static const String basic = 'Basic';
+  static const String contentType = 'Content-Type';
+  static const String appJsonContentType = 'application/json';
 }
