@@ -32,6 +32,8 @@ class HomeBinding extends Bindings {
       HomeController(
         getUserIDUseCase: Get.find(),
         getUserInfoUseCase: Get.find(),
+        registerUserUseCase: Get.find(),
+        getUserFcmTokenUseCase: Get.find(),
       ),
     );
   }

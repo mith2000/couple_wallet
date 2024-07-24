@@ -22,5 +22,6 @@ class DomainProvider {
       ),
     );
     Get.lazyPut<GetUserInfoUseCase>(() => GetUserInfoUseCaseImpl(Get.find()));
+    Get.lazyPut<RegisterUserUseCase>(() => RegisterUserUseCaseImpl(Get.find()));
   }
 }

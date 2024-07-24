@@ -17,12 +17,6 @@ class UserRaw extends BaseRaw<UserModel> {
         fcmToken: json['fcmToken'] as String?,
       );
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'deviceId': deviceId,
-        'fcmToken': fcmToken,
-      };
-
   @override
   UserModel raw2Model() {
     return UserModel(

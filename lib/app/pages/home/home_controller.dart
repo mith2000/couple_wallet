@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,6 +22,8 @@ part 'home_page.dart';
 class HomeController extends GetxController {
   final GetUserIDUseCase getUserIDUseCase;
   final GetUserInfoUseCase getUserInfoUseCase;
+  final RegisterUserUseCase registerUserUseCase;
+  final GetUserFcmTokenUseCase getUserFcmTokenUseCase;
 
   PageController pageController = PageController();
   RxInt selectedIndex = 0.obs;
@@ -26,6 +31,8 @@ class HomeController extends GetxController {
   HomeController({
     required this.getUserIDUseCase,
     required this.getUserInfoUseCase,
+    required this.registerUserUseCase,
+    required this.getUserFcmTokenUseCase,
   });
 
   @override
@@ -36,12 +43,7 @@ class HomeController extends GetxController {
 
   void fetchUserInfo() async {
     String userId = await getUserID();
-    Logs.i("Waiting to fetch user info. User ID: $userId");
-    if (userId.isNotEmpty) {
-      await getUserInfo(userId);
-    } else {
-      // TODO Create a new user
-    }
+    await getUserInfo(userId);
   }
 
   Future<String> getUserID() async {
@@ -65,9 +67,9 @@ class HomeController extends GetxController {
   Future<void> getUserInfo(String userId) async {
     try {
       final response = await getUserInfoUseCase(request: SimpleParam(userId));
-      final value = (response.netData as SimpleModel<String>).value;
-      if (value != null && value.isNotEmpty) {
-        Logs.i("Fetched user info. User ID: $userId");
+      final data = response.netData;
+      if (data is UserModel) {
+        // Save user info
       }
     } on AppException catch (e) {
       Logs.e("getUserInfo failed with ${e.toString()}");
@@ -76,12 +78,61 @@ class HomeController extends GetxController {
         return;
       }
       if (e.errorCode == ErrorCode.notFoundError) {
-        Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
-        // TODO Create a new user
+        registerUser(userId);
         return;
       }
       Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
+  }
+
+  Future<void> registerUser(String userId) async {
+    try {
+      final deviceID = await getDeviceID();
+      final fcmToken = await getUserFCMToken();
+      await registerUserUseCase(
+        request: RegisterUserParam(
+          id: userId,
+          deviceId: deviceID,
+          fcmToken: fcmToken,
+        ),
+      );
+    } on AppException catch (e) {
+      Logs.e("registerUser failed with ${e.toString()}");
+      if (e.errorCode == ErrorCode.lackOfInputError) {
+        Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? '');
+        return;
+      }
+      if (e.errorCode == ErrorCode.alreadyExistedError) {
+        Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
+        return;
+      }
+      Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
+    }
+  }
+
+  Future<String> getDeviceID() async {
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) {
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      return iosDeviceInfo.identifierForVendor ?? 'iOS Info not found';
+    } else if (Platform.isAndroid) {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      return androidDeviceInfo.id;
+    }
+    return 'N/A';
+  }
+
+  Future<String> getUserFCMToken() async {
+    try {
+      final response = await getUserFcmTokenUseCase();
+      final value = (response.netData as SimpleModel<String?>).value;
+      if (value != null && value.isNotEmpty) {
+        return value;
+      }
+    } on AppException catch (e) {
+      Logs.e("getUserFCMToken failed with ${e.toString()}");
+    }
+    return '';
   }
 
   void onPageChange(int page) {
