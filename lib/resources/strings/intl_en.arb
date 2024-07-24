@@ -44,5 +44,6 @@
   "mostRecentLoveMessage": "Most recent love message",
   "today": "Today",
   "yesterday": "Yesterday",
-  "userIDNotFound": "User ID not found"
+  "userIDNotFound": "User ID not found",
+  "missingUserId": "Missing user ID"
 }

@@ -9,7 +9,7 @@ abstract class AppException implements Exception {
 
   @override
   String toString() {
-    return "[$code]: $message : $errorCode";
+    return "[$code]: $errorCode\nMessage: $message";
   }
 }
 
@@ -34,6 +34,9 @@ class ErrorCode {
   // Not found
   static const code404 = 404;
 
+  // Conflict
+  static const code409 = 409;
+
   // Internal server error
   static const code500 = 500;
 
@@ -49,4 +52,6 @@ class ErrorCode {
   static const String unknownLocalServiceError = 'unknown_local_service_error';
   static const String lackOfInputError = 'lack_of_input';
   static const String lackOfParticipantsError = 'lack_of_participants';
+  static const String notFoundError = 'not_found';
+  static const String alreadyExistedError = 'already_existed';
 }

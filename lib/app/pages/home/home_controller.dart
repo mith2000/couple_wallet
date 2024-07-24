@@ -18,11 +18,15 @@ part 'home_page.dart';
 
 class HomeController extends GetxController {
   final GetUserIDUseCase getUserIDUseCase;
+  final GetUserInfoUseCase getUserInfoUseCase;
 
   PageController pageController = PageController();
   RxInt selectedIndex = 0.obs;
 
-  HomeController({required this.getUserIDUseCase});
+  HomeController({
+    required this.getUserIDUseCase,
+    required this.getUserInfoUseCase,
+  });
 
   @override
   void onInit() {
@@ -33,7 +37,11 @@ class HomeController extends GetxController {
   void fetchUserInfo() async {
     String userId = await getUserID();
     Logs.i("Waiting to fetch user info. User ID: $userId");
-    // TODO Fetch user info
+    if (userId.isNotEmpty) {
+      await getUserInfo(userId);
+    } else {
+      // TODO Create a new user
+    }
   }
 
   Future<String> getUserID() async {
@@ -52,6 +60,28 @@ class HomeController extends GetxController {
       Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
     return '';
+  }
+
+  Future<void> getUserInfo(String userId) async {
+    try {
+      final response = await getUserInfoUseCase(request: SimpleParam(userId));
+      final value = (response.netData as SimpleModel<String>).value;
+      if (value != null && value.isNotEmpty) {
+        Logs.i("Fetched user info. User ID: $userId");
+      }
+    } on AppException catch (e) {
+      Logs.e("getUserInfo failed with ${e.toString()}");
+      if (e.errorCode == ErrorCode.lackOfInputError) {
+        Get.find<AppErrorHandlingService>().showErrorSnackBar(R.strings.missingUserId.tr);
+        return;
+      }
+      if (e.errorCode == ErrorCode.notFoundError) {
+        Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
+        // TODO Create a new user
+        return;
+      }
+      Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
+    }
   }
 
   void onPageChange(int page) {

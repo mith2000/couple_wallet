@@ -5,6 +5,7 @@ part 'app_result_model.dart';
 part 'chat_model.dart';
 part 'love_info_model.dart';
 part 'message_model.dart';
+part 'user_model.dart';
 
 abstract class BaseModel {}
 

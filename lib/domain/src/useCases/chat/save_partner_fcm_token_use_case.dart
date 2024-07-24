@@ -10,7 +10,7 @@ class SavePartnerFcmTokenUseCaseImpl extends SavePartnerFcmTokenUseCase {
   @override
   Future<AppResultModel<EmptyModel>> call({SimpleParam<String>? request}) async {
     final requestParam = request;
-    if (requestParam == null) {
+    if (requestParam == null || requestParam.value.isEmpty) {
       throw LocalException(
         code: ErrorCode.code400,
         message: 'Lack of input',

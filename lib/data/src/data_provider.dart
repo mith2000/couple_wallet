@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../domain/domain.dart';
 import 'repositories/chat_repository_impl.dart';
 import 'repositories/shared_pref_repository_impl.dart';
+import 'repositories/user_repository_impl.dart';
 import 'sources/firestore/base_firestore_data_source.dart';
 import 'sources/local/base_local_data_source.dart';
 
@@ -17,6 +18,7 @@ class _DataSourceProvider {
   static Future<void> inject() async {
     // Firestore
     Get.lazyPut<ChatRemoteDataSource>(() => ChatRemoteDataSourceImpl());
+    Get.lazyPut<UserRemoteDataSource>(() => UserRemoteDataSourceImpl());
 
     // Local
     Get.lazyPut<SharedPrefLocalDataSource>(() => SharedPrefLocalDataSourceImpl(Get.find()));
@@ -25,7 +27,11 @@ class _DataSourceProvider {
 
 class _RepoProvider {
   static Future<void> inject() async {
+    // Firestore
     Get.lazyPut<ChatRepository>(() => ChatRepositoryImpl(Get.find()));
+    Get.lazyPut<UserRepository>(() => UserRepositoryImpl(Get.find()));
+
+    // Local
     Get.lazyPut<SharedPrefRepository>(() => SharedPrefRepositoryImpl(Get.find()));
   }
 }

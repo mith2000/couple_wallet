@@ -21,5 +21,6 @@ class DomainProvider {
         saveUserIDUseCase: Get.find(),
       ),
     );
+    Get.lazyPut<GetUserInfoUseCase>(() => GetUserInfoUseCaseImpl(Get.find()));
   }
 }

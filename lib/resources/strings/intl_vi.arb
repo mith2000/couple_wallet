@@ -44,5 +44,6 @@
   "mostRecentLoveMessage": "Lời yêu gần đây nhất",
   "today": "Hôm nay",
   "yesterday": "Hôm qua",
-  "userIDNotFound": "Không tìm thấy ID người dùng"
+  "userIDNotFound": "Không tìm thấy ID người dùng",
+  "missingUserId": "Thiếu ID người dùng"
 }

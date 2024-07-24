@@ -16,8 +16,6 @@ abstract class ChatRemoteDataSource {
 }
 
 class ChatRemoteDataSourceImpl extends ChatRemoteDataSource {
-  final chatsCollection = _instance.collection(chatCollection);
-
   @override
   Future<AppResultRaw<ChatRaw>> getChatSession({
     required List<String> participants,
