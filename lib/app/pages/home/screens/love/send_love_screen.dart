@@ -20,7 +20,7 @@ class SendLoveScreen extends GetView<SendLoveController> {
           children: [
             const ListMessageWidget(),
             _buildShortcuts(context),
-            Gap(AppThemeExt.of.dimen(2)),
+            Gap(AppThemeExt.of.dimen(1)),
             Obx(
               () => SendLoveInput(
                 textEditingController: controller.mainTextEC,
@@ -38,33 +38,11 @@ class SendLoveScreen extends GetView<SendLoveController> {
   }
 
   Widget _buildShortcuts(BuildContext context) {
-    return Wrap(
-      spacing: AppThemeExt.of.dimen(2),
-      children: List.generate(
-        controller.state.shortcutContents.toList().length,
-        (int index) {
-          return Obx(
-            () => ChoiceChip(
-              label: Text(
-                controller.state.shortcutContents.toList()[index],
-                style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                      color: AppColors.of.mainTextColor,
-                    ),
-              ),
-              showCheckmark: false,
-              selected: controller.state.shortcutSelectedIndex.value == index,
-              onSelected: (bool sel) => controller.onShortcutSelected(context, sel, index),
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                  color: controller.state.shortcutSelectedIndex.value == index
-                      ? Theme.of(context).primaryColor
-                      : AppColors.of.borderColor,
-                ),
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-            ),
-          );
-        },
+    return Obx(
+      () => ShortcutListHome(
+        shortcutContents: controller.state.shortcutContents.toList(),
+        shortcutSelectedIndex: controller.state.shortcutSelectedIndex.value,
+        onSelected: controller.onShortcutSelected,
       ),
     );
   }

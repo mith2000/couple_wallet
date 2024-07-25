@@ -14,6 +14,7 @@ import '../../../../components/feature/home/home_app_bar.dart';
 import '../../../../components/feature/home/home_heart_icon.dart';
 import '../../../../components/feature/love/send_love_input.dart';
 import '../../../../components/feature/shortcut/bottomSheet/shortcut_bottom_sheet_controller.dart';
+import '../../../../components/feature/shortcut/shortcut_list_home.dart';
 import '../../../../components/main/dialogs/app_base_dialog.dart';
 import '../../../../components/main/snackBars/app_base_snack_bar.dart';
 import '../../../../models/love_info_modelview.dart';
