@@ -126,6 +126,9 @@ class SendLoveController extends GetxController {
     // Start cool down for send button
     startCoolDownSendButton();
 
+    // Add message to UI list
+    listMessageController.addMessageToListAsOwner(stringContent);
+
     // Send message to Firestore
     sendMessageToFirestore(stringContent);
   }
@@ -151,15 +154,13 @@ class SendLoveController extends GetxController {
   Future<void> sendMessageToFirestore(String content) async {
     try {
       await sendMessageUseCase(
-        request: SendMessageParam(
+        request: SendMessageParam.now(
           participants: listMessageController.chatSessionParticipants,
           sender: listMessageController.myFCMToken,
           content: content,
-          timestamp: DateTime.now(),
         ),
       );
-      // Add message to UI list
-      listMessageController.addMessageToListAsOwner(content);
+      Logs.i("===== Send message success!!!\nMessage: $content");
     } on AppException catch (e) {
       Logs.e("_sendMessageUseCase failed with $e");
       if (e.errorCode == ErrorCode.lackOfParticipantsError) {

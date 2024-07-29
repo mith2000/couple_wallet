@@ -7,12 +7,12 @@ class SendMessageParam extends BaseParam {
   final String content;
   final DateTime timestamp;
 
-  SendMessageParam({
+  SendMessageParam.now({
     required this.participants,
     required this.sender,
     required this.content,
-    required this.timestamp,
-  }) : id = UUIDGenerator.generate();
+  })  : id = UUIDGenerator.generate(),
+        timestamp = DateTime.now();
 
   Map<String, dynamic> toJson() {
     return MapJson.removeJsonIfNull({
