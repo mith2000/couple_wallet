@@ -17,12 +17,17 @@ class LoveMessageAdapter implements ILoveMessageAdapter {
     if (!model.participants.contains(ownerId)) return [];
     List<LoveMessageModelV> result = [];
     for (MessageModel message in model.messages) {
+      final messageTime = message.timestamp.toLocal();
       result.add(
-        LoveMessageModelV(
-          message: message.content,
-          isOwner: message.sender == ownerId,
-          time: message.timestamp.toLocal(),
-        ),
+        message.sender == ownerId
+            ? LoveMessageModelV.me(
+                message: message.content,
+                time: messageTime,
+              )
+            : LoveMessageModelV.opponent(
+                message: message.content,
+                time: messageTime,
+              ),
       );
     }
     return result;

@@ -9,11 +9,15 @@ class LoveMessageModelV {
   final bool isOwner;
   final DateTime time;
 
-  LoveMessageModelV({
+  LoveMessageModelV.me({
     required this.message,
-    required this.isOwner,
     required this.time,
-  });
+  }) : isOwner = true;
+
+  LoveMessageModelV.opponent({
+    required this.message,
+    required this.time,
+  }) : isOwner = false;
 
   String getTimeDisplay() {
     final dateDisplayService = Get.find<DateDisplayService>();

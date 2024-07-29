@@ -92,9 +92,8 @@ class ListMessageController extends GetxController {
 
   void addMessageToListAsOwner(String stringContent) {
     messages.add(
-      LoveMessageModelV(
+      LoveMessageModelV.me(
         message: stringContent,
-        isOwner: true,
         time: DateTime.now(),
       ),
     );
