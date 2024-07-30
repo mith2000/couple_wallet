@@ -110,7 +110,7 @@ class SendLoveController extends GetxController {
     BuildContext context,
   ) {
     // Send message
-    MessagingService.sendNotification(
+    MessagingService.instance.sendNotification(
       targetToken: partnerAddress,
       title: R.strings.yourLoverSentToYou.tr,
       body: stringContent,

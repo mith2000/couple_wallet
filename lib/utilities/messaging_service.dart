@@ -5,33 +5,43 @@ import 'package:http/http.dart' as http;
 import '../data/src/keys/app_key.dart';
 import '../firebase_options.dart';
 import 'fcm_api.dart';
+import 'fcm_token_api.dart';
 import 'logs.dart';
 
+const _urlFcmApiV1 = 'https://fcm.googleapis.com/v1';
+
+const _urlFirebaseStorage =
+    'https://firebasestorage.googleapis.com/v0/b/couple-wallet-15a7a.appspot.com';
+
+const _appIconStorageEndpoint = 'app_icon.png';
+
+const _queryStorageAlt = 'media';
+
+const _queryStorageToken = 'aa0db0ba-ced2-4d3e-94b9-ec14347cb633';
+
 class MessagingService {
-  static String get urlFcmApiV1 => 'https://fcm.googleapis.com/v1';
+  MessagingService._();
 
-  static String messageSend(String projectId) => '$urlFcmApiV1/projects/$projectId/messages:send';
+  static MessagingService? _instance;
 
-  static String get urlFirebaseStorage =>
-      'https://firebasestorage.googleapis.com/v0/b/couple-wallet-15a7a.appspot.com';
+  static MessagingService get instance {
+    _instance ??= MessagingService._();
+    return _instance!;
+  }
 
-  static String get appIconStorageEndpoint => 'app_icon.png';
+  String _messageSend(String projectId) => '$_urlFcmApiV1/projects/$projectId/messages:send';
 
-  static String get queryStorageAlt => 'media';
+  String get _appIconFromStorage =>
+      '$_urlFirebaseStorage/o/$_appIconStorageEndpoint?alt=$_queryStorageAlt&token=$_queryStorageToken';
 
-  static String get queryStorageToken => 'aa0db0ba-ced2-4d3e-94b9-ec14347cb633';
-
-  static String get appIconFromStorage =>
-      '$urlFirebaseStorage/o/$appIconStorageEndpoint?alt=$queryStorageAlt&token=$queryStorageToken';
-
-  static Future<void> sendNotification({
+  Future<void> sendNotification({
     required String targetToken,
     required String title,
     required String body,
     Function? onSuccess,
     Function? onFail,
   }) async {
-    final serverKey = FirebaseAccessTokenAPI.accessToken;
+    final serverKey = FirebaseAccessTokenAPI.instance.accessToken;
     final projectId = DefaultFirebaseOptions.currentPlatform.projectId;
 
     final Map<String, dynamic> notification = {
@@ -45,7 +55,7 @@ class MessagingService {
             "channel_id": androidHighImportanceChannelId,
             "notification_priority": "priority_high",
             "visibility": "public",
-            "image": appIconFromStorage
+            "image": _appIconFromStorage
           },
           "priority": "high",
         },
@@ -56,7 +66,7 @@ class MessagingService {
     };
 
     final response = await http.post(
-      Uri.parse(messageSend(projectId)),
+      Uri.parse(_messageSend(projectId)),
       headers: {
         AppNetworkKey.authorization: '${AppNetworkKey.bearer} $serverKey',
         AppNetworkKey.contentType: AppNetworkKey.appJsonContentType,

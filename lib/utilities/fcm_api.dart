@@ -1,18 +1,27 @@
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:googleapis_auth/auth_io.dart';
 
 import '../app/pages/home/screens/love/messages/list_message_controller.dart';
-import 'logs.dart';
+import 'fcm_token_api.dart';
 
 const androidHighImportanceChannelId = 'high_importance_channel';
-const delayTimeSenderPrepare = Duration(seconds: 3);
+const _delayTimeSenderPrepare = Duration(seconds: 3);
 
 class FirebaseMessagingAPI {
+  FirebaseMessagingAPI._();
+
+  /// Cached instance of [FirebaseMessagingAPI];
+  static FirebaseMessagingAPI? _instance;
+
+  /// Returns an instance.
+  static FirebaseMessagingAPI get instance {
+    _instance ??= FirebaseMessagingAPI._();
+    return _instance!;
+  }
+
   final _firebaseMessaging = FirebaseMessaging.instance;
   final _localNotifications = FlutterLocalNotificationsPlugin();
 
@@ -40,8 +49,7 @@ class FirebaseMessagingAPI {
 
     // Wait for some seconds because sender side take time to prepare data
     // Can only improve if using WebSocket connection instead of HTTP
-    await Future.delayed(delayTimeSenderPrepare);
-    Logs.i("Handle message: ${message.notification?.body}");
+    await Future.delayed(_delayTimeSenderPrepare);
     Get.put<ListMessageController>(
       ListMessageController(
         getUserFcmTokenUseCase: Get.find(),
@@ -55,7 +63,7 @@ class FirebaseMessagingAPI {
 
   Future initLocalNotifications() async {
     const iOS = DarwinInitializationSettings();
-    const android = AndroidInitializationSettings(localIcon);
+    const android = AndroidInitializationSettings(localIconDir);
     const settings = InitializationSettings(android: android, iOS: iOS);
 
     await _localNotifications.initialize(
@@ -69,8 +77,8 @@ class FirebaseMessagingAPI {
       },
     );
 
-    final platform = _localNotifications.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
+    final platform = _localNotifications
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
     await platform?.createNotificationChannel(_androidChannel);
   }
 
@@ -106,7 +114,7 @@ class FirebaseMessagingAPI {
             _androidChannel.name,
             channelDescription: _androidChannel.description,
             // importance: Importance.high,
-            icon: localIcon,
+            icon: localIconDir,
           ),
         ),
         payload: jsonEncode(message.toMap()),
@@ -120,28 +128,4 @@ class FirebaseMessagingAPI {
 // Must be a top level function
 Future<void> handleBackgroundMessage(RemoteMessage message) async {
   // do nothing
-}
-
-const localIcon = '@mipmap/ic_launcher';
-
-const String firebaseMessagingScope =
-    "https://www.googleapis.com/auth/firebase.messaging";
-const String serviceAccountPath = "serviceAccountKey.json";
-
-class FirebaseAccessTokenAPI {
-  static String accessToken = '';
-
-  static Future<void> claimAccessToken() async {
-    final serviceAccount = await rootBundle.loadString(serviceAccountPath);
-    final serviceAccountJSON = jsonDecode(serviceAccount);
-
-    final client = await clientViaServiceAccount(
-      ServiceAccountCredentials.fromJson(serviceAccountJSON),
-      [firebaseMessagingScope],
-    );
-
-    // Extract the access token from the credentials
-    accessToken = client.credentials.accessToken.data;
-    Logs.i("Firebase Access Token has been claimed");
-  }
 }
