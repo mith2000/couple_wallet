@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
-import '../../../../resources/resources.dart';
+import '../../../theme/app_animations.dart';
 
 const heartAnimationInterval = Duration(milliseconds: 10140);
 
@@ -45,8 +44,8 @@ class _HeartAnimationState extends State<HeartAnimation>
 
   @override
   Widget build(BuildContext context) {
-    return Lottie.asset(
-      R.json.animHeart.path,
+    return AppAnimations.asset(
+      EAppAnim.heart,
       width: widget.size,
       height: widget.size,
       controller: _controller,

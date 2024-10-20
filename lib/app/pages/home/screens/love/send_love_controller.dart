@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../../../../domain/domain.dart';
 import '../../../../../resources/resources.dart';
@@ -19,6 +18,7 @@ import '../../../../components/main/dialogs/app_base_dialog.dart';
 import '../../../../components/main/snackBars/app_base_snack_bar.dart';
 import '../../../../models/love_info_modelview.dart';
 import '../../../../services/app_error_handling_service.dart';
+import '../../../../theme/app_animations.dart';
 import '../../../../theme/app_theme.dart';
 import '../../home_controller.dart';
 import 'messages/list_message_controller.dart';
@@ -140,12 +140,7 @@ class SendLoveController extends GetxController {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(child: Text(R.strings.wordsOfLoveHaveBeenSent.tr)),
-          Lottie.asset(
-            R.json.animCheck.path,
-            width: snackBarIconSize,
-            height: snackBarIconSize,
-            repeat: false,
-          ),
+          AppAnimations.asset(EAppAnim.check),
         ],
       ),
     ).show();

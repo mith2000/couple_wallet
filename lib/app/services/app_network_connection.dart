@@ -1,10 +1,10 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../resources/resources.dart';
 import '../components/main/snackBars/app_base_snack_bar.dart';
+import '../theme/app_animations.dart';
 import '../theme/app_icons.dart';
 
 class NetworkConnectionService extends GetxService {
@@ -28,12 +28,7 @@ class NetworkConnectionService extends GetxService {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(child: Text(R.strings.noInternetConnection.tr)),
-            Lottie.asset(
-              R.json.animConnectionLost.path,
-              width: snackBarIconSize,
-              height: snackBarIconSize,
-              repeat: true,
-            ),
+            AppAnimations.asset(EAppAnim.connectionLost, repeat: true),
           ],
         ),
         // Animation duration
