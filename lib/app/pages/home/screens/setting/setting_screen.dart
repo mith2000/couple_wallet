@@ -17,7 +17,7 @@ class SettingScreen extends GetView<SettingController> {
                 Expanded(child: Container()),
                 IconButton(
                   onPressed: () => UIKitPage.open(),
-                  icon: const Icon(Icons.palette_sharp),
+                  icon: AppIconsWidget.palette,
                 ),
               ],
             ),
@@ -37,7 +37,7 @@ class SettingScreen extends GetView<SettingController> {
       ),
       Gap(AppThemeExt.of.dimen(3)),
       SettingRow(
-        icon: FontAwesomeIcons.link,
+        icon: AppIcons.link,
         title: R.strings.loverAddress.tr,
         body: R.strings.loverAddressSubtitle.tr,
         onTap: () {
@@ -46,8 +46,8 @@ class SettingScreen extends GetView<SettingController> {
       ),
       SettingRow(
         icon: AppLocaleService().locale == enLocale
-            ? FontAwesomeIcons.earthAmericas
-            : FontAwesomeIcons.earthAsia,
+            ? AppIcons.earthAmericas
+            : AppIcons.earthAsia,
         title: R.strings.switchLanguage.tr,
         body: R.strings.chooseLanguagePrefer.tr,
         onTap: () => SettingChangeLanguage().execute(context),
@@ -64,7 +64,7 @@ class SettingScreen extends GetView<SettingController> {
       Gap(AppThemeExt.of.dimen(3)),
       Obx(
         () => SettingRow(
-          icon: FontAwesomeIcons.dev,
+          icon: AppIcons.dev,
           title: R.strings.appInfo.tr,
           body:
               "${R.strings.version.tr}: ${controller.appVersion.value} build ${controller.appBuildNumber.value}",
@@ -94,9 +94,7 @@ class SettingScreen extends GetView<SettingController> {
               ),
               IconButton(
                 onPressed: controller.onShareUserAddress,
-                icon: const FaIcon(
-                  FontAwesomeIcons.shareNodes,
-                ),
+                icon: AppIconsWidget.shareNodes,
               ),
             ],
           ),
@@ -115,11 +113,9 @@ class SettingScreen extends GetView<SettingController> {
               Obx(
                 () => IconButton(
                   onPressed: () => controller.onLockPartnerInput(context),
-                  icon: FaIcon(
-                    controller.isPartnerLocked.isTrue
-                        ? FontAwesomeIcons.lock
-                        : FontAwesomeIcons.lockOpen,
-                  ),
+                  icon: controller.isPartnerLocked.isTrue
+                      ? AppIconsWidget.lock
+                      : AppIconsWidget.lockOpen,
                 ),
               ),
             ],

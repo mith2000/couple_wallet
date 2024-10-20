@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
+import '../../../theme/app_icons.dart';
 import '../../../theme/app_theme.dart';
 
 const settingIconAreaSize = 56.0;
@@ -49,7 +49,7 @@ class SettingRow extends StatelessWidget {
                 children: [
                   settingTextInfo(context),
                   Gap(AppThemeExt.of.dimen(2)),
-                  if (onTap != null) const FaIcon(FontAwesomeIcons.chevronRight),
+                  if (onTap != null) AppIconsWidget.chevronRight,
                 ],
               ),
               Gap(AppThemeExt.of.dimen(2)),

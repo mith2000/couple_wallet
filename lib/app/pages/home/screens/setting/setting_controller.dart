@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -19,6 +18,7 @@ import '../../../../components/main/snackBars/app_base_snack_bar.dart';
 import '../../../../components/main/text/highlight_headline_text.dart';
 import '../../../../services/app_error_handling_service.dart';
 import '../../../../services/app_locale_service.dart';
+import '../../../../theme/app_icons.dart';
 import '../../../../theme/app_theme.dart';
 import '../../../uikit/uikit_controller.dart';
 

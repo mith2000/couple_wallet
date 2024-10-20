@@ -1,11 +1,11 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../resources/resources.dart';
 import '../components/main/snackBars/app_base_snack_bar.dart';
+import '../theme/app_icons.dart';
 
 class NetworkConnectionService extends GetxService {
   final Connectivity _connectivity = Connectivity();
@@ -47,11 +47,7 @@ class NetworkConnectionService extends GetxService {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(child: Text(R.strings.internetConnectionAvailable.tr)),
-            const FaIcon(
-              FontAwesomeIcons.wifi,
-              color: Colors.greenAccent,
-              size: snackBarIconSize,
-            ),
+            AppIconsWidget.wifi,
           ],
         ),
         // Animation duration

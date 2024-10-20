@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../../../../resources/resources.dart';
+import '../../../theme/app_icons.dart';
 import '../../../theme/app_theme.dart';
 
 const backgroundColor = Color(0xffFCF1DE);
@@ -43,25 +43,25 @@ class HomeNavBar extends StatelessWidget {
       buildHomeNavTab(
         context: context,
         activeColor: AppColors.of.primaryColor,
-        icon: FontAwesomeIcons.solidHeart,
+        icon: AppIcons.solidHeart,
         text: R.strings.home,
       ),
       buildHomeNavTab(
         context: context,
         activeColor: AppColors.of.disableColor,
-        icon: FontAwesomeIcons.fileInvoice,
+        icon: AppIcons.fileInvoice,
         text: R.strings.record,
       ),
       buildHomeNavTab(
         context: context,
         activeColor: AppColors.of.disableColor,
-        icon: FontAwesomeIcons.chartPie,
+        icon: AppIcons.chartPie,
         text: R.strings.statistic,
       ),
       buildHomeNavTab(
         context: context,
         activeColor: AppColors.of.orangeColor,
-        icon: FontAwesomeIcons.gear,
+        icon: AppIcons.gear,
         text: R.strings.setting,
       )
     ];

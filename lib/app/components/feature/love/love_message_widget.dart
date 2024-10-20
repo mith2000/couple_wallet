@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +7,7 @@ import '../../../../domain/domain.dart';
 import '../../../../resources/resources.dart';
 import '../../../models/love_message_modelview.dart';
 import '../../../services/app_system_feedback.dart';
+import '../../../theme/app_icons.dart';
 import '../../../theme/app_theme.dart';
 
 const backgroundColor = Color(0xffFCF1DE);
@@ -43,7 +43,8 @@ class LoveMessageWidget extends StatelessWidget {
         ...buildMostRecentNotice(context),
         ...buildDateNotice(context),
         Align(
-          alignment: model.isOwner ? Alignment.centerRight : Alignment.centerLeft,
+          alignment:
+              model.isOwner ? Alignment.centerRight : Alignment.centerLeft,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -208,14 +209,14 @@ class _MessageBoxState extends State<MessageBox>
         ),
       ),
       MenuItemButton(
-        trailingIcon: const FaIcon(FontAwesomeIcons.reply, size: 18),
+        trailingIcon: AppIconsWidget.reply,
         child: Text(R.strings.reply.tr),
         onPressed: () {
           widget.onReply?.call();
         },
       ),
       MenuItemButton(
-        trailingIcon: const FaIcon(FontAwesomeIcons.copy, size: 18),
+        trailingIcon: AppIconsWidget.copy,
         child: Text(R.strings.copy.tr),
         onPressed: () async {
           await Clipboard.setData(ClipboardData(text: widget.model.message));
