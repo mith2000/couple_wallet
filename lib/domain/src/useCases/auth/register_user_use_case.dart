@@ -1,6 +1,7 @@
 part of '../base_use_case.dart';
 
-abstract class RegisterUserUseCase extends BaseUseCase<RegisterUserParam, EmptyModel> {}
+abstract class RegisterUserUseCase
+    extends BaseUseCase<RegisterUserParam, EmptyModel> {}
 
 class RegisterUserUseCaseImpl extends RegisterUserUseCase {
   final UserRepository _repository;

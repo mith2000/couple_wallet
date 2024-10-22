@@ -16,11 +16,13 @@ class SharedPrefRepositoryImpl extends SharedPrefRepository {
   Future<String?> getUserFCMToken() => _sharedPrefDS.getUserFCMToken();
 
   @override
-  Future<void> saveUserFCMToken(String token) => _sharedPrefDS.saveUserFCMToken(token);
+  Future<void> saveUserFCMToken(String token) =>
+      _sharedPrefDS.saveUserFCMToken(token);
 
   @override
   Future<String> getPartnerFCMToken() => _sharedPrefDS.getPartnerFCMToken();
 
   @override
-  Future<void> savePartnerFCMToken(String token) => _sharedPrefDS.savePartnerFCMToken(token);
+  Future<void> savePartnerFCMToken(String token) =>
+      _sharedPrefDS.savePartnerFCMToken(token);
 }

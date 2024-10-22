@@ -12,7 +12,8 @@ class UserRepositoryImpl extends UserRepository {
     required String userId,
   }) async {
     try {
-      final AppResultRaw<UserRaw> remoteData = await _remoteDataSource.getUserInfo(
+      final AppResultRaw<UserRaw> remoteData =
+          await _remoteDataSource.getUserInfo(
         userId: userId,
       );
 
@@ -27,7 +28,8 @@ class UserRepositoryImpl extends UserRepository {
     required Map<String, dynamic> request,
   }) async {
     try {
-      final AppResultRaw<EmptyRaw> remoteData = await _remoteDataSource.registerUser(
+      final AppResultRaw<EmptyRaw> remoteData =
+          await _remoteDataSource.registerUser(
         request: request,
       );
 

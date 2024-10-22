@@ -12,8 +12,6 @@ import '../../../../adapters/love_info_adapter.dart';
 import '../../../../components/feature/home/home_app_bar.dart';
 import '../../../../components/feature/home/home_heart_icon.dart';
 import '../../../../components/feature/love/send_love_input.dart';
-import '../../../../components/feature/shortcut/bottomSheet/shortcut_bottom_sheet_controller.dart';
-import '../../../../components/feature/shortcut/shortcut_list_home.dart';
 import '../../../../components/main/dialogs/app_base_dialog.dart';
 import '../../../../components/main/snackBars/app_base_snack_bar.dart';
 import '../../../../models/love_info_modelview.dart';
@@ -33,7 +31,6 @@ class SendLoveController extends GetxController {
 
   final GetLoveInfoUseCase getLoveInfoUseCase;
   final SendMessageUseCase sendMessageUseCase;
-  final ShortcutBottomSheetController shortcutBottomSheetController;
   final ListMessageController listMessageController;
 
   final TextEditingController mainTextEC = TextEditingController();
@@ -42,7 +39,6 @@ class SendLoveController extends GetxController {
   SendLoveController({
     required this.getLoveInfoUseCase,
     required this.sendMessageUseCase,
-    required this.shortcutBottomSheetController,
     required this.listMessageController,
   });
 
@@ -50,7 +46,6 @@ class SendLoveController extends GetxController {
   void onInit() async {
     await getLoveInfo();
     super.onInit();
-    initShortcut();
 
     mainTextEC.addListener(onFieldChange);
   }
@@ -71,10 +66,6 @@ class SendLoveController extends GetxController {
     }
   }
 
-  void initShortcut() {
-    state.shortcutContents.value = shortcutBottomSheetController.shortcutContents;
-  }
-
   void onSendButtonClicked(BuildContext context) {
     // Get string content (before clear text field)
     final stringContent = mainTextEC.text.trim();
@@ -92,7 +83,6 @@ class SendLoveController extends GetxController {
   void clearInput() {
     // Clear & Un-focus to off the keyboard
     mainTextEC.clear();
-    state.shortcutSelectedIndex.value = null;
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
@@ -159,7 +149,8 @@ class SendLoveController extends GetxController {
     } on AppException catch (e) {
       Logs.e("_sendMessageUseCase failed with $e");
       if (e.errorCode == ErrorCode.lackOfParticipantsError) {
-        Get.find<AppErrorHandlingService>().showErrorSnackBar(R.strings.missingSendingAddress.tr);
+        Get.find<AppErrorHandlingService>()
+            .showErrorSnackBar(R.strings.missingSendingAddress.tr);
         return;
       }
       Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
@@ -178,22 +169,6 @@ class SendLoveController extends GetxController {
 
   void onFieldChange() {
     state.isTextFieldEmpty.value = mainTextEC.text.trim().isEmpty;
-  }
-
-  void onShortcutSelected(BuildContext context, bool selected, int index) {
-    // Last item will open bottom sheet
-    if (index == state.shortcutContents.toList().length - 1) {
-      ShortcutBottomSheetView.openBottomSheet(context);
-      return;
-    }
-
-    state.shortcutSelectedIndex.value = selected ? index : null;
-
-    if (state.shortcutSelectedIndex.value != null) {
-      mainTextEC.text = state.shortcutContents.toList()[index];
-    } else {
-      mainTextEC.clear();
-    }
   }
 
   void onReplyMessage(BuildContext context) {

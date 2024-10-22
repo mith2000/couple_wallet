@@ -1,6 +1,7 @@
 part of '../base_use_case.dart';
 
-abstract class GetPartnerFcmTokenUseCase extends BaseUseCase<BaseParam, SimpleModel<String>> {}
+abstract class GetPartnerFcmTokenUseCase
+    extends BaseUseCase<BaseParam, SimpleModel<String>> {}
 
 class GetPartnerFcmTokenUseCaseImpl extends GetPartnerFcmTokenUseCase {
   final SharedPrefRepository _repository;

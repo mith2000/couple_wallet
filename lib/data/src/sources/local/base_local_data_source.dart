@@ -8,7 +8,8 @@ import '../../services/app_shared_pref.dart';
 part 'shared_pref_local_data_source.dart';
 
 final class LocalExceptionLogs {
-  static void onError(Object e) => Logs.e("Local Data Source Error: ${e.toString()}");
+  static void onError(Object e) =>
+      Logs.e("Local Data Source Error: ${e.toString()}");
 }
 
 final class LocalHandleError {

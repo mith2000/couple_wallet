@@ -10,9 +10,6 @@ class SendLoveState {
   // Send button text base on its state
   final RxString sendButtonText = RxString(R.strings.send.tr);
 
-  final RxnInt shortcutSelectedIndex = RxnInt();
-
   // Models
   final Rxn<LoveInfoModelView> loveInfo = Rxn();
-  final RxList<String> shortcutContents = RxList();
 }

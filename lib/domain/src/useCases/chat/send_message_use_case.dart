@@ -1,6 +1,7 @@
 part of '../base_use_case.dart';
 
-abstract class SendMessageUseCase extends BaseUseCase<SendMessageParam, EmptyModel> {}
+abstract class SendMessageUseCase
+    extends BaseUseCase<SendMessageParam, EmptyModel> {}
 
 class SendMessageUseCaseImpl extends SendMessageUseCase {
   late final ChatRepository _repo;

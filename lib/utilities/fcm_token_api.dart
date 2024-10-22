@@ -5,7 +5,8 @@ import 'package:googleapis_auth/auth_io.dart';
 
 const localIconDir = '@mipmap/ic_launcher';
 
-const _firebaseMessagingScope = "https://www.googleapis.com/auth/firebase.messaging";
+const _firebaseMessagingScope =
+    "https://www.googleapis.com/auth/firebase.messaging";
 const _serviceAccountPath = "serviceAccountKey.json";
 
 final class FirebaseAccessTokenAPI {

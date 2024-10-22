@@ -19,6 +19,7 @@ abstract class BaseUseCase<In extends BaseParam, Out extends BaseModel> {
   }
 
   Future<AppListResultModel<Out>> toList({In? request}) {
-    return Future.value(AppListResultModel<Out>(netData: null, total: 0, hasMore: false));
+    return Future.value(
+        AppListResultModel<Out>(netData: null, total: 0, hasMore: false));
   }
 }

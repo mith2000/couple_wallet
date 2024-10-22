@@ -21,7 +21,8 @@ class LoveMessageModelV {
 
   String getTimeDisplay() {
     final dateDisplayService = Get.find<DateDisplayService>();
-    final result = dateDisplayService.getDisplayDate(time, locale: AppLocaleService().localeString);
+    final result = dateDisplayService.getDisplayDate(time,
+        locale: AppLocaleService().localeString);
     if (result == todayKey) return R.strings.today.tr;
     if (result == yesterdayKey) return R.strings.yesterday.tr;
     return result;

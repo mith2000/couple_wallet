@@ -15,7 +15,8 @@ class AppThemeExt {
   BorderRadiusGeometry? Function(num x) get borderRadius =>
       (x) => BorderRadius.circular(_dimenBase * x);
 
-  Divider get defaultDivider => Divider(color: AppColors.of.dividerColor, height: 1);
+  Divider get defaultDivider =>
+      Divider(color: AppColors.of.dividerColor, height: 1);
 
   VerticalDivider get defaultVerticalDivider =>
       VerticalDivider(color: AppColors.of.dividerColor, width: 1);

@@ -18,7 +18,9 @@ class DateTimeUtil {
     String pattern = patternddMMyyyy,
     String? locale = localeEnglish,
   }) {
-    return dateTime != null ? DateFormat(pattern, locale).format(dateTime) : emptyDateDisplay;
+    return dateTime != null
+        ? DateFormat(pattern, locale).format(dateTime)
+        : emptyDateDisplay;
   }
 
   static String toTimeDisplay({
@@ -26,7 +28,9 @@ class DateTimeUtil {
     String pattern = patternHHmm,
     String? locale = localeEnglish,
   }) {
-    return dateTime != null ? DateFormat(pattern, locale).format(dateTime) : emptyTimeDisplay;
+    return dateTime != null
+        ? DateFormat(pattern, locale).format(dateTime)
+        : emptyTimeDisplay;
   }
 
   static String toDateRangeDisplay({
@@ -88,7 +92,8 @@ extension DateTimeExt on DateTime {
 
   bool get isToday => isTheSameDate(DateTime.now());
 
-  bool get isYesterday => startOfDay.isTheSameDate(DateTime.now().startOfDay.subtractDays(1));
+  bool get isYesterday =>
+      startOfDay.isTheSameDate(DateTime.now().startOfDay.subtractDays(1));
 
   bool isMoreThanInMinute(DateTime other, int minutes) {
     return difference(other).inMinutes > minutes;
@@ -100,5 +105,6 @@ extension DateTimeExt on DateTime {
 
   bool get isInThePast => DateTime.now().isAfter(this);
 
-  int get totalDaysFromNow => startOfDay.difference(DateTime.now().startOfDay).abs().inDays;
+  int get totalDaysFromNow =>
+      startOfDay.difference(DateTime.now().startOfDay).abs().inDays;
 }

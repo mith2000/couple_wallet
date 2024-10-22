@@ -58,7 +58,8 @@ class SharedPrefLocalDataSourceImpl extends SharedPrefLocalDataSource {
 
   @override
   Future<String> getPartnerFCMToken() async {
-    String partnerAddress = _sharedPref.getString(AppPrefKey.partnerAddress, '');
+    String partnerAddress =
+        _sharedPref.getString(AppPrefKey.partnerAddress, '');
     return partnerAddress;
   }
 

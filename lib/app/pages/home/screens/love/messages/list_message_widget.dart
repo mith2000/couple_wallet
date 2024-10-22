@@ -4,7 +4,8 @@ const emptyImageSize = 300.0;
 const emptyWidgetWidthRatio = 0.66;
 const emptyTextPositionX = emptyImageSize * 4 / 5;
 const placeHolderCount = 6;
-const placeHolderHeight = 36.0; // 36 is height of labelLarge height (20) + vertical padding 16
+const placeHolderHeight =
+    36.0; // 36 is height of labelLarge height (20) + vertical padding 16
 
 class ListMessageWidget extends GetView<ListMessageController> {
   const ListMessageWidget({super.key});
@@ -43,7 +44,8 @@ class ListMessageWidget extends GetView<ListMessageController> {
                 );
               }
               // If the next one is not same owner, show the partner's avatar
-              final isShow = listMessages[index + 1].isOwner != listMessages[index].isOwner;
+              final isShow = listMessages[index + 1].isOwner !=
+                  listMessages[index].isOwner;
               return (index == 0)
                   ? LoveMessageWidget(
                       model: listMessages[index],
@@ -102,7 +104,8 @@ class ListMessageWidget extends GetView<ListMessageController> {
       itemCount: placeHolderCount,
       separatorBuilder: (context, index) => Gap(AppThemeExt.of.dimen(1)),
       itemBuilder: (context, index) {
-        final placeHolderWidth = screenWidth * messageBoxWidthRatio - AppThemeExt.of.dimen(4);
+        final placeHolderWidth =
+            screenWidth * messageBoxWidthRatio - AppThemeExt.of.dimen(4);
         if (index == 0 || index == 1 || index == 5) {
           return ChatMessagePlaceholder(
             perLineHeight: placeHolderHeight,

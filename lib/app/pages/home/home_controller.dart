@@ -8,7 +8,6 @@ import '../../../domain/domain.dart';
 import '../../../resources/resources.dart';
 import '../../../utilities/logs.dart';
 import '../../components/feature/home/home_nav_bar.dart';
-import '../../components/feature/shortcut/bottomSheet/shortcut_bottom_sheet_controller.dart';
 import '../../services/app_error_handling_service.dart';
 import 'screens/love/messages/list_message_controller.dart';
 import 'screens/love/send_love_controller.dart';
@@ -56,10 +55,12 @@ class HomeController extends GetxController {
     } on AppException catch (e) {
       Logs.e("getUserID failed with ${e.toString()}");
       if (e.errorCode == ErrorCode.lackOfInputError) {
-        Get.find<AppErrorHandlingService>().showErrorSnackBar(R.strings.userIDNotFound.tr);
+        Get.find<AppErrorHandlingService>()
+            .showErrorSnackBar(R.strings.userIDNotFound.tr);
         return '';
       }
-      Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
+      Get.find<AppErrorHandlingService>()
+          .showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
     return '';
   }
@@ -74,14 +75,16 @@ class HomeController extends GetxController {
     } on AppException catch (e) {
       Logs.e("getUserInfo failed with ${e.toString()}");
       if (e.errorCode == ErrorCode.lackOfInputError) {
-        Get.find<AppErrorHandlingService>().showErrorSnackBar(R.strings.missingUserId.tr);
+        Get.find<AppErrorHandlingService>()
+            .showErrorSnackBar(R.strings.missingUserId.tr);
         return;
       }
       if (e.errorCode == ErrorCode.notFoundError) {
         registerUser(userId);
         return;
       }
-      Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
+      Get.find<AppErrorHandlingService>()
+          .showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
   }
 
@@ -103,10 +106,12 @@ class HomeController extends GetxController {
         return;
       }
       if (e.errorCode == ErrorCode.alreadyExistedError) {
-        Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
+        Get.find<AppErrorHandlingService>()
+            .showErrorSnackBar(e.message ?? e.errorCode ?? '');
         return;
       }
-      Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
+      Get.find<AppErrorHandlingService>()
+          .showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
   }
 

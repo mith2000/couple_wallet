@@ -1,6 +1,7 @@
 part of '../base_use_case.dart';
 
-abstract class GetUserInfoUseCase extends BaseUseCase<SimpleParam<String>, UserModel> {}
+abstract class GetUserInfoUseCase
+    extends BaseUseCase<SimpleParam<String>, UserModel> {}
 
 class GetUserInfoUseCaseImpl extends GetUserInfoUseCase {
   final UserRepository _repository;

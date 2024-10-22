@@ -1,6 +1,7 @@
 part of '../base_use_case.dart';
 
-abstract class GetLoveInfoUseCase extends BaseUseCase<BaseParam, LoveInfoModel> {}
+abstract class GetLoveInfoUseCase
+    extends BaseUseCase<BaseParam, LoveInfoModel> {}
 
 class GetLoveInfoUseCaseImpl extends GetLoveInfoUseCase {
   // Remove this hardcode and get from user input

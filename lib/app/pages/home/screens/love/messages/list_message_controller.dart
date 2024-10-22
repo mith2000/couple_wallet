@@ -52,7 +52,8 @@ class ListMessageController extends GetxController {
       } else {}
     } on AppException catch (e) {
       Logs.e("getUserFCMToken failed with ${e.toString()}");
-      Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
+      Get.find<AppErrorHandlingService>()
+          .showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
   }
 
@@ -68,7 +69,8 @@ class ListMessageController extends GetxController {
       }
     } on AppException catch (e) {
       Logs.e("getPartnerFCMToken failed with ${e.toString()}");
-      Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
+      Get.find<AppErrorHandlingService>()
+          .showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
   }
 
@@ -76,7 +78,8 @@ class ListMessageController extends GetxController {
     if (chatSessionParticipants.length < 2) return;
     if (isRefresh) isLoadingMessages.value = true;
     try {
-      final requestParam = ChatQueryParam(participants: chatSessionParticipants);
+      final requestParam =
+          ChatQueryParam(participants: chatSessionParticipants);
       final response = await getChatSessionUseCase(request: requestParam);
       final model = response.netData;
       if (model != null) {
@@ -85,7 +88,8 @@ class ListMessageController extends GetxController {
       }
     } on AppException catch (e) {
       Logs.e("_getChatSessionUseCase failed with $e");
-      Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
+      Get.find<AppErrorHandlingService>()
+          .showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
     if (isRefresh) isLoadingMessages.value = false;
   }

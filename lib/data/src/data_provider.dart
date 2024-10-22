@@ -21,7 +21,8 @@ class _DataSourceProvider {
     Get.lazyPut<UserRemoteDataSource>(() => UserRemoteDataSourceImpl());
 
     // Local
-    Get.lazyPut<SharedPrefLocalDataSource>(() => SharedPrefLocalDataSourceImpl(Get.find()));
+    Get.lazyPut<SharedPrefLocalDataSource>(
+        () => SharedPrefLocalDataSourceImpl(Get.find()));
   }
 }
 
@@ -32,6 +33,7 @@ class _RepoProvider {
     Get.lazyPut<UserRepository>(() => UserRepositoryImpl(Get.find()));
 
     // Local
-    Get.lazyPut<SharedPrefRepository>(() => SharedPrefRepositoryImpl(Get.find()));
+    Get.lazyPut<SharedPrefRepository>(
+        () => SharedPrefRepositoryImpl(Get.find()));
   }
 }

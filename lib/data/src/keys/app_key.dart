@@ -6,7 +6,6 @@ class AppPrefKey {
   ///
   static const String userAddress = 'userAddress';
   static const String partnerAddress = 'partnerAddress';
-  static const String shortcutSetName = 'shortcutSetName';
   static const String appUUID = 'appUniversalUserID';
 }
 

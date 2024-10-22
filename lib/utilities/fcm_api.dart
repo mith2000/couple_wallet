@@ -43,7 +43,8 @@ class FirebaseMessagingAPI {
   }
 
   // Handle received message
-  Future<void> handleMessage(RemoteMessage? message, {bool isForeground = false}) async {
+  Future<void> handleMessage(RemoteMessage? message,
+      {bool isForeground = false}) async {
     // if message is null, do nothing
     if (message == null) return;
 
@@ -77,8 +78,8 @@ class FirebaseMessagingAPI {
       },
     );
 
-    final platform = _localNotifications
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+    final platform = _localNotifications.resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>();
     await platform?.createNotificationChannel(_androidChannel);
   }
 

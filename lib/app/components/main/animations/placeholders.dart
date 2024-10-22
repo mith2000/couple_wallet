@@ -226,7 +226,8 @@ class ChatMessagePlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final listItems = isOwner ?? false ? items(context).reversed : items(context);
+    final listItems =
+        isOwner ?? false ? items(context).reversed : items(context);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
       child: Row(
@@ -252,7 +253,9 @@ class ChatMessagePlaceholder extends StatelessWidget {
       Expanded(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: isOwner ?? false ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          crossAxisAlignment: isOwner ?? false
+              ? CrossAxisAlignment.end
+              : CrossAxisAlignment.start,
           children: [
             Container(
               width: width ?? double.infinity,

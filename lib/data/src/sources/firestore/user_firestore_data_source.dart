@@ -19,7 +19,8 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   }) async {
     try {
       // Query for the first user matches the userId
-      var querySnapshot = await usersCollection.where(userIdField, isEqualTo: userId).get();
+      var querySnapshot =
+          await usersCollection.where(userIdField, isEqualTo: userId).get();
       var queryDocs = querySnapshot.docs;
 
       if (queryDocs.isNotEmpty) {
@@ -47,14 +48,16 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   }) async {
     try {
       // Query for the first user matches the userId
-      var querySnapshot =
-          await usersCollection.where(userIdField, isEqualTo: request[userIdField]).get();
+      var querySnapshot = await usersCollection
+          .where(userIdField, isEqualTo: request[userIdField])
+          .get();
       var queryDocs = querySnapshot.docs;
 
       if (queryDocs.isNotEmpty) {
         // If a user document is found, throw an error
         Logs.i("User document already existed");
-        throw FirestoreHandleError.alreadyExisted(message: 'User already existed');
+        throw FirestoreHandleError.alreadyExisted(
+            message: 'User already existed');
       } else {
         // If no user document is found, create a new one
         usersCollection.add(request);

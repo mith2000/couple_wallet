@@ -3,9 +3,6 @@ part of 'home_controller.dart';
 class HomeBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put<ShortcutBottomSheetController>(
-      ShortcutBottomSheetController(pref: Get.find()),
-    );
     Get.put<ListMessageController>(
       ListMessageController(
         getUserFcmTokenUseCase: Get.find(),
@@ -17,7 +14,6 @@ class HomeBinding extends Bindings {
       SendLoveController(
         getLoveInfoUseCase: Get.find(),
         sendMessageUseCase: Get.find(),
-        shortcutBottomSheetController: Get.find<ShortcutBottomSheetController>(),
         listMessageController: Get.find<ListMessageController>(),
       ),
     );

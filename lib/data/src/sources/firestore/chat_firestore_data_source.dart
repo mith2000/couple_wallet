@@ -69,7 +69,8 @@ class ChatRemoteDataSourceImpl extends ChatRemoteDataSource {
           // Update the document with the new list of messages
           transaction.update(chatRef, {messagesField: messages});
         }).then(
-          (value) => Logs.i("Document updated successfully with new message $request"),
+          (value) =>
+              Logs.i("Document updated successfully with new message $request"),
           onError: (e) => {
             FirestoreExceptionLogs.onError(e),
             throw e,

@@ -87,10 +87,12 @@ class SettingController extends GetxController {
     } on AppException catch (e) {
       Logs.e("savePartnerAddress failed with ${e.toString()}");
       if (e.errorCode == ErrorCode.lackOfInputError) {
-        Get.find<AppErrorHandlingService>().showErrorSnackBar(R.strings.saveFailed.tr);
+        Get.find<AppErrorHandlingService>()
+            .showErrorSnackBar(R.strings.saveFailed.tr);
         return;
       }
-      Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
+      Get.find<AppErrorHandlingService>()
+          .showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
   }
 
@@ -103,7 +105,8 @@ class SettingController extends GetxController {
       } else {}
     } on AppException catch (e) {
       Logs.e("getUserFCMToken failed with ${e.toString()}");
-      Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
+      Get.find<AppErrorHandlingService>()
+          .showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
   }
 
@@ -116,7 +119,8 @@ class SettingController extends GetxController {
       }
     } on AppException catch (e) {
       Logs.e("getPartnerFCMToken failed with ${e.toString()}");
-      Get.find<AppErrorHandlingService>().showErrorSnackBar(e.message ?? e.errorCode ?? '');
+      Get.find<AppErrorHandlingService>()
+          .showErrorSnackBar(e.message ?? e.errorCode ?? '');
     }
   }
 

@@ -29,7 +29,8 @@ class MessagingService {
     return _instance!;
   }
 
-  String _messageSend(String projectId) => '$_urlFcmApiV1/projects/$projectId/messages:send';
+  String _messageSend(String projectId) =>
+      '$_urlFcmApiV1/projects/$projectId/messages:send';
 
   String get _appIconFromStorage =>
       '$_urlFirebaseStorage/o/$_appIconStorageEndpoint?alt=$_queryStorageAlt&token=$_queryStorageToken';

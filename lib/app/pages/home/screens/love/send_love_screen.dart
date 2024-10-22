@@ -19,7 +19,6 @@ class SendLoveScreen extends GetView<SendLoveController> {
         child: Column(
           children: [
             const ListMessageWidget(),
-            _buildShortcuts(context),
             Gap(AppThemeExt.of.dimen(1)),
             Obx(
               () => SendLoveInput(
@@ -27,22 +26,13 @@ class SendLoveScreen extends GetView<SendLoveController> {
                 focusNode: controller.mainTextFocusNode,
                 onSubmit: () => controller.onSendButtonClicked(context),
                 isShowSendButton: controller.state.isTextFieldEmpty.isFalse,
-                isSendButtonWaiting: controller.state.isSendButtonWaiting.isTrue,
+                isSendButtonWaiting:
+                    controller.state.isSendButtonWaiting.isTrue,
                 sendButtonText: controller.state.sendButtonText.value,
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildShortcuts(BuildContext context) {
-    return Obx(
-      () => ShortcutListHome(
-        shortcutContents: controller.state.shortcutContents.toList(),
-        shortcutSelectedIndex: controller.state.shortcutSelectedIndex.value,
-        onSelected: controller.onShortcutSelected,
       ),
     );
   }

@@ -17,7 +17,8 @@ final chatsCollection = _instance.collection(chatCollection);
 final usersCollection = _instance.collection(userCollection);
 
 final class FirestoreExceptionLogs {
-  static void onError(Object e) => Logs.e("FirebaseFirestore Error completing: ${e.toString()}");
+  static void onError(Object e) =>
+      Logs.e("FirebaseFirestore Error completing: ${e.toString()}");
 }
 
 final class FirestoreHandleError {

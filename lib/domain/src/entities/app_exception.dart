@@ -14,11 +14,13 @@ abstract class AppException implements Exception {
 }
 
 class NetworkException extends AppException {
-  NetworkException({required super.code, required super.message, super.errorCode});
+  NetworkException(
+      {required super.code, required super.message, super.errorCode});
 }
 
 class LocalException extends AppException {
-  LocalException({required super.code, required super.message, super.errorCode});
+  LocalException(
+      {required super.code, required super.message, super.errorCode});
 }
 
 class ErrorCode {
@@ -48,7 +50,8 @@ class ErrorCode {
 
   // Self defined
   static const code9999 = 9999;
-  static const String unknownNetworkServiceError = 'unknown_network_service_error';
+  static const String unknownNetworkServiceError =
+      'unknown_network_service_error';
   static const String unknownLocalServiceError = 'unknown_local_service_error';
   static const String lackOfInputError = 'lack_of_input';
   static const String lackOfParticipantsError = 'lack_of_participants';
