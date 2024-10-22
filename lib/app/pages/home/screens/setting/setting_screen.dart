@@ -40,9 +40,7 @@ class SettingScreen extends GetView<SettingController> {
         icon: AppIcons.link,
         title: R.strings.loverAddress.tr,
         body: R.strings.loverAddressSubtitle.tr,
-        onTap: () {
-          _dialogLoveAddress(context);
-        },
+        onTap: () => _dialogLoveAddress(context),
       ),
       SettingRow(
         icon: AppLocaleService().locale == enLocale
@@ -50,7 +48,7 @@ class SettingScreen extends GetView<SettingController> {
             : AppIcons.earthAsia,
         title: R.strings.switchLanguage.tr,
         body: R.strings.chooseLanguagePrefer.tr,
-        onTap: () => SettingChangeLanguage().execute(context),
+        onTap: () => SettingChangeLanguage.execute(context),
       ),
     ];
   }
